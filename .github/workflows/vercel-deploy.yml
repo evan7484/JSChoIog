@@ -1,0 +1,48 @@
+name: Deploy to Vercel
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Deploy to Vercel (Production)
+        run: |
+          npx vercel deploy \
+            --prod \
+            --token=${{ secrets.VERCEL_TOKEN }}
+        if: github.ref == 'refs/heads/main'
+
+      - name: Deploy to Vercel (Preview)
+        run: |
+          npx vercel deploy \
+            --token=${{ secrets.VERCEL_TOKEN }}
+        if: github.ref == 'refs/heads/develop'
