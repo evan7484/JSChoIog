@@ -38,11 +38,13 @@ jobs:
         run: |
           npx vercel deploy \
             --prod \
+            --yes \
             --token=${{ secrets.VERCEL_TOKEN }}
         if: github.ref == 'refs/heads/main'
 
       - name: Deploy to Vercel (Preview)
         run: |
           npx vercel deploy \
+            --yes \
             --token=${{ secrets.VERCEL_TOKEN }}
         if: github.ref == 'refs/heads/develop'
