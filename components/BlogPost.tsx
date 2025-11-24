@@ -233,13 +233,13 @@ export default function BlogPost({ postId, onBack }: BlogPostProps) {
 
       {/* Hero section with gradient */}
       <motion.div
-        className={`relative h-80 bg-gradient-to-br ${post.color} overflow-hidden mb-12`}
+        className={`relative h-80 bg-linear-to-br ${post.color} overflow-hidden mb-12`}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
       >
         <div className="absolute inset-0 bg-black/20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent" />
 
         <div className="relative max-w-4xl mx-auto px-6 h-full flex flex-col justify-end pb-12">
           <motion.div
@@ -331,7 +331,7 @@ export default function BlogPost({ postId, onBack }: BlogPostProps) {
         <div className="mt-12 text-center">
           <motion.button
             onClick={onBack}
-            className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full hover:shadow-lg transition-shadow"
+            className="inline-flex items-center gap-2 px-8 py-3 bg-linear-to-r from-orange-500 to-red-500 text-white rounded-full hover:shadow-lg transition-shadow"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
