@@ -1,7 +1,4 @@
 {
-  "name": "js-cho-iog",
-  "projectId": "prj_WkSgghez6r6MEYebnrYUoUrYlwOx",
-  "orgId": "team_AWLSJ7FrkjYIDFFG2giCUpHq",
   "buildCommand": "npm run build",
   "outputDirectory": ".next"
 }
