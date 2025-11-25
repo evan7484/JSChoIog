@@ -25,11 +25,11 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
   return (
     <div
-      className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto"
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-start justify-center p-4 overflow-y-auto pt-8 md:pt-16"
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-3xl max-w-3xl w-full my-8 shadow-2xl overflow-hidden"
+        className="bg-white rounded-3xl max-w-3xl w-full shadow-2xl overflow-hidden my-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header with gradient */}
