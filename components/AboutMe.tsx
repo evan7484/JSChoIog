@@ -158,8 +158,8 @@ export default function AboutMe() {
               className="w-full h-auto"
             />
           </div>
-          <div className="absolute -top-4 -right-4 w-72 h-72 bg-gradient-to-br from-orange-300 to-red-300 rounded-full blur-3xl opacity-30 -z-10" />
-          <div className="absolute -bottom-4 -left-4 w-72 h-72 bg-gradient-to-br from-yellow-300 to-orange-300 rounded-full blur-3xl opacity-30 -z-10" />
+          <div className="absolute -top-4 -right-4 w-72 h-72 bg-linear-to-br from-orange-300 to-red-300 rounded-full blur-3xl opacity-30 -z-10" />
+          <div className="absolute -bottom-4 -left-4 w-72 h-72 bg-linear-to-br from-yellow-300 to-orange-300 rounded-full blur-3xl opacity-30 -z-10" />
         </motion.div>
       </motion.div>
 
