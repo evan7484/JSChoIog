@@ -1,5 +1,8 @@
-import { motion, AnimatePresence } from "motion/react";
 import { useState } from "react";
+import HeroSection from "./AboutMe/HeroSection";
+import SkillsSection from "./AboutMe/SkillsSection";
+import ProjectsSection from "./AboutMe/ProjectsSection";
+import ProjectModal from "./AboutMe/ProjectModal";
 
 const projects = [
   {
@@ -84,312 +87,24 @@ const skills = [
 ];
 
 export default function AboutMe() {
-  const [selectedProject, setSelectedProject] = useState<number | null>(null);
+  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(
+    null
+  );
+  const selectedProject =
+    projects.find((p) => p.id === selectedProjectId) || null;
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-12">
-      {/* Hero Section */}
-      <motion.div
-        className="grid md:grid-cols-2 gap-12 items-center mb-24"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-      >
-        <div>
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            <h2 className="mb-6">
-              <span className="block">성실함과 </span>
-              <span className="text-red-500">열정</span>
-              <span>을 바탕으로</span>
-              <span className="block">성장하는 </span>
-              <span className="text-yellow-500">긍정</span>
-              <span> 개발자</span>
-              <span className="block">최준서입니다! 👋</span>
-            </h2>
-          </motion.div>
-
-          <motion.p
-            className="text-gray-700 leading-relaxed mb-8"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            항상 프로젝트에서 다양한 분야의 팀원들과 협력하고 재밌게 함께 만들어
-            나가는 걸 기대하고 있습니다! 저는 긍정적인 사람으로 팀프로젝트에서도
-            제 긍정적인 분위기를 팀원들에게 전달하는 역할을 수행할 수 있을
-            것이라고 생각합니다!
-          </motion.p>
-
-          <motion.div
-            className="flex flex-wrap gap-3"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.6 }}
-          >
-            <div className="px-4 py-2 bg-gradient-to-r from-orange-100 to-red-100 rounded-full">
-              <span className="mr-2">🎯</span>
-              <span className="text-gray-800">팀워크</span>
-            </div>
-            <div className="px-4 py-2 bg-gradient-to-r from-yellow-100 to-orange-100 rounded-full">
-              <span className="mr-2">💡</span>
-              <span className="text-gray-800">문제 해결</span>
-            </div>
-            <div className="px-4 py-2 bg-gradient-to-r from-green-100 to-emerald-100 rounded-full">
-              <span className="mr-2">🚀</span>
-              <span className="text-gray-800">빠른 학습</span>
-            </div>
-          </motion.div>
-        </div>
-
-        <motion.div
-          className="relative"
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.3 }}
-        >
-          <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl">
-            <img
-              src="https://placeholder/30"
-              alt="Profile"
-              className="w-full h-auto"
-            />
-          </div>
-          <div className="absolute -top-4 -right-4 w-72 h-72 bg-linear-to-br from-orange-300 to-red-300 rounded-full blur-3xl opacity-30 -z-10" />
-          <div className="absolute -bottom-4 -left-4 w-72 h-72 bg-linear-to-br from-yellow-300 to-orange-300 rounded-full blur-3xl opacity-30 -z-10" />
-        </motion.div>
-      </motion.div>
-
-      {/* Skills Section */}
-      <motion.div
-        className="mb-24"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-      >
-        <h3 className="mb-8 flex items-center gap-3">
-          <span className="text-4xl">💪</span>
-          <span>Skills</span>
-        </h3>
-        <div className="grid md:grid-cols-2 gap-6">
-          {skills.map((skill, index) => (
-            <motion.div
-              key={skill.name}
-              className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              whileHover={{ scale: 1.02 }}
-            >
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <span className="text-2xl">{skill.icon}</span>
-                  <span className="font-medium text-gray-800">
-                    {skill.name}
-                  </span>
-                </div>
-                <span className="text-orange-600">{skill.level}%</span>
-              </div>
-              <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                <motion.div
-                  className="h-full bg-gradient-to-r from-orange-400 to-red-500"
-                  initial={{ width: 0 }}
-                  whileInView={{ width: `${skill.level}%` }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 1, delay: index * 0.1 }}
-                />
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
-
-      {/* Projects Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-      >
-        <h3 className="mb-8 flex items-center gap-3">
-          <span className="text-4xl">📝</span>
-          <span>Projects</span>
-        </h3>
-        <div className="grid md:grid-cols-3 gap-6">
-          {projects.map((project, index) => (
-            <motion.div
-              key={project.title}
-              className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              whileHover={{ y: -8 }}
-              onClick={() => setSelectedProject(project.id)}
-            >
-              <div
-                className={`h-32 bg-gradient-to-br ${project.color} flex items-center justify-center`}
-              >
-                <span className="text-6xl group-hover:scale-110 transition-transform">
-                  {project.icon}
-                </span>
-              </div>
-              <div className="p-6">
-                <h4 className="mb-2">{project.title}</h4>
-                <p className="text-gray-600 mb-4">{project.period}</p>
-                <p className="text-gray-700 mb-4">{project.description}</p>
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-3 py-1 bg-orange-50 text-orange-600 rounded-full"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <motion.div
-                className="absolute inset-0 border-2 border-orange-400 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
-                initial={false}
-              />
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
-
-      {/* Project Modal */}
-      <AnimatePresence>
-        {selectedProject &&
-          (() => {
-            const project = projects.find((p) => p.id === selectedProject);
-            if (!project) return null;
-
-            return (
-              <motion.div
-                className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setSelectedProject(null)}
-              >
-                <motion.div
-                  className="bg-white rounded-3xl max-w-3xl w-full my-8 shadow-2xl overflow-hidden"
-                  initial={{ scale: 0.9, y: 20 }}
-                  animate={{ scale: 1, y: 0 }}
-                  exit={{ scale: 0.9, y: 20 }}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  {/* Header with gradient */}
-                  <div
-                    className={`relative h-48 bg-gradient-to-br ${project.color} overflow-hidden`}
-                  >
-                    <div className="absolute inset-0 bg-black/20" />
-                    <button
-                      onClick={() => setSelectedProject(null)}
-                      className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/90 hover:bg-white flex items-center justify-center transition-colors shadow-lg z-10"
-                    >
-                      <span className="text-xl">✕</span>
-                    </button>
-                    <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <span className="text-8xl mb-4">{project.icon}</span>
-                      <h2 className="text-white mb-2">{project.title}</h2>
-                      <p className="text-white/90">{project.period}</p>
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-8 md:p-10">
-                    {/* Tags */}
-                    <div className="flex flex-wrap gap-2 mb-8 pb-6 border-b border-gray-200">
-                      {project.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-4 py-2 bg-orange-50 text-orange-600 rounded-full"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Overview */}
-                    <div className="mb-8">
-                      <h3 className="flex items-center gap-2 mb-3">
-                        <span className="text-2xl">📋</span>
-                        <span>개요</span>
-                      </h3>
-                      <p className="text-gray-700 leading-relaxed">
-                        {project.details.overview}
-                      </p>
-                    </div>
-
-                    {/* Features */}
-                    <div className="mb-8">
-                      <h3 className="flex items-center gap-2 mb-3">
-                        <span className="text-2xl">✨</span>
-                        <span>주요 기능</span>
-                      </h3>
-                      <ul className="space-y-2">
-                        {project.details.features.map((feature, index) => (
-                          <motion.li
-                            key={feature}
-                            className="flex items-start gap-3 text-gray-700"
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: index * 0.1 }}
-                          >
-                            <span className="text-orange-500 mt-1">•</span>
-                            <span>{feature}</span>
-                          </motion.li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    {/* Technology */}
-                    <div className="mb-8">
-                      <h3 className="flex items-center gap-2 mb-3">
-                        <span className="text-2xl">💻</span>
-                        <span>기술 스택</span>
-                      </h3>
-                      <p className="text-gray-700 leading-relaxed">
-                        {project.details.tech}
-                      </p>
-                    </div>
-
-                    {/* Role */}
-                    <div className="mb-8">
-                      <h3 className="flex items-center gap-2 mb-3">
-                        <span className="text-2xl">👤</span>
-                        <span>담당 역할</span>
-                      </h3>
-                      <p className="text-gray-700 leading-relaxed">
-                        {project.details.role}
-                      </p>
-                    </div>
-
-                    {/* Outcome */}
-                    <div className="mb-6">
-                      <h3 className="flex items-center gap-2 mb-3">
-                        <span className="text-2xl">🎯</span>
-                        <span>성과</span>
-                      </h3>
-                      <div className="bg-gradient-to-r from-orange-50 to-red-50 rounded-xl p-4 border-l-4 border-orange-400">
-                        <p className="text-gray-800 leading-relaxed">
-                          {project.details.outcome}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              </motion.div>
-            );
-          })()}
-      </AnimatePresence>
+      <HeroSection />
+      <SkillsSection skills={skills} />
+      <ProjectsSection
+        projects={projects}
+        onProjectSelect={setSelectedProjectId}
+      />
+      <ProjectModal
+        project={selectedProject}
+        onClose={() => setSelectedProjectId(null)}
+      />
     </div>
   );
 }
