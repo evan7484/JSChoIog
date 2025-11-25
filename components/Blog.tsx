@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
 
 const categories = [
   { name: "All", count: 15, icon: "📚" },
@@ -90,12 +89,7 @@ export default function Blog({ onPostClick }: BlogProps) {
     <div className="max-w-7xl mx-auto px-6 py-12">
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Sidebar */}
-        <motion.aside
-          className="lg:w-64 shrink-0"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
-        >
+        <aside className="lg:w-64 shrink-0">
           <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-24">
             <h3 className="mb-6 flex items-center gap-2">
               <span className="text-2xl">📖</span>
@@ -103,16 +97,14 @@ export default function Blog({ onPostClick }: BlogProps) {
             </h3>
             <div className="space-y-2">
               {categories.map((category) => (
-                <motion.button
+                <button
                   key={category.name}
                   onClick={() => setSelectedCategory(category.name)}
-                  className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all ${
+                  className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all hover:scale-105 active:scale-95 ${
                     selectedCategory === category.name
-                      ? "bg-gradient-to-r from-orange-400 to-red-400 text-white shadow-lg"
+                      ? "bg-linear-to-r from-orange-400 to-red-400 text-white shadow-lg"
                       : "bg-gray-50 text-gray-700 hover:bg-orange-50"
                   }`}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
                 >
                   <span className="flex items-center gap-2">
                     <span>{category.icon}</span>
@@ -127,113 +119,89 @@ export default function Blog({ onPostClick }: BlogProps) {
                   >
                     {category.count}
                   </span>
-                </motion.button>
+                </button>
               ))}
             </div>
           </div>
-        </motion.aside>
+        </aside>
 
         {/* Main Content */}
         <div className="flex-1">
-          <motion.div
-            className="mb-8"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
+          <div className="mb-8">
             <h2 className="mb-2">
               {selectedCategory === "All" ? "모든 글" : selectedCategory}
             </h2>
             <p className="text-gray-600">
               총 {filteredPosts.length}개의 포스트
             </p>
-          </motion.div>
-
-          <AnimatePresence mode="popLayout">
-            <div className="grid md:grid-cols-2 gap-6">
-              {filteredPosts.map((post, index) => (
-                <motion.article
-                  key={post.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all cursor-pointer"
-                  whileHover={{ y: -8 }}
-                  onClick={() => {
-                    onPostClick(post.id);
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                  }}
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            {filteredPosts.map((post) => (
+              <article
+                key={post.id}
+                className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all cursor-pointer"
+                onClick={() => {
+                  onPostClick(post.id);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+              >
+                <div
+                  className={`h-48 bg-linear-to-br ${post.color} flex items-center justify-center relative overflow-hidden`}
                 >
-                  <div
-                    className={`h-48 bg-gradient-to-br ${post.color} flex items-center justify-center relative overflow-hidden`}
-                  >
-                    <motion.div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
-                    <span className="text-6xl group-hover:scale-110 transition-transform relative z-10">
-                      {categories.find((c) => c.name === post.category)?.icon}
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
+                  <span className="text-6xl group-hover:scale-110 transition-transform relative z-10">
+                    {categories.find((c) => c.name === post.category)?.icon}
+                  </span>
+                </div>
+
+                <div className="p-6">
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className="px-3 py-1 bg-orange-100 text-orange-600 rounded-full">
+                      {post.category}
+                    </span>
+                    <span className="text-gray-500">{post.readTime}</span>
+                  </div>
+
+                  <h4 className="mb-3 group-hover:text-orange-600 transition-colors line-clamp-2">
+                    {post.title}
+                  </h4>
+
+                  <p className="text-gray-600 mb-4 line-clamp-2">
+                    {post.excerpt}
+                  </p>
+
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-500">{post.date}</span>
+                    <span className="text-orange-600 group-hover:gap-2 flex items-center gap-1 transition-all">
+                      <span>더 보기</span>
+                      <span>→</span>
                     </span>
                   </div>
 
-                  <div className="p-6">
-                    <div className="flex items-center gap-3 mb-3">
-                      <span className="px-3 py-1 bg-orange-100 text-orange-600 rounded-full">
-                        {post.category}
-                      </span>
-                      <span className="text-gray-500">{post.readTime}</span>
-                    </div>
-
-                    <h4 className="mb-3 group-hover:text-orange-600 transition-colors line-clamp-2">
-                      {post.title}
-                    </h4>
-
-                    <p className="text-gray-600 mb-4 line-clamp-2">
-                      {post.excerpt}
-                    </p>
-
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-500">{post.date}</span>
-                      <motion.span
-                        className="text-orange-600 group-hover:gap-2 flex items-center gap-1"
-                        whileHover={{ gap: "0.5rem" }}
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {post.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-2 py-1 bg-gray-100 text-gray-600 rounded-md"
                       >
-                        <span>더 보기</span>
-                        <span>→</span>
-                      </motion.span>
-                    </div>
-
-                    <div className="flex flex-wrap gap-2 mt-4">
-                      {post.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-2 py-1 bg-gray-100 text-gray-600 rounded-md"
-                        >
-                          #{tag}
-                        </span>
-                      ))}
-                    </div>
+                        #{tag}
+                      </span>
+                    ))}
                   </div>
+                </div>
 
-                  <motion.div
-                    className="absolute inset-0 border-2 border-orange-400 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
-                    initial={false}
-                  />
-                </motion.article>
-              ))}
-            </div>
-          </AnimatePresence>
+                <div className="absolute inset-0 border-2 border-orange-400 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+              </article>
+            ))}
+          </div>
 
           {filteredPosts.length === 0 && (
-            <motion.div
-              className="text-center py-20"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-            >
+            <div className="text-center py-20">
               <span className="text-6xl mb-4 block">📭</span>
               <p className="text-gray-500">
                 해당 카테고리에 포스트가 없습니다.
               </p>
-            </motion.div>
+            </div>
           )}
         </div>
       </div>

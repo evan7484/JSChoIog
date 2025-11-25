@@ -1,7 +1,5 @@
 "use client";
 
-import { motion } from "motion/react";
-
 const socialLinks = [
   { icon: "📧", href: "#", label: "Email" },
   { icon: "💼", href: "#", label: "LinkedIn" },
@@ -16,35 +14,18 @@ export default function Footer() {
           © 2025 JSChoIog. Built with passion and dedication 🚀
         </p>
         <div className="flex items-center justify-center gap-4 mt-4">
-          {socialLinks.map((link, index) => (
-            <SocialLink
+          {socialLinks.map((link) => (
+            <a
               key={link.label}
               href={link.href}
-              icon={link.icon}
-              rotation={index % 2 === 0 ? 5 : -5}
-            />
+              className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg hover:scale-110 transition-all"
+              title={link.label}
+            >
+              <span className="text-xl">{link.icon}</span>
+            </a>
           ))}
         </div>
       </div>
     </footer>
-  );
-}
-
-interface SocialLinkProps {
-  href: string;
-  icon: string;
-  rotation: number;
-}
-
-function SocialLink({ href, icon, rotation }: SocialLinkProps) {
-  return (
-    <motion.a
-      href={href}
-      className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-shadow"
-      whileHover={{ scale: 1.1, rotate: rotation }}
-      whileTap={{ scale: 0.9 }}
-    >
-      <span className="text-xl">{icon}</span>
-    </motion.a>
   );
 }

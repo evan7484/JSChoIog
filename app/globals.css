@@ -188,4 +188,31 @@
 
 html {
   font-size: var(--font-size);
+  scroll-behavior: smooth;
+}
+
+/* 성능 최적화: 불필요한 will-change 제거 */
+@layer utilities {
+  .will-change-auto {
+    will-change: auto;
+  }
+}
+
+/* 애니메이션 성능 최적화 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* 부드러운 렌더링 */
+@supports (font-synthesis: none) {
+  * {
+    font-synthesis: none;
+  }
 }
