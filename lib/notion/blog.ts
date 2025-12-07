@@ -24,25 +24,41 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
     );
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return response.results.map((page: any) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const props = page.properties as any;
-      return {
-        id: page.id,
-        title: props.Title?.title?.[0]?.plain_text || "",
-        category: props.Category?.select?.name || "",
-        date: props.Date?.date?.start || "",
-        excerpt: props.Excerpt?.rich_text?.[0]?.plain_text || "",
-        content: props.Content?.rich_text?.[0]?.plain_text || "",
-        readTime: props.ReadTime?.number || 0,
-        tags:
-          props.Tags?.multi_select?.map(
-            (tag: Record<string, string>) => tag.name
-          ) || [],
-        color: props.Color?.select?.name || "from-blue-400 to-cyan-400",
-        releasable: props.Published?.checkbox || false,
-      };
-    });
+    const posts = await Promise.all(
+      response.results.map(async (page: any) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const props = page.properties as any;
+
+        // 페이지의 블록 내용을 가져와서 HTML로 변환
+        let content = "";
+        try {
+          const blocks = await notionApi.getPageBlocks(page.id);
+          content = notionApi.blocksToHtml(blocks);
+        } catch (error) {
+          console.error(`Failed to fetch blocks for page ${page.id}:`, error);
+          // content 프로퍼티를 fallback으로 사용
+          content = props.Content?.rich_text?.[0]?.plain_text || "";
+        }
+
+        return {
+          id: page.id,
+          title: props.Title?.title?.[0]?.plain_text || "",
+          category: props.Category?.select?.name || "",
+          date: props.Date?.date?.start || "",
+          excerpt: props.Excerpt?.rich_text?.[0]?.plain_text || "",
+          content,
+          readTime: props.ReadTime?.number || 0,
+          tags:
+            props.Tags?.multi_select?.map(
+              (tag: Record<string, string>) => tag.name
+            ) || [],
+          color: props.Color?.select?.name || "from-blue-400 to-cyan-400",
+          releasable: props.Published?.checkbox || false,
+        };
+      })
+    );
+
+    return posts;
   } catch (error) {
     console.error("❌ Failed to fetch blog posts");
     console.error(
@@ -59,13 +75,23 @@ export async function getBlogPostById(id: string): Promise<BlogPost | null> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const props = (page as any).properties as any;
 
+    // 페이지의 블록 내용을 가져와서 HTML로 변환
+    let content = "";
+    try {
+      const blocks = await notionApi.getPageBlocks(id);
+      content = notionApi.blocksToHtml(blocks);
+    } catch (error) {
+      console.error(`Failed to fetch blocks for page ${id}:`, error);
+      content = props.Content?.rich_text?.[0]?.plain_text || "";
+    }
+
     return {
       id: page.id,
       title: props.Title?.title?.[0]?.plain_text || "",
       category: props.Category?.select?.name || "",
       date: props.Date?.date?.start || "",
       excerpt: props.Excerpt?.rich_text?.[0]?.plain_text || "",
-      content: props.Content?.rich_text?.[0]?.plain_text || "",
+      content,
       readTime: props.ReadTime?.number || 0,
       tags:
         props.Tags?.multi_select?.map(
