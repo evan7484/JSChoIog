@@ -33,6 +33,7 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
         category: props.Category?.select?.name || "",
         date: props.Date?.date?.start || "",
         excerpt: props.Excerpt?.rich_text?.[0]?.plain_text || "",
+        content: props.Content?.rich_text?.[0]?.plain_text || "",
         readTime: props.ReadTime?.number || 0,
         tags:
           props.Tags?.multi_select?.map(
@@ -64,6 +65,7 @@ export async function getBlogPostById(id: string): Promise<BlogPost | null> {
       category: props.Category?.select?.name || "",
       date: props.Date?.date?.start || "",
       excerpt: props.Excerpt?.rich_text?.[0]?.plain_text || "",
+      content: props.Content?.rich_text?.[0]?.plain_text || "",
       readTime: props.ReadTime?.number || 0,
       tags:
         props.Tags?.multi_select?.map(
