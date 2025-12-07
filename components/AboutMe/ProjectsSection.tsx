@@ -1,5 +1,5 @@
 interface Project {
-  id: number;
+  id: string | number;
   title: string;
   period: string;
   description: string;
@@ -17,7 +17,7 @@ interface Project {
 
 interface ProjectsSectionProps {
   projects: Project[];
-  onProjectSelect: (id: number) => void;
+  onProjectSelect: (id: string) => void;
 }
 
 export default function ProjectsSection({
@@ -35,7 +35,7 @@ export default function ProjectsSection({
           <div
             key={project.title}
             className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all cursor-pointer"
-            onClick={() => onProjectSelect(project.id)}
+            onClick={() => onProjectSelect(String(project.id))}
           >
             <div
               className={`h-32 bg-linear-to-br ${project.color} flex items-center justify-center`}
