@@ -23,7 +23,6 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
       ]
     );
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const posts = await Promise.all(
       response.results.map(async (page: any) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

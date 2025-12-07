@@ -92,11 +92,13 @@ export const notionApi = {
             return `<h3>${h3}</h3>`;
 
           case "bulleted_list_item":
-            const li = block.bulleted_list_item?.rich_text?.[0]?.plain_text || "";
+            const li =
+              block.bulleted_list_item?.rich_text?.[0]?.plain_text || "";
             return `<li>${li}</li>`;
 
           case "numbered_list_item":
-            const nli = block.numbered_list_item?.rich_text?.[0]?.plain_text || "";
+            const nli =
+              block.numbered_list_item?.rich_text?.[0]?.plain_text || "";
             return `<li>${nli}</li>`;
 
           case "quote":
