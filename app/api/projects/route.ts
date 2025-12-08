@@ -1,7 +1,7 @@
 import { getProjects } from "@/lib/notion/projects";
 
-export const dynamic = 'force-dynamic';
-export const runtime = 'nodejs';
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 export async function GET() {
   try {
