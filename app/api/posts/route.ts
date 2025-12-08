@@ -1,5 +1,8 @@
 import { getBlogPosts } from "@/lib/notion/blog";
 
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
 export async function GET() {
   try {
     console.log("Fetching blog posts...");
