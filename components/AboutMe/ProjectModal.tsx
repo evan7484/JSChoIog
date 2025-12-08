@@ -1,5 +1,5 @@
 interface Project {
-  id: number;
+  id: string | number;
   title: string;
   period: string;
   description: string;

@@ -4,7 +4,7 @@ export type PageType = "about" | "blog" | "post";
 
 export function usePageNavigation() {
   const [currentPage, setCurrentPage] = useState<PageType>("about");
-  const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
+  const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
 
   const scrollToTop = useCallback(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -20,7 +20,7 @@ export function usePageNavigation() {
   );
 
   const openPost = useCallback(
-    (postId: number) => {
+    (postId: string) => {
       setSelectedPostId(postId);
       setCurrentPage("post");
       scrollToTop();
