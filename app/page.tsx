@@ -48,7 +48,11 @@ export default function App() {
           )}
           {currentPage === "post" && (
             <PageTransition key="post">
-              <BlogPost postId={selectedPostId} onBack={closePost} allPosts={posts} />
+              <BlogPost
+                postId={selectedPostId}
+                onBack={closePost}
+                allPosts={posts}
+              />
             </PageTransition>
           )}
         </AnimatePresence>
