@@ -6,13 +6,7 @@ interface Project {
   tags: string[];
   color: string;
   icon: string;
-  details: {
-    overview: string;
-    features: string[];
-    tech: string;
-    role: string;
-    outcome: string;
-  };
+  content: string;
 }
 
 interface ProjectsSectionProps {

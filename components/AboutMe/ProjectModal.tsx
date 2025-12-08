@@ -1,3 +1,7 @@
+import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
+import remarkGfm from "remark-gfm";
+
 interface Project {
   id: string | number;
   title: string;
@@ -6,13 +10,7 @@ interface Project {
   tags: string[];
   color: string;
   icon: string;
-  details: {
-    overview: string;
-    features: string[];
-    tech: string;
-    role: string;
-    outcome: string;
-  };
+  content: string;
 }
 
 interface ProjectModalProps {
@@ -64,69 +62,85 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             ))}
           </div>
 
-          {/* Overview */}
-          <div className="mb-8">
-            <h3 className="flex items-center gap-2 mb-3">
-              <span className="text-2xl">📋</span>
-              <span>개요</span>
-            </h3>
-            <p className="text-gray-700 leading-relaxed">
-              {project.details.overview}
-            </p>
-          </div>
-
-          {/* Features */}
-          <div className="mb-8">
-            <h3 className="flex items-center gap-2 mb-3">
-              <span className="text-2xl">✨</span>
-              <span>주요 기능</span>
-            </h3>
-            <ul className="space-y-2">
-              {project.details.features.map((feature) => (
-                <li
-                  key={feature}
-                  className="flex items-start gap-3 text-gray-700"
-                >
-                  <span className="text-orange-500 mt-1">•</span>
-                  <span>{feature}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Technology */}
-          <div className="mb-8">
-            <h3 className="flex items-center gap-2 mb-3">
-              <span className="text-2xl">💻</span>
-              <span>기술 스택</span>
-            </h3>
-            <p className="text-gray-700 leading-relaxed">
-              {project.details.tech}
-            </p>
-          </div>
-
-          {/* Role */}
-          <div className="mb-8">
-            <h3 className="flex items-center gap-2 mb-3">
-              <span className="text-2xl">👤</span>
-              <span>담당 역할</span>
-            </h3>
-            <p className="text-gray-700 leading-relaxed">
-              {project.details.role}
-            </p>
-          </div>
-
-          {/* Outcome */}
-          <div className="mb-6">
-            <h3 className="flex items-center gap-2 mb-3">
-              <span className="text-2xl">🎯</span>
-              <span>성과</span>
-            </h3>
-            <div className="bg-linear-to-r from-orange-50 to-red-50 rounded-xl p-4 border-l-4 border-orange-400">
-              <p className="text-gray-800 leading-relaxed">
-                {project.details.outcome}
-              </p>
-            </div>
+          {/* Project Content */}
+          <div className="max-w-none">
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeRaw]}
+              components={{
+                h1: ({ node, ...props }) => (
+                  <h1
+                    className="text-3xl font-bold mt-8 mb-4 text-gray-900"
+                    {...props}
+                  />
+                ),
+                h2: ({ node, ...props }) => (
+                  <h2
+                    className="text-2xl font-bold mt-6 mb-3 pb-2 border-b border-gray-200 text-gray-900"
+                    {...props}
+                  />
+                ),
+                h3: ({ node, ...props }) => (
+                  <h3
+                    className="text-xl font-bold mt-6 mb-3 text-gray-800"
+                    {...props}
+                  />
+                ),
+                p: ({ node, ...props }) => (
+                  <p
+                    className="text-gray-700 leading-relaxed mb-4"
+                    {...props}
+                  />
+                ),
+                ul: ({ node, ...props }) => (
+                  <ul
+                    className="list-disc list-inside my-4 space-y-2 text-gray-700"
+                    {...props}
+                  />
+                ),
+                ol: ({ node, ...props }) => (
+                  <ol
+                    className="list-decimal list-inside my-4 space-y-2 text-gray-700"
+                    {...props}
+                  />
+                ),
+                li: ({ node, ...props }) => (
+                  <li className="leading-relaxed" {...props} />
+                ),
+                code: ({ node, inline, ...props }: any) =>
+                  inline ? (
+                    <code
+                      className="bg-gray-100 px-2 py-1 rounded text-sm font-mono text-gray-800"
+                      {...props}
+                    />
+                  ) : (
+                    <code
+                      className="block bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto font-mono text-sm"
+                      {...props}
+                    />
+                  ),
+                pre: ({ node, ...props }) => (
+                  <pre
+                    className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto my-4"
+                    {...props}
+                  />
+                ),
+                strong: ({ node, ...props }) => (
+                  <strong className="font-semibold text-gray-900" {...props} />
+                ),
+                a: ({ node, ...props }) => (
+                  <a
+                    className="text-orange-500 hover:text-orange-600 underline"
+                    {...props}
+                  />
+                ),
+                img: ({ node, ...props }) => (
+                  <img className="rounded-lg my-4 w-full" {...props} />
+                ),
+              }}
+            >
+              {project.content || ""}
+            </ReactMarkdown>
           </div>
         </div>
       </div>
