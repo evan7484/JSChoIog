@@ -1,6 +1,20 @@
 import { notion, notionApi, n2m } from "./client";
 import type { BlogPost } from "./types";
 
+function getColorGradient(color: string): string {
+  const colorMap: Record<string, string> = {
+    Blue: "from-blue-400 to-cyan-400",
+    Green: "from-green-400 to-emerald-400",
+    Red: "from-red-400 to-pink-400",
+    Orange: "from-orange-400 to-amber-400",
+    Purple: "from-purple-400 to-violet-400",
+    Pink: "from-pink-400 to-rose-400",
+    Yellow: "from-yellow-400 to-orange-400",
+    Gray: "from-gray-400 to-slate-400",
+  };
+  return colorMap[color] || "from-blue-400 to-cyan-400";
+}
+
 export async function getBlogPosts(): Promise<BlogPost[]> {
   try {
     if (!process.env.NOTION_POSTS_DATABASE_ID) {
@@ -51,7 +65,7 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
             props.Tags?.multi_select?.map(
               (tag: Record<string, string>) => tag.name
             ) || [],
-          color: props.Color?.select?.name || "from-blue-400 to-cyan-400",
+          color: getColorGradient(props.Color?.select?.name || "Blue"),
           releasable: props.Published?.checkbox || false,
         };
       })

@@ -111,6 +111,7 @@ export default function Blog({ onPostClick, posts }: BlogProps) {
               >
                 <div
                   className={`h-48 bg-linear-to-br ${post.color} flex items-center justify-center relative overflow-hidden`}
+                  data-color={post.color}
                 >
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
                   <span className="text-6xl group-hover:scale-110 transition-transform relative z-10">
