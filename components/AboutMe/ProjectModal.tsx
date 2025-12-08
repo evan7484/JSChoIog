@@ -1,19 +1,4 @@
-interface Project {
-  id: string | number;
-  title: string;
-  period: string;
-  description: string;
-  tags: string[];
-  color: string;
-  icon: string;
-  details: {
-    overview: string;
-    features: string[];
-    tech: string;
-    role: string;
-    outcome: string;
-  };
-}
+import type { Project } from "@/lib/notion/types";
 
 interface ProjectModalProps {
   project: Project | null;
