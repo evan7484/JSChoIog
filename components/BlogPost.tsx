@@ -24,6 +24,17 @@ export default function BlogPost({
   if (!post) {
     return (
       <div className="max-w-4xl mx-auto px-6 py-12">
+        <div className="max-w-4xl mx-auto px-6 py-6">
+          <motion.button
+            onClick={onBack}
+            className="flex items-center gap-2 text-gray-700 hover:text-orange-600 transition-colors"
+            whileHover={{ x: -5 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <ArrowLeft className="w-5 h-5" />
+            <span>목록으로 돌아가기</span>
+          </motion.button>
+        </div>
         <p className="text-gray-600">포스트를 찾을 수 없습니다.</p>
       </div>
     );
