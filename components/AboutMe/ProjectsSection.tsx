@@ -18,7 +18,7 @@ export default function ProjectsSection({
       <div className="grid md:grid-cols-3 gap-6">
         {projects.map((project) => (
           <div
-            key={project.title}
+            key={project.id}
             className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all cursor-pointer"
             onClick={() => onProjectSelect(String(project.id))}
           >
