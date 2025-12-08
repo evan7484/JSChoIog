@@ -1,4 +1,5 @@
 import { Client } from "@notionhq/client";
+import { NotionToMarkdown } from "notion-to-md";
 
 const apiKey = process.env.NOTION_API_KEY;
 if (!apiKey) {
@@ -8,6 +9,8 @@ if (!apiKey) {
 export const notion = new Client({
   auth: apiKey,
 });
+
+export const n2m = new NotionToMarkdown({ notionClient: notion });
 
 export const notionApi = {
   async queryDatabase(database_id: string, filter?: unknown, sorts?: unknown) {

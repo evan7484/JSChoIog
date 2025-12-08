@@ -1,4 +1,4 @@
-import { notion, notionApi } from "./client";
+import { notion, notionApi, n2m } from "./client";
 import type { BlogPost } from "./types";
 
 export async function getBlogPosts(): Promise<BlogPost[]> {
@@ -28,11 +28,11 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const props = page.properties as any;
 
-        // 페이지의 블록 내용을 가져와서 HTML로 변환
+        // 페이지의 블록 내용을 마크다운으로 변환
         let content = "";
         try {
-          const blocks = await notionApi.getPageBlocks(page.id);
-          content = notionApi.blocksToHtml(blocks);
+          const mdblocks = await n2m.pageToMarkdown(page.id);
+          content = n2m.toMarkdownString(mdblocks).parent;
         } catch (error) {
           console.error(`Failed to fetch blocks for page ${page.id}:`, error);
           // content 프로퍼티를 fallback으로 사용
@@ -74,11 +74,11 @@ export async function getBlogPostById(id: string): Promise<BlogPost | null> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const props = (page as any).properties as any;
 
-    // 페이지의 블록 내용을 가져와서 HTML로 변환
+    // 페이지의 블록 내용을 마크다운으로 변환
     let content = "";
     try {
-      const blocks = await notionApi.getPageBlocks(id);
-      content = notionApi.blocksToHtml(blocks);
+      const mdblocks = await n2m.pageToMarkdown(id);
+      content = n2m.toMarkdownString(mdblocks).parent;
     } catch (error) {
       console.error(`Failed to fetch blocks for page ${id}:`, error);
       content = props.Content?.rich_text?.[0]?.plain_text || "";

@@ -2,6 +2,9 @@
 
 import { motion } from "motion/react";
 import { ArrowLeft } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
+import remarkGfm from "remark-gfm";
 import type { BlogPost } from "@/lib/notion/types";
 
 interface BlogPostProps {
@@ -94,25 +97,133 @@ export default function BlogPost({
         </div>
 
         {/* Article content with improved typography */}
-        <div
-          className="prose prose-lg max-w-none
-            prose-headings:mt-8 prose-headings:mb-4 prose-headings:text-gray-900
-            prose-h2:pb-2 prose-h2:border-b prose-h2:border-gray-200
-            prose-h3:text-gray-800
-            prose-p:text-gray-700 prose-p:leading-relaxed prose-p:mb-6
-            prose-strong:text-gray-900 prose-strong:font-semibold
-            prose-ul:my-6 prose-ul:space-y-2
-            prose-ol:my-6 prose-ol:space-y-2
-            prose-li:text-gray-700 prose-li:leading-relaxed
-            prose-blockquote:border-l-4 prose-blockquote:border-orange-400 
-            prose-blockquote:bg-orange-50 prose-blockquote:py-4 prose-blockquote:px-6 
-            prose-blockquote:rounded-r-lg prose-blockquote:my-6
-            prose-blockquote:text-gray-800 prose-blockquote:italic
-            prose-blockquote:not-italic
-            [&>p:first-child]:text-xl [&>p:first-child]:text-gray-600 [&>p:first-child]:leading-relaxed
-          "
-          dangerouslySetInnerHTML={{ __html: post.content || "" }}
-        />
+        <div className="max-w-none">
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeRaw]}
+            components={{
+              h1: ({ node, ...props }) => (
+                <h1
+                  className="text-4xl font-bold mt-8 mb-4 text-gray-900"
+                  {...props}
+                />
+              ),
+              h2: ({ node, ...props }) => (
+                <h2
+                  className="text-3xl font-bold mt-8 mb-4 pb-2 border-b border-gray-200 text-gray-900"
+                  {...props}
+                />
+              ),
+              h3: ({ node, ...props }) => (
+                <h3
+                  className="text-2xl font-bold mt-6 mb-3 text-gray-800"
+                  {...props}
+                />
+              ),
+              h4: ({ node, ...props }) => (
+                <h4
+                  className="text-xl font-bold mt-6 mb-3 text-gray-800"
+                  {...props}
+                />
+              ),
+              h5: ({ node, ...props }) => (
+                <h5
+                  className="text-lg font-bold mt-4 mb-2 text-gray-800"
+                  {...props}
+                />
+              ),
+              h6: ({ node, ...props }) => (
+                <h6
+                  className="text-base font-bold mt-4 mb-2 text-gray-800"
+                  {...props}
+                />
+              ),
+              p: ({ node, ...props }) => (
+                <p className="text-gray-700 leading-relaxed mb-6" {...props} />
+              ),
+              ul: ({ node, ...props }) => (
+                <ul
+                  className="list-disc list-inside my-6 space-y-2 text-gray-700"
+                  {...props}
+                />
+              ),
+              ol: ({ node, ...props }) => (
+                <ol
+                  className="list-decimal list-inside my-6 space-y-2 text-gray-700"
+                  {...props}
+                />
+              ),
+              li: ({ node, ...props }) => (
+                <li className="leading-relaxed" {...props} />
+              ),
+              blockquote: ({ node, ...props }) => (
+                <blockquote
+                  className="border-l-4 border-orange-400 bg-orange-50 py-4 px-6 rounded-r-lg my-6 text-gray-800 italic"
+                  {...props}
+                />
+              ),
+              code: ({ node, inline, ...props }: any) =>
+                inline ? (
+                  <code
+                    className="bg-gray-100 px-2 py-1 rounded text-sm font-mono text-gray-800"
+                    {...props}
+                  />
+                ) : (
+                  <code
+                    className="block bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto font-mono text-sm"
+                    {...props}
+                  />
+                ),
+              pre: ({ node, ...props }) => (
+                <pre
+                  className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto my-6"
+                  {...props}
+                />
+              ),
+              strong: ({ node, ...props }) => (
+                <strong className="font-semibold text-gray-900" {...props} />
+              ),
+              em: ({ node, ...props }) => (
+                <em className="italic text-gray-700" {...props} />
+              ),
+              a: ({ node, ...props }) => (
+                <a
+                  className="text-orange-500 hover:text-orange-600 underline"
+                  {...props}
+                />
+              ),
+              img: ({ node, ...props }) => (
+                <img className="rounded-lg my-6 w-full" {...props} />
+              ),
+              hr: ({ node, ...props }) => (
+                <hr className="my-8 border-gray-200" {...props} />
+              ),
+              table: ({ node, ...props }) => (
+                <table className="w-full my-6 border-collapse" {...props} />
+              ),
+              thead: ({ node, ...props }) => (
+                <thead className="bg-gray-50" {...props} />
+              ),
+              tbody: ({ node, ...props }) => (
+                <tbody className="divide-y divide-gray-200" {...props} />
+              ),
+              tr: ({ node, ...props }) => (
+                <tr className="border-b border-gray-200" {...props} />
+              ),
+              th: ({ node, ...props }) => (
+                <th
+                  className="px-4 py-2 text-left font-semibold text-gray-900"
+                  {...props}
+                />
+              ),
+              td: ({ node, ...props }) => (
+                <td className="px-4 py-2 text-gray-700" {...props} />
+              ),
+            }}
+          >
+            {post.content || ""}
+          </ReactMarkdown>
+        </div>
 
         {/* Share and actions */}
         <div className="mt-16 pt-8 border-t border-gray-200">
