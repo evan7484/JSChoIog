@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import type { BlogPost } from "@/lib/notion/types";
 
 interface Category {
@@ -11,36 +11,11 @@ interface Category {
 
 interface BlogProps {
   onPostClick: (postId: string) => void;
+  posts: BlogPost[];
 }
 
-export default function Blog({ onPostClick }: BlogProps) {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+export default function Blog({ onPostClick, posts }: BlogProps) {
   const [selectedCategory, setSelectedCategory] = useState("All");
-
-  // 노션에서 가져온 데이터로 카테고리 생성
-  const categories: Category[] = [{ name: "All", count: 0, icon: "📚" }];
-
-  useEffect(() => {
-    async function fetchPosts() {
-      try {
-        setLoading(true);
-        const response = await fetch("/api/posts");
-        if (!response.ok) throw new Error("Failed to fetch posts");
-        const data = await response.json();
-        setPosts(data);
-        setError(null);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Unknown error");
-        setPosts([]);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchPosts();
-  }, []);
 
   // 동적 카테고리 계산
   const uniqueCategories = Array.from(
@@ -72,22 +47,6 @@ export default function Blog({ onPostClick }: BlogProps) {
       DevOps: "🚀",
     };
     return iconMap[category] || "📚";
-  }
-
-  if (loading) {
-    return (
-      <div className="max-w-7xl mx-auto px-6 py-12 text-center">
-        <p className="text-gray-500">로딩 중...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="max-w-7xl mx-auto px-6 py-12 text-center">
-        <p className="text-red-500">오류: {error}</p>
-      </div>
-    );
   }
 
   return (

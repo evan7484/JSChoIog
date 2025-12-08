@@ -43,7 +43,9 @@ export default function HomePage() {
       />
 
       <main className="pt-24">
-        {currentPage === "blog" && <Blog onPostClick={handlePostClick} />}
+        {currentPage === "blog" && (
+          <Blog onPostClick={handlePostClick} posts={posts} />
+        )}
         {currentPage === "post" && (
           <BlogPost
             postId={selectedPostId}
