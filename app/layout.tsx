@@ -18,13 +18,10 @@ export const metadata: Metadata = {
     "성실함과 열정을 바탕으로 성장하는 개발자 JSChoIog의 기술 블로그입니다.",
 };
 
-// ✅ @modal parallel route를 쓸 거라서 modal 슬롯을 같이 받음
 export default function RootLayout({
   children,
-  modal,
 }: Readonly<{
   children: React.ReactNode;
-  modal: React.ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -34,10 +31,6 @@ export default function RootLayout({
         <MotionConfig reducedMotion="user">
           <Header />
           <main className="pt-20">{children}</main>
-
-          {/* ✅ 프로젝트 모달이 여기로 렌더됨 */}
-          {modal}
-
           <Footer />
         </MotionConfig>
       </body>
