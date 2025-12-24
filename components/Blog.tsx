@@ -12,9 +12,10 @@ interface Category {
 interface BlogProps {
   onPostClick: (postId: string) => void;
   posts: BlogPost[];
+  isLoading: boolean;
 }
 
-export default function Blog({ onPostClick, posts }: BlogProps) {
+export default function Blog({ onPostClick, posts, isLoading }: BlogProps) {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   // 동적 카테고리 계산
@@ -162,14 +163,19 @@ export default function Blog({ onPostClick, posts }: BlogProps) {
             ))}
           </div>
 
-          {filteredPosts.length === 0 && (
+          {isLoading ? (
+            <div className="flex flex-col items-center justify-center py-20">
+              <div className="h-10 w-10 rounded-full border-4 border-orange-200 border-t-orange-500 animate-spin" />
+              <p className="mt-4 text-gray-500">불러오는 중…</p>
+            </div>
+          ) : filteredPosts.length === 0 ? (
             <div className="text-center py-20">
               <span className="text-6xl mb-4 block">📭</span>
               <p className="text-gray-500">
                 해당 카테고리에 포스트가 없습니다.
               </p>
             </div>
-          )}
+          ) : null}
         </div>
       </div>
     </div>
