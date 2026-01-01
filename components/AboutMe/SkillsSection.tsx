@@ -1,7 +1,7 @@
 interface Skill {
   name: string;
   level: number;
-  icon: React.ReaactNode;
+  icon: React.ReactNode;
 }
 
 interface SkillsSectionProps {
