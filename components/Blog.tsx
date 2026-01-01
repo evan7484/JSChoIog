@@ -42,12 +42,12 @@ export default function Blog({ onPostClick, posts, isLoading }: BlogProps) {
   function getCategoryIcon(category: string): string {
     const iconMap: Record<string, string> = {
       Tech: "💻",
-      Frontend: "🎨",
-      Algorithm: "🧮",
+      Frontend: "🌐",
+      Algorithm: "🎲",
       Backend: "⚙️",
       DevOps: "🚀",
     };
-    return iconMap[category] || "📚";
+    return iconMap[category] || "🎸";
   }
 
   return (
@@ -126,7 +126,7 @@ export default function Blog({ onPostClick, posts, isLoading }: BlogProps) {
                       {post.category}
                     </span>
                     <span className="text-gray-500 text-sm">
-                      {post.readTime}분
+                      읽는데 {post.readTime}분
                     </span>
                   </div>
 

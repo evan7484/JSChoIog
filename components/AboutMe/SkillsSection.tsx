@@ -1,7 +1,7 @@
 interface Skill {
   name: string;
   level: number;
-  icon: string;
+  icon: React.ReaactNode;
 }
 
 interface SkillsSectionProps {
@@ -12,7 +12,7 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
   return (
     <div className="mb-24">
       <h3 className="mb-8 flex items-center gap-3">
-        <span className="text-4xl">💪</span>
+        <span className="text-4xl">🧑‍💻</span>
         <span>Skills</span>
       </h3>
       <div className="grid md:grid-cols-2 gap-6">

@@ -96,7 +96,7 @@ export default function BlogPost({ post, isLoading, onBack }: Props) {
               <span className="px-4 py-1.5 bg-white/90 backdrop-blur-sm text-gray-800 rounded-full">
                 {post.category}
               </span>
-              <span className="text-white/90">{post.readTime} min</span>
+              <span className="text-white/90">읽는데 {post.readTime}분</span>
               <span className="text-white/90">•</span>
               <span className="text-white/90">{post.date}</span>
             </div>

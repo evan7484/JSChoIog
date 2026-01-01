@@ -1,9 +1,13 @@
 "use client";
 
 const socialLinks = [
-  { icon: "📧", href: "#", label: "Email" },
+  {
+    icon: "📧",
+    href: "https://www.instagram.com/junseo_chl/",
+    label: "Instagram",
+  },
   { icon: "💼", href: "#", label: "LinkedIn" },
-  { icon: "🐙", href: "#", label: "GitHub" },
+  { icon: "🐙", href: "https://github.com/evan7484", label: "GitHub" },
 ];
 
 export default function Footer() {
