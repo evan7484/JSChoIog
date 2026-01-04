@@ -26,6 +26,7 @@ export default function Footer() {
             <a
               key={link.label}
               href={link.href}
+              target="_blank"
               className="relative w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg hover:scale-110 transition-all group"
               title={link.label}
             >
