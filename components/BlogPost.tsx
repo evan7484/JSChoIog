@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "motion/react";
-import { ArrowLeft, Share2, Check } from "lucide-react";
-import { useState } from "react";
+import { ArrowLeft, Check } from "lucide-react";
+import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
@@ -18,6 +18,18 @@ type Props = {
 
 export default function BlogPost({ post, isLoading, onBack }: Props) {
   const [isCopied, setIsCopied] = useState(false);
+  const [likes, setLikes] = useState(post?.likes || 0);
+  const [isLiking, setIsLiking] = useState(false);
+  const [hasLiked, setHasLiked] = useState(false);
+
+  // 컴포넌트 마운트 시 localStorage에서 좋아요 여부 확인
+  useEffect(() => {
+    if (post?.id) {
+      const likedPosts = JSON.parse(localStorage.getItem("liked_posts") || "[]");
+      setHasLiked(likedPosts.includes(post.id));
+      setLikes(post.likes || 0);
+    }
+  }, [post]);
 
   const handleShare = async () => {
     const url = window.location.href;
@@ -27,6 +39,32 @@ export default function BlogPost({ post, isLoading, onBack }: Props) {
       setTimeout(() => setIsCopied(false), 2000);
     } catch (err) {
       console.error("Failed to copy:", err);
+    }
+  };
+
+  const handleLike = async () => {
+    if (!post || isLiking || hasLiked) return;
+
+    setIsLiking(true);
+    try {
+      const response = await fetch(`/api/posts/${post.id}/like`, {
+        method: "POST",
+      });
+
+      if (!response.ok) throw new Error("Failed to like post");
+
+      const data = await response.json();
+      setLikes(data.likes);
+      setHasLiked(true);
+
+      // localStorage에 저장
+      const likedPosts = JSON.parse(localStorage.getItem("liked_posts") || "[]");
+      likedPosts.push(post.id);
+      localStorage.setItem("liked_posts", JSON.stringify(likedPosts));
+    } catch (err) {
+      console.error("Failed to like:", err);
+    } finally {
+      setIsLiking(false);
     }
   };
 
@@ -250,11 +288,23 @@ export default function BlogPost({ post, isLoading, onBack }: Props) {
             <p className="text-gray-600">이 글이 도움이 되셨나요?</p>
             <div className="flex gap-3">
               <motion.button
-                className="px-6 py-2 bg-orange-100 text-orange-600 rounded-full hover:bg-orange-200 transition-colors"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                onClick={handleLike}
+                disabled={isLiking || hasLiked}
+                className={`px-6 py-2 rounded-full transition-colors ${
+                  hasLiked
+                    ? "bg-orange-200 text-orange-700 cursor-not-allowed"
+                    : "bg-orange-100 text-orange-600 hover:bg-orange-200"
+                }`}
+                whileHover={hasLiked ? {} : { scale: 1.05 }}
+                whileTap={hasLiked ? {} : { scale: 0.95 }}
               >
-                👍 좋아요
+                {isLiking ? (
+                  "👍 처리중..."
+                ) : hasLiked ? (
+                  `❤️ 좋아요 ${likes}`
+                ) : (
+                  `👍 좋아요 ${likes}`
+                )}
               </motion.button>
               <motion.button
                 onClick={handleShare}

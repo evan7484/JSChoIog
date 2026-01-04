@@ -9,6 +9,7 @@ export interface BlogPost {
   color: string;
   releasable: boolean;
   content?: string;
+  likes: number;
 }
 
 export interface Project {
