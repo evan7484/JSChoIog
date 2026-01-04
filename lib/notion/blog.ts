@@ -67,6 +67,7 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
             ) || [],
           color: getColorGradient(props.Color?.select?.name || "Blue"),
           releasable: props.Published?.checkbox || false,
+          likes: props.Likes?.number || 0,
         };
       })
     );
@@ -110,8 +111,9 @@ export async function getBlogPostById(id: string): Promise<BlogPost | null> {
         props.Tags?.multi_select?.map(
           (tag: Record<string, string>) => tag.name
         ) || [],
-      color: props.Color?.select?.name || "from-blue-400 to-cyan-400",
+      color: getColorGradient(props.Color?.select?.name || "Blue"),
       releasable: props.Published?.checkbox || false,
+      likes: props.Likes?.number || 0,
     };
   } catch (error) {
     console.error("Failed to fetch blog post:", error);

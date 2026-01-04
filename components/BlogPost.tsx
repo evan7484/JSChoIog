@@ -1,8 +1,10 @@
 "use client";
 
 import { motion } from "motion/react";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Check } from "lucide-react";
+import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
+import type { Components } from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import type { BlogPost as BlogPostType } from "@/lib/notion/types";
@@ -16,6 +18,69 @@ type Props = {
 };
 
 export default function BlogPost({ post, isLoading, onBack }: Props) {
+  const [isCopied, setIsCopied] = useState(false);
+  const [likes, setLikes] = useState(post?.likes || 0);
+  const [isLiking, setIsLiking] = useState(false);
+  const [hasLiked, setHasLiked] = useState(false);
+
+  // 컴포넌트 마운트 시 localStorage에서 좋아요 여부 확인
+  useEffect(() => {
+    if (post?.id) {
+      const likedPosts = JSON.parse(
+        localStorage.getItem("liked_posts") || "[]"
+      );
+      setHasLiked(likedPosts.includes(post.id));
+      setLikes(post.likes || 0);
+    }
+  }, [post]);
+
+  const handleShare = async () => {
+    const url = window.location.href;
+    try {
+      await navigator.clipboard.writeText(url);
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy:", err);
+    }
+  };
+
+  const handleLike = async () => {
+    if (!post || isLiking) return;
+
+    setIsLiking(true);
+    try {
+      const response = await fetch(`/api/posts/${post.id}/like`, {
+        method: hasLiked ? "DELETE" : "POST",
+      });
+
+      if (!response.ok) throw new Error("Failed to update like");
+
+      const data = await response.json();
+      setLikes(data.likes);
+      setHasLiked(!hasLiked);
+
+      // localStorage 업데이트
+      const likedPosts = JSON.parse(
+        localStorage.getItem("liked_posts") || "[]"
+      );
+
+      if (hasLiked) {
+        // 좋아요 취소: 배열에서 제거
+        const filtered = likedPosts.filter((id: string) => id !== post.id);
+        localStorage.setItem("liked_posts", JSON.stringify(filtered));
+      } else {
+        // 좋아요: 배열에 추가
+        likedPosts.push(post.id);
+        localStorage.setItem("liked_posts", JSON.stringify(likedPosts));
+      }
+    } catch (err) {
+      console.error("Failed to update like:", err);
+    } finally {
+      setIsLiking(false);
+    }
+  };
+
   // ✅ 1) 로딩 상태
   if (isLoading) {
     return (
@@ -173,17 +238,30 @@ export default function BlogPost({ post, isLoading, onBack }: Props) {
                   {...props}
                 />
               ),
-              code: ({ inline, ...props }: any) =>
+              code: ({
+                inline,
+                className,
+                children,
+                ...props
+              }: {
+                inline?: boolean;
+                className?: string;
+                children?: React.ReactNode;
+              }) =>
                 inline ? (
                   <code
                     className="bg-gray-100 px-2 py-1 rounded text-sm font-mono text-gray-800"
                     {...props}
-                  />
+                  >
+                    {children}
+                  </code>
                 ) : (
                   <code
                     className="block bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto font-mono text-sm"
                     {...props}
-                  />
+                  >
+                    {children}
+                  </code>
                 ),
               pre: ({ ...props }) => (
                 <pre
@@ -236,18 +314,36 @@ export default function BlogPost({ post, isLoading, onBack }: Props) {
             <p className="text-gray-600">이 글이 도움이 되셨나요?</p>
             <div className="flex gap-3">
               <motion.button
-                className="px-6 py-2 bg-orange-100 text-orange-600 rounded-full hover:bg-orange-200 transition-colors"
+                onClick={handleLike}
+                disabled={isLiking}
+                className={`px-6 py-2 rounded-full transition-colors ${
+                  hasLiked
+                    ? "bg-orange-200 text-orange-700 hover:bg-orange-300"
+                    : "bg-orange-100 text-orange-600 hover:bg-orange-200"
+                }`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                👍 좋아요
+                {isLiking
+                  ? "👍 처리중..."
+                  : hasLiked
+                  ? `❤️ 좋아요 ${likes}`
+                  : `👍 좋아요 ${likes}`}
               </motion.button>
               <motion.button
+                onClick={handleShare}
                 className="px-6 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                🔗 공유하기
+                {isCopied ? (
+                  <>
+                    <Check className="w-4 h-4 inline mr-1 text-green-600" />
+                    <span className="text-green-600">복사됨!</span>
+                  </>
+                ) : (
+                  "🔗 공유하기"
+                )}
               </motion.button>
             </div>
           </div>
