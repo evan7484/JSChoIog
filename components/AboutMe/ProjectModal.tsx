@@ -1,7 +1,7 @@
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import type { Project } from "@/lib/notion/types";
 
 interface ProjectModalProps {
@@ -21,6 +21,12 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
       document.body.style.overflow = "unset";
     };
   }, [project]);
+
+  // 마크다운 콘텐츠 메모이제이션
+  const memoizedContent = useMemo(
+    () => project?.content || "",
+    [project?.content]
+  );
 
   if (!project) return null;
 
@@ -134,7 +140,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               ),
             }}
           >
-            {project.content || ""}
+            {memoizedContent}
           </ReactMarkdown>
         </div>
       </div>
