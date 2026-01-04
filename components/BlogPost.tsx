@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "motion/react";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Share2, Check } from "lucide-react";
+import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
@@ -16,6 +17,19 @@ type Props = {
 };
 
 export default function BlogPost({ post, isLoading, onBack }: Props) {
+  const [isCopied, setIsCopied] = useState(false);
+
+  const handleShare = async () => {
+    const url = window.location.href;
+    try {
+      await navigator.clipboard.writeText(url);
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy:", err);
+    }
+  };
+
   // ✅ 1) 로딩 상태
   if (isLoading) {
     return (
@@ -243,11 +257,19 @@ export default function BlogPost({ post, isLoading, onBack }: Props) {
                 👍 좋아요
               </motion.button>
               <motion.button
+                onClick={handleShare}
                 className="px-6 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                🔗 공유하기
+                {isCopied ? (
+                  <>
+                    <Check className="w-4 h-4 inline mr-1 text-green-600" />
+                    <span className="text-green-600">복사됨!</span>
+                  </>
+                ) : (
+                  "🔗 공유하기"
+                )}
               </motion.button>
             </div>
           </div>
