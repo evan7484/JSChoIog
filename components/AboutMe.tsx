@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import HeroSection from "./AboutMe/HeroSection";
 import SkillsSection from "./AboutMe/SkillsSection";
 import ProjectsSection from "./AboutMe/ProjectsSection";
@@ -87,8 +87,21 @@ const skills: Skill[] = [
 ];
 
 export default function AboutMe() {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
+  // Load cached projects from localStorage on mount
+  const [projects, setProjects] = useState<Project[]>(() => {
+    if (typeof window !== 'undefined') {
+      const cached = localStorage.getItem('cachedProjects');
+      if (cached) {
+        try {
+          return JSON.parse(cached);
+        } catch {
+          return [];
+        }
+      }
+    }
+    return [];
+  });
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(
     null
@@ -102,6 +115,10 @@ export default function AboutMe() {
         if (!response.ok) throw new Error("Failed to fetch projects");
         const data = await response.json();
         setProjects(data);
+        // Cache projects in localStorage
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('cachedProjects', JSON.stringify(data));
+        }
         setError(null);
       } catch (err) {
         console.error("Failed to fetch projects:", err);
@@ -115,10 +132,14 @@ export default function AboutMe() {
     fetchProjects();
   }, []);
 
-  const selectedProject =
-    projects.find((p) => p.id === selectedProjectId) || null;
+  // Memoize projects to prevent unnecessary re-renders
+  const memoizedProjects = useMemo(() => projects, [projects]);
 
-  if (loading) {
+  const selectedProject =
+    memoizedProjects.find((p) => p.id === selectedProjectId) || null;
+
+  // Only show loading if we have no cached data
+  if (loading && memoizedProjects.length === 0) {
     return (
       <div className="max-w-7xl mx-auto px-6 py-12 text-center">
         <p className="text-gray-500">로딩 중...</p>
@@ -135,7 +156,7 @@ export default function AboutMe() {
       <HeroSection />
       <SkillsSection skills={skills} />
       <ProjectsSection
-        projects={projects.length > 0 ? projects : getDefaultProjects()}
+        projects={memoizedProjects.length > 0 ? memoizedProjects : getDefaultProjects()}
         onProjectSelect={setSelectedProjectId}
       />
       <ProjectModal
