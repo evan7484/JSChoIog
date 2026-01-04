@@ -132,6 +132,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               a: ({ node, ...props }) => (
                 <a
                   className="text-orange-500 hover:text-orange-600 underline break-words"
+                  target="_blank"
                   {...props}
                 />
               ),
