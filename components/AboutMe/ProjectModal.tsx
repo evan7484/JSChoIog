@@ -1,6 +1,7 @@
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
+import { useEffect, useMemo } from "react";
 import type { Project } from "@/lib/notion/types";
 
 interface ProjectModalProps {
@@ -9,6 +10,24 @@ interface ProjectModalProps {
 }
 
 export default function ProjectModal({ project, onClose }: ProjectModalProps) {
+  useEffect(() => {
+    if (!project) return;
+
+    // 모달이 열리면 body 스크롤 막기
+    document.body.style.overflow = "hidden";
+
+    // 모달이 닫히면 body 스크롤 복원
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [project]);
+
+  // 마크다운 콘텐츠 메모이제이션
+  const memoizedContent = useMemo(
+    () => project?.content || "",
+    [project?.content]
+  );
+
   if (!project) return null;
 
   return (
@@ -112,7 +131,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               ),
               a: ({ node, ...props }) => (
                 <a
-                  className="text-orange-500 hover:text-orange-600 underline"
+                  className="text-orange-500 hover:text-orange-600 underline break-words"
                   {...props}
                 />
               ),
@@ -121,7 +140,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               ),
             }}
           >
-            {project.content || ""}
+            {memoizedContent}
           </ReactMarkdown>
         </div>
       </div>
