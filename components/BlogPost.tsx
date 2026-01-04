@@ -25,7 +25,9 @@ export default function BlogPost({ post, isLoading, onBack }: Props) {
   // 컴포넌트 마운트 시 localStorage에서 좋아요 여부 확인
   useEffect(() => {
     if (post?.id) {
-      const likedPosts = JSON.parse(localStorage.getItem("liked_posts") || "[]");
+      const likedPosts = JSON.parse(
+        localStorage.getItem("liked_posts") || "[]"
+      );
       setHasLiked(likedPosts.includes(post.id));
       setLikes(post.likes || 0);
     }
@@ -43,26 +45,36 @@ export default function BlogPost({ post, isLoading, onBack }: Props) {
   };
 
   const handleLike = async () => {
-    if (!post || isLiking || hasLiked) return;
+    if (!post || isLiking) return;
 
     setIsLiking(true);
     try {
       const response = await fetch(`/api/posts/${post.id}/like`, {
-        method: "POST",
+        method: hasLiked ? "DELETE" : "POST",
       });
 
-      if (!response.ok) throw new Error("Failed to like post");
+      if (!response.ok) throw new Error("Failed to update like");
 
       const data = await response.json();
       setLikes(data.likes);
-      setHasLiked(true);
+      setHasLiked(!hasLiked);
 
-      // localStorage에 저장
-      const likedPosts = JSON.parse(localStorage.getItem("liked_posts") || "[]");
-      likedPosts.push(post.id);
-      localStorage.setItem("liked_posts", JSON.stringify(likedPosts));
+      // localStorage 업데이트
+      const likedPosts = JSON.parse(
+        localStorage.getItem("liked_posts") || "[]"
+      );
+      
+      if (hasLiked) {
+        // 좋아요 취소: 배열에서 제거
+        const filtered = likedPosts.filter((id: string) => id !== post.id);
+        localStorage.setItem("liked_posts", JSON.stringify(filtered));
+      } else {
+        // 좋아요: 배열에 추가
+        likedPosts.push(post.id);
+        localStorage.setItem("liked_posts", JSON.stringify(likedPosts));
+      }
     } catch (err) {
-      console.error("Failed to like:", err);
+      console.error("Failed to update like:", err);
     } finally {
       setIsLiking(false);
     }
@@ -289,22 +301,20 @@ export default function BlogPost({ post, isLoading, onBack }: Props) {
             <div className="flex gap-3">
               <motion.button
                 onClick={handleLike}
-                disabled={isLiking || hasLiked}
+                disabled={isLiking}
                 className={`px-6 py-2 rounded-full transition-colors ${
                   hasLiked
-                    ? "bg-orange-200 text-orange-700 cursor-not-allowed"
+                    ? "bg-orange-200 text-orange-700 hover:bg-orange-300"
                     : "bg-orange-100 text-orange-600 hover:bg-orange-200"
                 }`}
-                whileHover={hasLiked ? {} : { scale: 1.05 }}
-                whileTap={hasLiked ? {} : { scale: 0.95 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                {isLiking ? (
-                  "👍 처리중..."
-                ) : hasLiked ? (
-                  `❤️ 좋아요 ${likes}`
-                ) : (
-                  `👍 좋아요 ${likes}`
-                )}
+                {isLiking
+                  ? "👍 처리중..."
+                  : hasLiked
+                  ? `❤️ 좋아요 ${likes}`
+                  : `👍 좋아요 ${likes}`}
               </motion.button>
               <motion.button
                 onClick={handleShare}
