@@ -89,8 +89,8 @@ const skills: Skill[] = [
 export default function AboutMe() {
   // Load cached projects from localStorage on mount
   const [projects, setProjects] = useState<Project[]>(() => {
-    if (typeof window !== 'undefined') {
-      const cached = localStorage.getItem('cachedProjects');
+    if (typeof window !== "undefined") {
+      const cached = localStorage.getItem("cachedProjects");
       if (cached) {
         try {
           return JSON.parse(cached);
@@ -116,8 +116,8 @@ export default function AboutMe() {
         const data = await response.json();
         setProjects(data);
         // Cache projects in localStorage
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('cachedProjects', JSON.stringify(data));
+        if (typeof window !== "undefined") {
+          localStorage.setItem("cachedProjects", JSON.stringify(data));
         }
         setError(null);
       } catch (err) {
@@ -156,7 +156,9 @@ export default function AboutMe() {
       <HeroSection />
       <SkillsSection skills={skills} />
       <ProjectsSection
-        projects={memoizedProjects.length > 0 ? memoizedProjects : getDefaultProjects()}
+        projects={
+          memoizedProjects.length > 0 ? memoizedProjects : getDefaultProjects()
+        }
         onProjectSelect={setSelectedProjectId}
       />
       <ProjectModal
