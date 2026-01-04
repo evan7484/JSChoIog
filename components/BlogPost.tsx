@@ -238,7 +238,16 @@ export default function BlogPost({ post, isLoading, onBack }: Props) {
                   {...props}
                 />
               ),
-              code: ({ inline, className, children, ...props }) =>
+              code: ({
+                inline,
+                className,
+                children,
+                ...props
+              }: {
+                inline?: boolean;
+                className?: string;
+                children?: React.ReactNode;
+              }) =>
                 inline ? (
                   <code
                     className="bg-gray-100 px-2 py-1 rounded text-sm font-mono text-gray-800"
