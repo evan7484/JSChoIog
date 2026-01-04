@@ -16,11 +16,21 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
     // 모달이 열리면 body 스크롤 막기
     document.body.style.overflow = "hidden";
 
-    // 모달이 닫히면 body 스크롤 복원
+    // ESC 키로 모달 닫기
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+
+    window.addEventListener("keydown", handleEscape);
+
+    // 모달이 닫히면 body 스크롤 복원 및 이벤트 리스너 제거
     return () => {
       document.body.style.overflow = "unset";
+      window.removeEventListener("keydown", handleEscape);
     };
-  }, [project]);
+  }, [project, onClose]);
 
   // 마크다운 콘텐츠 메모이제이션
   const memoizedContent = useMemo(
