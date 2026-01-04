@@ -49,7 +49,7 @@ export async function getProjects(): Promise<Project[]> {
 
         return {
           id: page.id,
-          title: props["Dang-bun"]?.title?.[0]?.plain_text || "",
+          title: props.Title?.title?.[0]?.plain_text || "",
           period: props.Period?.rich_text?.[0]?.plain_text || "",
           description: props.Description?.rich_text?.[0]?.plain_text || "",
           tags:
