@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { ArrowLeft, Check } from "lucide-react";
 import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
+import type { Components } from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import type { BlogPost as BlogPostType } from "@/lib/notion/types";
@@ -63,7 +64,7 @@ export default function BlogPost({ post, isLoading, onBack }: Props) {
       const likedPosts = JSON.parse(
         localStorage.getItem("liked_posts") || "[]"
       );
-      
+
       if (hasLiked) {
         // 좋아요 취소: 배열에서 제거
         const filtered = likedPosts.filter((id: string) => id !== post.id);
@@ -237,17 +238,21 @@ export default function BlogPost({ post, isLoading, onBack }: Props) {
                   {...props}
                 />
               ),
-              code: ({ inline, ...props }: any) =>
+              code: ({ inline, className, children, ...props }) =>
                 inline ? (
                   <code
                     className="bg-gray-100 px-2 py-1 rounded text-sm font-mono text-gray-800"
                     {...props}
-                  />
+                  >
+                    {children}
+                  </code>
                 ) : (
                   <code
                     className="block bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto font-mono text-sm"
                     {...props}
-                  />
+                  >
+                    {children}
+                  </code>
                 ),
               pre: ({ ...props }) => (
                 <pre
