@@ -4,7 +4,6 @@ import { motion } from "motion/react";
 import { ArrowLeft, Check } from "lucide-react";
 import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
-import type { Components } from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import type { BlogPost as BlogPostType } from "@/lib/notion/types";

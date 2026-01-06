@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { BlogPost } from "@/lib/notion/types";
+import { Book } from "lucide-react";
 
 interface Category {
   name: string;
@@ -46,6 +47,7 @@ export default function Blog({ onPostClick, posts, isLoading }: BlogProps) {
       Algorithm: "🎲",
       Backend: "⚙️",
       DevOps: "🚀",
+      BookReview: "📖",
     };
     return iconMap[category] || "🎸";
   }
