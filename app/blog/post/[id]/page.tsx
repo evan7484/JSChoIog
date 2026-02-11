@@ -1,58 +1,56 @@
-"use client";
+import { Metadata } from "next";
+import BlogPostClient from "./BlogPostClient";
 
-import { useEffect, useMemo, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
-import BlogPost from "@/components/BlogPost";
-import type { BlogPost as BlogPostType } from "@/lib/notion/types";
-import { useBlogStore } from "@/stores/blogStore";
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
 
-export default function BlogPostPage() {
-  const router = useRouter();
-  const { id } = useParams<{ id: string }>();
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { id } = await params;
 
-  const { posts, getPostById, upsertPost } = useBlogStore();
-  const cached = useMemo(
-    () => (id ? getPostById(id) : undefined),
-    [id, getPostById]
-  );
+  try {
+    // Fetch post data for metadata
+    const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
+    const res = await fetch(`${baseUrl}/api/posts/${id}`, {
+      next: { revalidate: 3600 }, // Cache for 1 hour
+    });
 
-  const [post, setPost] = useState<BlogPostType | null>(cached ?? null);
-  const [isLoading, setIsLoading] = useState(!cached);
-
-  useEffect(() => {
-    if (!id) return;
-
-    // ✅ 1) 캐시에 있으면 즉시 사용 (추가 fetch 없음)
-    const fromCache = getPostById(id);
-    if (fromCache) {
-      setPost(fromCache);
-      setIsLoading(false);
-
-      // content가 필요하고 아직 없으면 단건만 보강 fetch (선택)
-      if (fromCache.content) return;
+    if (!res.ok) {
+      return {
+        title: "Post Not Found",
+      };
     }
 
-    // ✅ 2) 없거나(content 보강 필요)하면 단건 fetch
-    (async () => {
-      try {
-        const res = await fetch(`/api/posts/${id}`);
-        if (!res.ok) return;
-        const data: BlogPostType = await res.json();
-        upsertPost(data);
-        setPost(data);
-      } finally {
-        setIsLoading(false);
-      }
-    })();
-  }, [id, getPostById, upsertPost]);
+    const post = await res.json();
 
-  return (
-    <BlogPost
-      postId={id}
-      post={post} // ✅ 단건 전달
-      allPosts={posts} // ✅ (원하면) prev/next, 목록용으로 사용 가능 (추가 fetch 없음)
-      isLoading={isLoading}
-      onBack={() => router.push("/blog")}
-    />
-  );
+    return {
+      title: post.title,
+      description: post.description || post.title,
+      openGraph: {
+        title: post.title,
+        description: post.description || post.title,
+        type: "article",
+        publishedTime: post.date,
+        tags: post.tags,
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: post.title,
+        description: post.description || post.title,
+      },
+    };
+  } catch (error) {
+    console.error("Error generating metadata:", error);
+    return {
+      title: "Blog Post",
+    };
+  }
+}
+
+export default async function BlogPostPage({ params }: PageProps) {
+  const { id } = await params;
+
+  return <BlogPostClient id={id} />;
 }
