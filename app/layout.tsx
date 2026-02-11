@@ -16,6 +16,11 @@ export const metadata: Metadata = {
   title: "JSChoIog",
   description:
     "성실함과 열정을 바탕으로 성장하는 개발자 JSChoIog의 기술 블로그입니다.",
+  verification: {
+    other: {
+      "naver-site-verification": "f3181935906491b568c387c16d9d8d13a3021534",
+    },
+  },
 };
 
 export default function RootLayout({
