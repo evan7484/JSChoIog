@@ -6,12 +6,10 @@ export default function HeroSection() {
       <div>
         <div>
           <h2 className="mb-6">
-            <span className="block">성실함과 </span>
-            <span className="text-red-500">열정</span>
-            <span>을 바탕으로</span>
-            <span className="block">성장하는 </span>
-            <span className="text-yellow-500">긍정</span>
-            <span> 개발자</span>
+            <span className="block text-yellow-500">긍정적인</span>
+            <span>사고를 바탕으로</span>
+            <span className=" text-green-500">성장 </span>
+            <span>하는 개발자</span>
             <span className="block">최준서입니다! 👋</span>
           </h2>
         </div>
@@ -42,7 +40,7 @@ export default function HeroSection() {
       <div className="relative">
         <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl">
           <Image
-            src="/images/profile1.svg"
+            src="/images/profile3.webp"
             alt="Profile"
             width={400}
             height={400}
