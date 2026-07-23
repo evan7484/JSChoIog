@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
-import { getBlogPostMeta } from "@/lib/notion/blog";
+import { getBlogPostMeta, getBlogPostMetaBySlug } from "@/lib/notion/blog";
+import { UUID_RE } from "@/lib/site";
 
 export const revalidate = 1800;
 export const size = { width: 1200, height: 630 };
@@ -15,7 +16,9 @@ export default async function OpengraphImage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const post = await getBlogPostMeta(id);
+  const post = UUID_RE.test(id)
+    ? await getBlogPostMeta(id)
+    : await getBlogPostMetaBySlug(id);
   const title = post?.title || "JSChoIog";
   const category = post?.category || "";
 

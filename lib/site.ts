@@ -4,3 +4,12 @@
 export const SITE_URL = (
   process.env.NEXT_PUBLIC_URL || "http://localhost:3000"
 ).replace(/\/+$/, "");
+
+// 포스트 경로 단일 소스 — 슬러그가 있으면 슬러그, 없으면 UUID
+export function postPath(post: { id: string; slug?: string }): string {
+  return `/blog/post/${post.slug || post.id}`;
+}
+
+// Notion 페이지 ID 판별 (하이픈 유무 모두)
+export const UUID_RE =
+  /^[0-9a-f]{8}-?[0-9a-f]{4}-?[0-9a-f]{4}-?[0-9a-f]{4}-?[0-9a-f]{12}$/i;
