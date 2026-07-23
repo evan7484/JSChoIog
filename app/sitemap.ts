@@ -2,6 +2,10 @@ import { MetadataRoute } from "next";
 import { getBlogPosts } from "@/lib/notion/blog";
 import { SITE_URL, postPath } from "@/lib/site";
 
+// 빌드 시점 캐시로 고정되지 않도록 1시간마다 재생성
+// (슬러그 도입처럼 URL이 바뀌어도 재배포 없이 sitemap이 따라오게)
+export const revalidate = 3600;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = SITE_URL;
 
