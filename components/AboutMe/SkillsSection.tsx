@@ -1,15 +1,11 @@
 import Icon from "@/components/icons";
-
-interface Skill {
-  name: string;
-  level: number;
-  icon: React.ReactNode;
-}
+import type { Skill } from "@/lib/notion/types";
 
 interface SkillsSectionProps {
   skills: Skill[];
 }
 
+// 숙련도 수치(% 바) 없이 도구 목록만 — 근거 없는 숫자는 신뢰를 깎는다
 export default function SkillsSection({ skills }: SkillsSectionProps) {
   return (
     <div className="mb-24">
@@ -17,25 +13,14 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
         <Icon name="code" size={30} className="text-orange-500" />
         <span>Skills</span>
       </h3>
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="flex flex-wrap gap-3">
         {skills.map((skill) => (
           <div
             key={skill.name}
-            className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl hover:scale-105 transition-all"
+            className="flex items-center gap-2.5 bg-white rounded-xl px-4 py-2.5 shadow-md hover:shadow-lg transition-shadow"
           >
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">{skill.icon}</span>
-                <span className="font-medium text-gray-800">{skill.name}</span>
-              </div>
-              <span className="text-orange-600">{skill.level}%</span>
-            </div>
-            <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-linear-to-r from-orange-400 to-red-500 transition-all duration-1000"
-                style={{ width: `${skill.level}%` }}
-              />
-            </div>
+            {skill.icon}
+            <span className="font-medium text-gray-800">{skill.name}</span>
           </div>
         ))}
       </div>

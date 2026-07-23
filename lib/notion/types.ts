@@ -29,6 +29,5 @@ export interface Project {
 
 export interface Skill {
   name: string;
-  level: number;
   icon: ReactNode;
 }

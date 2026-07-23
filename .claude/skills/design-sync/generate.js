@@ -403,6 +403,46 @@ const out = (rel, html) => {
   );
 }
 
+/* ---------- patterns/about-journey ---------- */
+{
+  const body = `
+  <p class="sub">About Me 페이지 패턴 (시안 B 채택) — 컴팩트 히어로 + 여정 타임라인 + 도구 칩</p>
+  <div class="hero-row">
+    <div class="ava">JS</div>
+    <div>
+      <div class="name">최준서 <span class="gtext">— 긍정을 전파하는 개발자</span></div>
+      <div class="tag">다양한 분야의 팀원들과 함께 만드는 과정을 좋아합니다</div>
+    </div>
+  </div>
+  <div class="section">여정 타임라인</div>
+  <div class="tl">
+    <div class="tli"><b>2026</b><span>AI·SW마에스트로 17기 합격</span></div>
+    <div class="tli"><b>2025.06 – 08</b><span>WINEQUEEN 출시</span></div>
+    <div class="tli"><b>2025.06 ~</b><span>프로젝트 당번</span></div>
+    <div class="tli"><b>2025 ~</b><span>기술 블로그 · 알고리즘 연재</span></div>
+  </div>
+  <div class="section">도구 칩 (% 바 제거)</div>
+  <div class="chips"><span>React</span><span>TypeScript</span><span>Tailwind CSS</span><span>Next.js</span><span>HTML5</span></div>`;
+
+  out(
+    "patterns/about-journey.html",
+    page("Patterns", "About · Journey", body, `
+    .hero-row { display: flex; align-items: center; gap: 14px; margin-bottom: 6px; }
+    .ava { width: 56px; height: 56px; border-radius: 999px; background: linear-gradient(135deg, ${BRAND.orange300}, ${BRAND.red400}); display: grid; place-items: center; color: #fff; font-weight: 800; font-size: 18px; box-shadow: 0 0 0 2px ${BRAND.orange200}; }
+    .name { font-size: 17px; font-weight: 800; color: ${GRAY.g800}; }
+    .gtext { background: linear-gradient(90deg, ${BRAND.orange600}, ${BRAND.red600}); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .tag { font-size: 12px; color: ${GRAY.g500}; }
+    .tl { position: relative; padding-left: 22px; max-width: 420px; }
+    .tl::before { content: ""; position: absolute; left: 6px; top: 4px; bottom: 4px; width: 2px; border-radius: 2px; background: linear-gradient(${BRAND.orange400}, ${BRAND.red400}); }
+    .tli { position: relative; padding-bottom: 12px; }
+    .tli::before { content: ""; position: absolute; left: -21px; top: 4px; width: 9px; height: 9px; border-radius: 999px; background: ${BRAND.orange500}; box-shadow: 0 0 0 3px ${BRAND.orange100}; }
+    .tli b { display: block; font-size: 11px; color: ${BRAND.orange600}; }
+    .tli span { font-size: 13px; font-weight: 600; color: ${GRAY.g800}; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chips span { background: #fff; border-radius: 10px; padding: 8px 14px; font-size: 13px; font-weight: 500; color: ${GRAY.g700}; box-shadow: 0 2px 6px -2px rgb(0 0 0/.15); }`)
+  );
+}
+
 /* ---------- components/icons ---------- */
 {
   const SET = [
