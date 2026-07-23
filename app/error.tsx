@@ -17,8 +17,8 @@ export default function Error({
   return (
     <div className="max-w-2xl mx-auto px-6 py-24 text-center">
       <span className="text-6xl mb-4 block">🌩️</span>
-      <h1 className="mb-3 text-gray-900">문제가 발생했어요</h1>
-      <p className="text-gray-600 mb-8 break-keep">
+      <h1 className="mb-3 text-gray-900 dark:text-gray-50">문제가 발생했어요</h1>
+      <p className="text-gray-600 dark:text-gray-400 mb-8 break-keep">
         페이지를 불러오는 중 오류가 났습니다. 잠시 후 다시 시도해 주세요.
       </p>
       <button

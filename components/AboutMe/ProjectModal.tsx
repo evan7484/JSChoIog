@@ -3,6 +3,7 @@ import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import { useEffect, useMemo } from "react";
 import { X } from "lucide-react";
+import Image from "next/image";
 import type { Project } from "@/lib/notion/types";
 import Icon from "@/components/icons";
 
@@ -51,7 +52,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
         role="dialog"
         aria-modal="true"
         aria-label={`${project.title} 프로젝트`}
-        className="bg-white rounded-3xl max-w-3xl w-full shadow-2xl overflow-hidden my-auto"
+        className="bg-white dark:bg-gray-800 rounded-3xl max-w-3xl w-full shadow-2xl overflow-hidden my-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header with gradient */}
@@ -84,13 +85,13 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
         {/* Content */}
         <div className="p-6 sm:p-8 md:p-10">
           {/* Tags */}
-          <div className="flex flex-wrap gap-2 mb-8 pb-6 border-b border-gray-200">
+          <div className="flex flex-wrap gap-2 mb-8 pb-6 border-b border-gray-200 dark:border-gray-700">
             {project.tags
               .filter((tag) => tag && tag.trim())
               .map((tag, index) => (
                 <span
                   key={`${tag}-${index}`}
-                  className="px-4 py-2 bg-orange-50 text-orange-600 rounded-full text-sm"
+                  className="px-4 py-2 bg-orange-50 text-orange-600 dark:bg-orange-500/15 dark:text-orange-300 rounded-full text-sm"
                 >
                   {tag}
                 </span>
@@ -104,28 +105,31 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             components={{
               h2: ({ node, ...props }) => (
                 <h2
-                  className="text-2xl font-bold mt-6 mb-3 pb-2 border-b border-gray-200 text-gray-900"
+                  className="text-2xl font-bold mt-6 mb-3 pb-2 border-b border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-50"
                   {...props}
                 />
               ),
               h3: ({ node, ...props }) => (
                 <h3
-                  className="text-xl font-bold mt-6 mb-3 text-gray-800"
+                  className="text-xl font-bold mt-6 mb-3 text-gray-800 dark:text-gray-100"
                   {...props}
                 />
               ),
               p: ({ node, ...props }) => (
-                <p className="text-gray-700 leading-relaxed mb-4" {...props} />
+                <p
+                  className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4"
+                  {...props}
+                />
               ),
               ul: ({ node, ...props }) => (
                 <ul
-                  className="list-disc list-inside my-4 space-y-2 text-gray-700"
+                  className="list-disc list-inside my-4 space-y-2 text-gray-700 dark:text-gray-300"
                   {...props}
                 />
               ),
               ol: ({ node, ...props }) => (
                 <ol
-                  className="list-decimal list-inside my-4 space-y-2 text-gray-700"
+                  className="list-decimal list-inside my-4 space-y-2 text-gray-700 dark:text-gray-300"
                   {...props}
                 />
               ),
@@ -144,7 +148,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               }) =>
                 inline ? (
                   <code
-                    className="bg-gray-100 px-2 py-1 rounded text-sm font-mono text-gray-800"
+                    className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-sm font-mono text-gray-800 dark:text-gray-200"
                     {...props}
                   />
                 ) : (
@@ -160,7 +164,10 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                 />
               ),
               strong: ({ node, ...props }) => (
-                <strong className="font-semibold text-gray-900" {...props} />
+                <strong
+                  className="font-semibold text-gray-900 dark:text-gray-100"
+                  {...props}
+                />
               ),
               a: ({ node, ...props }) => (
                 <a
@@ -169,9 +176,18 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                   {...props}
                 />
               ),
-              img: ({ node, ...props }) => (
-                <img className="rounded-lg my-4 w-full" {...props} />
-              ),
+              img: ({ src, alt }) =>
+                typeof src === "string" ? (
+                  <Image
+                    src={src}
+                    alt={alt || ""}
+                    width={0}
+                    height={0}
+                    sizes="(max-width: 768px) 100vw, 700px"
+                    className="rounded-lg my-4"
+                    style={{ width: "100%", height: "auto" }}
+                  />
+                ) : null,
             }}
           >
             {memoizedContent}

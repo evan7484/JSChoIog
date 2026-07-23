@@ -64,9 +64,9 @@ export default function Blog({ posts }: BlogProps) {
   return (
     <div className="max-w-7xl mx-auto px-6 py-12">
       <div className="flex flex-col lg:flex-row gap-8">
-        {/* Sidebar */}
-        <aside className="lg:w-64 shrink-0">
-          <div className="bg-white rounded-2xl shadow-lg p-6 lg:sticky lg:top-28">
+        {/* Sidebar (데스크톱) */}
+        <aside className="hidden lg:block lg:w-64 shrink-0">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 lg:sticky lg:top-28">
             <h3 className="mb-6 flex items-center gap-2">
               <Icon name="book" size={22} className="text-orange-500" />
               <span>Categories</span>
@@ -79,7 +79,7 @@ export default function Blog({ posts }: BlogProps) {
                   className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 ${
                     selectedCategory === category.name
                       ? "bg-linear-to-r from-orange-400 to-red-400 text-white shadow-lg"
-                      : "bg-gray-50 text-gray-700 hover:bg-orange-50"
+                      : "bg-gray-50 text-gray-700 hover:bg-orange-50 dark:bg-gray-700/50 dark:text-gray-300 dark:hover:bg-gray-700"
                   }`}
                 >
                   <span className="flex items-center gap-2">
@@ -110,12 +110,48 @@ export default function Blog({ posts }: BlogProps) {
         </aside>
 
         {/* Main Content */}
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
+          {/* 카테고리 (모바일) — 가로 스크롤 칩. 세로 사이드바가 목록을
+              밀어내지 않도록 lg 미만에서만 노출 */}
+          <div className="lg:hidden -mx-6 px-6 mb-6 overflow-x-auto">
+            <div className="flex gap-2 w-max">
+              {allCategories.map((category) => (
+                <button
+                  key={category.name}
+                  onClick={() => setSelectedCategory(category.name)}
+                  className={`shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-all active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 ${
+                    selectedCategory === category.name
+                      ? "bg-linear-to-r from-orange-400 to-red-400 text-white shadow-md"
+                      : "bg-white text-gray-700 shadow-sm dark:bg-gray-800 dark:text-gray-300"
+                  }`}
+                >
+                  <Icon
+                    name={category.icon}
+                    size={16}
+                    className={
+                      selectedCategory === category.name ? "" : "text-orange-500"
+                    }
+                  />
+                  <span>{category.name}</span>
+                  <span
+                    className={`text-xs px-1.5 rounded-full ${
+                      selectedCategory === category.name
+                        ? "bg-white/20"
+                        : "bg-orange-100 text-orange-600"
+                    }`}
+                  >
+                    {category.count}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+
           <div className="mb-8">
             <h2 className="mb-2">
               {selectedCategory === "All" ? "모든 글" : selectedCategory}
             </h2>
-            <p className="text-gray-600">
+            <p className="text-gray-600 dark:text-gray-400">
               총 {filteredPosts.length}개의 포스트
             </p>
           </div>
@@ -133,7 +169,7 @@ export default function Blog({ posts }: BlogProps) {
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="제목, 태그, 내용으로 검색…"
               aria-label="블로그 글 검색"
-              className="w-full pl-11 pr-4 py-3 bg-white rounded-full shadow-md focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-orange-400 text-gray-800 placeholder-gray-400 transition-shadow"
+              className="w-full pl-11 pr-4 py-3 bg-white dark:bg-gray-800 rounded-full shadow-md focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-orange-400 text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 transition-shadow"
             />
           </div>
           <div className="grid md:grid-cols-2 gap-6">
@@ -141,7 +177,7 @@ export default function Blog({ posts }: BlogProps) {
               <Link
                 key={post.id}
                 href={postPath(post)}
-                className="group relative block bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2"
+                className="group relative block bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2"
               >
                 <article>
                   <div
@@ -173,7 +209,7 @@ export default function Blog({ posts }: BlogProps) {
                       <span className="px-3 py-1 bg-orange-100 text-orange-600 rounded-full text-sm">
                         {post.category}
                       </span>
-                      <span className="text-gray-500 text-sm">
+                      <span className="text-gray-500 dark:text-gray-400 text-sm">
                         읽는데 {post.readTime}분
                       </span>
                     </div>
@@ -182,12 +218,14 @@ export default function Blog({ posts }: BlogProps) {
                       {post.title}
                     </h4>
 
-                    <p className="text-gray-600 mb-4 line-clamp-2">
+                    <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
                       {post.excerpt}
                     </p>
 
                     <div className="flex items-center justify-between">
-                      <span className="text-gray-500 text-sm">{post.date}</span>
+                      <span className="text-gray-500 dark:text-gray-400 text-sm">
+                        {post.date}
+                      </span>
                       <span className="text-orange-600 group-hover:gap-2 flex items-center gap-1 transition-all">
                         <span>더 보기</span>
                         <span>→</span>
@@ -198,7 +236,7 @@ export default function Blog({ posts }: BlogProps) {
                       {post.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="px-2 py-1 bg-gray-100 text-gray-600 rounded-md text-sm"
+                          className="px-2 py-1 bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md text-sm"
                         >
                           #{tag}
                         </span>

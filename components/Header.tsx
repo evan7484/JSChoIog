@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Header() {
   const pathname = usePathname();
@@ -13,7 +14,7 @@ export default function Header() {
     // data-nosnippet: 검색엔진이 헤더 텍스트를 스니펫으로 쓰지 못하게
     <header
       data-nosnippet=""
-      className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-orange-100"
+      className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-orange-100 dark:border-gray-800"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-2">
         <Link
@@ -29,13 +30,14 @@ export default function Header() {
           </h1>
         </Link>
 
-        <nav className="flex gap-1 sm:gap-2 shrink-0">
+        <nav className="flex items-center gap-1 sm:gap-2 shrink-0">
           <NavLink active={isBlog} href="/blog">
             Blog
           </NavLink>
           <NavLink active={isAbout} href="/about">
             About Me
           </NavLink>
+          <ThemeToggle />
         </nav>
       </div>
     </header>
@@ -57,7 +59,7 @@ function NavLink({
       className={`px-4 sm:px-6 py-2 rounded-full transition-all hover:scale-105 active:scale-95 inline-flex items-center justify-center whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 ${
         active
           ? "bg-linear-to-r from-orange-500 to-red-500 text-white shadow-lg"
-          : "text-gray-700 hover:bg-orange-50"
+          : "text-gray-700 hover:bg-orange-50 dark:text-gray-300 dark:hover:bg-gray-800"
       }`}
       aria-current={active ? "page" : undefined}
     >

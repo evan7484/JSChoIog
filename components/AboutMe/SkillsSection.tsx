@@ -17,10 +17,12 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
         {skills.map((skill) => (
           <div
             key={skill.name}
-            className="flex items-center gap-2.5 bg-white rounded-xl px-4 py-2.5 shadow-md hover:shadow-lg transition-shadow"
+            className="flex items-center gap-2.5 bg-white dark:bg-gray-800 rounded-xl px-4 py-2.5 shadow-md hover:shadow-lg transition-shadow"
           >
             {skill.icon}
-            <span className="font-medium text-gray-800">{skill.name}</span>
+            <span className="font-medium text-gray-800 dark:text-gray-200">
+              {skill.name}
+            </span>
           </div>
         ))}
       </div>
