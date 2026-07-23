@@ -9,6 +9,7 @@ import {
   getBlogPosts,
 } from "@/lib/notion/blog";
 import { SITE_URL, UUID_RE, postPath } from "@/lib/site";
+import { postDescription } from "@/lib/text";
 
 // Notion 커버 이미지 URL 만료(약 1시간)보다 짧게
 export const revalidate = 1800;
@@ -33,7 +34,7 @@ export async function generateMetadata({
     return { title: "Post Not Found" };
   }
 
-  const description = post.excerpt || post.title;
+  const description = postDescription(post);
 
   return {
     title: post.title,
@@ -82,7 +83,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           "@context": "https://schema.org",
           "@type": "BlogPosting",
           headline: post.title,
-          description: post.excerpt || post.title,
+          description: postDescription(post),
           datePublished: post.date,
           author: {
             "@type": "Person",

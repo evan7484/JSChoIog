@@ -16,7 +16,11 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="mt-20 bg-linear-to-r from-orange-100 to-amber-100 py-12">
+    // data-nosnippet: 검색엔진이 푸터 텍스트를 스니펫으로 쓰지 못하게
+    <footer
+      data-nosnippet=""
+      className="mt-20 bg-linear-to-r from-orange-100 to-amber-100 py-12"
+    >
       <div className="max-w-7xl mx-auto px-6 text-center">
         <p className="text-gray-700">
           © {new Date().getFullYear()} JSChoIog. Built with passion and
