@@ -1,0 +1,92 @@
+<!-- @dsCard group="Proposals" -->
+<!doctype html>
+<meta charset="utf-8">
+<title>Proposal — 이모지 대체 아이콘 시스템 (Issue #5)</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif; background: linear-gradient(135deg, #fff7ed, #fffbeb, #fefce8); color: #1f2937; padding: 24px; }
+  h1 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+  .sub { font-size: 12px; color: #6b7280; margin-bottom: 20px; }
+  .section { font-size: 12px; font-weight: 600; color: #6b7280; margin: 18px 0 8px; text-transform: uppercase; letter-spacing: .04em; }
+  .section b { color: #ea580c; }
+  .row { display: flex; flex-wrap: wrap; gap: 10px; }
+  .cell { width: 64px; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+  .cell figcaption { font-size: 9.5px; color: #6b7280; text-align: center; }
+  .ic { width: 22px; height: 22px; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; display: block; }
+  .ic .dot { fill: currentColor; stroke: none; }
+  .chip-a { width: 42px; height: 42px; border-radius: 999px; display: grid; place-items: center; background: color-mix(in srgb, var(--c) 13%, #fff); }
+  .chip-a .ic { stroke: var(--c); color: var(--c); }
+  .chip-b { width: 42px; height: 42px; border-radius: 999px; display: grid; place-items: center; background: linear-gradient(135deg, var(--g1), var(--g2)); }
+  .chip-b .ic { stroke: #fff; color: #fff; }
+  .chip-c { width: 42px; height: 42px; border-radius: 13px; display: grid; place-items: center; background: #fff; border: 1px solid #eee2d4; box-shadow: 0 5px 12px -6px rgb(0 0 0/.25); }
+  .chip-c .ic { stroke: var(--gr); color: var(--g1); }
+  .note { margin-top: 18px; font-size: 11px; color: #6b7280; line-height: 1.6; }
+  .note b { color: #ea580c; }
+</style>
+<body>
+<h1>Proposal — 이모지 대체 아이콘 시스템</h1>
+<p class="sub">Issue #5 · 이모지 25곳 → 커스텀 SVG 19종 (24px · 1.8px 스트로크 · 라운드 캡) · 채택 시 components/icons.tsx로 구현</p>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="6.5" y="6.5" width="11" height="11" rx="2"/><rect x="10.2" y="10.2" width="3.6" height="3.6" rx="1"/><path d="M9 3v3.5M15 3v3.5M9 17.5V21M15 17.5V21M3 9h3.5M3 15h3.5M17.5 9H21M17.5 15H21"/></symbol>
+  <symbol id="i-browser" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><path d="M3 9.2h18"/><circle class="dot" cx="5.9" cy="6.9" r=".95"/><circle class="dot" cx="8.8" cy="6.9" r=".95"/></symbol>
+  <symbol id="i-flow" viewBox="0 0 24 24"><circle cx="6.5" cy="5.8" r="2.4"/><circle cx="17.5" cy="5.8" r="2.4"/><circle cx="12" cy="18" r="2.4"/><path d="M8.9 5.8h6.2M7.5 7.9l3.4 8M16.5 7.9l-3.4 8"/></symbol>
+  <symbol id="i-server" viewBox="0 0 24 24"><rect x="3.5" y="4" width="17" height="6.3" rx="1.8"/><rect x="3.5" y="13.7" width="17" height="6.3" rx="1.8"/><circle class="dot" cx="7" cy="7.1" r="1"/><circle class="dot" cx="7" cy="16.8" r="1"/><path d="M13.5 7.1h3.8M13.5 16.8h3.8"/></symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24"><path d="M12 2.8c3 1.9 4.4 5 4.4 8.3 0 1.5-.3 2.9-.85 4.2H8.45A10.8 10.8 0 0 1 7.6 11c0-3.2 1.4-6.4 4.4-8.2Z"/><circle cx="12" cy="9.3" r="1.7"/><path d="M8.6 14.6 6.2 18.6l3.1-.8M15.4 14.6l2.4 4-3.1-.8M12 18.2v2.8"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M18.8 21H7a2.6 2.6 0 0 1-2.6-2.6V5.4A2.4 2.4 0 0 1 6.8 3h12v14.6"/><path d="M4.4 18.4A2.6 2.6 0 0 1 7 15.8h11.8"/></symbol>
+  <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M11 4.6l1.8 4.5 4.5 1.8-4.5 1.8L11 17.2l-1.8-4.5-4.5-1.8 4.5-1.8Z"/><path d="M18.6 15.4v4M16.6 17.4h4"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3.6" y="3.6" width="7.2" height="7.2" rx="1.8"/><rect x="13.2" y="3.6" width="7.2" height="7.2" rx="1.8"/><rect x="3.6" y="13.2" width="7.2" height="7.2" rx="1.8"/><rect x="13.2" y="13.2" width="7.2" height="7.2" rx="1.8"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7.5-4.7-7.5-10a4.3 4.3 0 0 1 7.5-2.8A4.3 4.3 0 0 1 19.5 10c0 5.3-7.5 10-7.5 10Z"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M9.5 14.5l5-5"/><path d="M11.2 17l-2.1 2.1a3.6 3.6 0 0 1-5.1-5.1L6.1 11.9"/><path d="M12.8 7l2.1-2.1a3.6 3.6 0 0 1 5.1 5.1L17.9 12.1"/></symbol>
+  <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4.6"/><circle cx="12" cy="12" r="3.6"/><circle class="dot" cx="16.8" cy="7.2" r="1.05"/></symbol>
+  <symbol id="i-linkedin" viewBox="0 0 24 24"><rect x="3.6" y="3.6" width="16.8" height="16.8" rx="3.4"/><path d="M8 11v5.6"/><circle class="dot" cx="8" cy="7.9" r="1.05"/><path d="M11.7 16.6v-3.4a2.5 2.5 0 0 1 5 0v3.4"/></symbol>
+  <symbol id="i-github" viewBox="0 0 24 24"><path d="M9.4 20.6c-4.9-1.4-6.2-5.9-4.6-9.5-.8-2 .2-3.6.2-3.6s1.4-.3 3.4 1.2a10.4 10.4 0 0 1 7.2 0c2-1.5 3.4-1.2 3.4-1.2s1 1.6.2 3.6c1.6 3.6.3 8.1-4.6 9.5"/><path d="M9.4 20.6v-2.5c0-.9.3-1.5.8-1.9"/><path d="M14.6 20.6v-2.5c0-.9-.3-1.5-.8-1.9"/></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M4 13.2 6.7 6.3a2 2 0 0 1 1.9-1.3h6.8a2 2 0 0 1 1.9 1.3l2.7 6.9v4.3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M4 13.2h4.6l1 2h4.8l1-2H20"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3.6 6.6a2 2 0 0 1 2-2h3.9l2 2.5h6.9a2 2 0 0 1 2 2v8.3a2 2 0 0 1-2 2H5.6a2 2 0 0 1-2-2Z"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="M8.5 8 4.5 12l4 4M15.5 8l4 4-4 4"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.6"/><circle cx="12" cy="12" r="4"/><circle class="dot" cx="12" cy="12" r="1.1"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M12 3.4a5.6 5.6 0 0 1 3.1 10.3c-.6.4-1.1 1-1.1 1.8v.2h-4v-.2c0-.8-.5-1.4-1.1-1.8A5.6 5.6 0 0 1 12 3.4Z"/><path d="M9.6 18.6h4.8M10.6 21.2h2.8"/></symbol>
+</defs></svg>
+
+<div class="section">A · 라인 온 틴트 — 차분함, 목록 친화</div>
+<div class="row" data-style="a"></div>
+<div class="section">B · 화이트 온 그라디언트 — <b>추천</b> (현 카드 히어로 계승)</div>
+<div class="row" data-style="b"></div>
+<div class="section">C · 그라디언트 스티커 — 히어로 한 곳에만</div>
+<div class="row" data-style="c"></div>
+
+<p class="note">채택 시: <b>components/icons.tsx</b> 신설 → tokens.js의 CATEGORY_ICONS를 이모지에서 아이콘 키로 교체 → 이 카드를 Components 그룹으로 이동. 기각 시 카드 삭제. 상세 비교(인터랙티브 컨텍스트 미리보기)는 Artifact 시안 참고.</p>
+
+<script>
+  const CATS = [
+    ["Tech","i-cpu","#60a5fa","#22d3ee"],["Frontend","i-browser","#4ade80","#34d399"],
+    ["Algorithm","i-flow","#c084fc","#a78bfa"],["Backend","i-server","#f87171","#f472b6"],
+    ["DevOps","i-rocket","#facc15","#fb923c"],["BookReview","i-book","#fb923c","#fbbf24"],
+    ["기타","i-sparkle","#9ca3af","#94a3b8"],["All","i-grid","#f97316","#ef4444"],
+    ["좋아요","i-heart","#ef4444","#f472b6"],["공유","i-link","#f97316","#ef4444"],
+    ["Instagram","i-instagram","#f472b6","#fb7185"],["LinkedIn","i-linkedin","#60a5fa","#22d3ee"],
+    ["GitHub","i-github","#374151","#6b7280"],["빈 상태","i-inbox","#9ca3af","#94a3b8"],
+    ["Projects","i-folder","#fb923c","#fbbf24"],["Skills","i-code","#4ade80","#34d399"],
+    ["팀워크","i-target","#f97316","#ef4444"],["문제 해결","i-bulb","#facc15","#fb923c"],
+    ["빠른 학습","i-rocket","#f87171","#f472b6"],
+  ];
+  const defs = document.querySelector("svg defs");
+  CATS.forEach(([,,a,b], i) => {
+    const lg = document.createElementNS("http://www.w3.org/2000/svg", "linearGradient");
+    lg.id = "gc" + i;
+    lg.setAttribute("x1","0"); lg.setAttribute("y1","0"); lg.setAttribute("x2","1"); lg.setAttribute("y2","1");
+    lg.innerHTML = `<stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/>`;
+    defs.appendChild(lg);
+  });
+  document.querySelectorAll(".row[data-style]").forEach((row) => {
+    const s = row.dataset.style;
+    row.innerHTML = CATS.map(([key, icon, a, b], i) => `
+      <figure class="cell">
+        <span class="chip-${s}" style="--c:${a};--g1:${a};--g2:${b};--gr:url(#gc${i})">
+          <svg class="ic" aria-label="${key}"><use href="#${icon}"/></svg>
+        </span>
+        <figcaption>${key}</figcaption>
+      </figure>`).join("");
+  });
+</script>
+</body>
