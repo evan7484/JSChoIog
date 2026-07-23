@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { MotionConfig } from "motion/react";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 
 import Header from "@/components/Header";
@@ -58,6 +59,10 @@ export default function RootLayout({
           <main className="pt-24 overflow-x-clip">{children}</main>
           <Footer />
         </MotionConfig>
+        {/* GA4 — 측정 ID가 설정된 환경(프로덕션)에서만 로드 */}
+        {process.env.NEXT_PUBLIC_GA_ID && (
+          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+        )}
       </body>
     </html>
   );
