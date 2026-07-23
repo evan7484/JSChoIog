@@ -1,5 +1,5 @@
 import { getBlogPosts } from "@/lib/notion/blog";
-import { SITE_URL } from "@/lib/site";
+import { SITE_URL, postPath } from "@/lib/site";
 
 export const revalidate = 3600;
 
@@ -14,7 +14,7 @@ export async function GET() {
     .map(
       (post) => `    <item>
       <title><![CDATA[${escapeCdata(post.title)}]]></title>
-      <link>${SITE_URL}/blog/post/${post.id}</link>
+      <link>${SITE_URL}${postPath(post)}</link>
       <guid isPermaLink="false">${post.id}</guid>
       ${post.date ? `<pubDate>${new Date(post.date).toUTCString()}</pubDate>` : ""}
       <description><![CDATA[${escapeCdata(post.excerpt)}]]></description>

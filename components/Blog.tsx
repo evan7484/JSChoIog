@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { postPath } from "@/lib/site";
 import type { BlogPost } from "@/lib/notion/types";
 import { CATEGORY_ICONS, DEFAULT_CATEGORY_ICON } from "@/lib/design/tokens";
 import Icon from "@/components/icons";
@@ -138,7 +140,7 @@ export default function Blog({ posts }: BlogProps) {
             {filteredPosts.map((post) => (
               <Link
                 key={post.id}
-                href={`/blog/post/${post.id}`}
+                href={postPath(post)}
                 className="group relative block bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all"
               >
                 <article>
@@ -148,11 +150,12 @@ export default function Blog({ posts }: BlogProps) {
                     }`}
                   >
                     {post.cover && (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
+                      <Image
                         src={post.cover}
                         alt=""
-                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform"
+                        fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        className="object-cover group-hover:scale-105 transition-transform"
                       />
                     )}
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />

@@ -4,18 +4,22 @@ import { motion } from "motion/react";
 import { ArrowLeft, Check } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import Icon from "@/components/icons";
 import Comments from "@/components/Comments";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import type { BlogPost as BlogPostType } from "@/lib/notion/types";
+import { postPath } from "@/lib/site";
 
 type Props = {
   post: BlogPostType;
+  newerPost?: BlogPostType | null;
+  olderPost?: BlogPostType | null;
 };
 
-export default function BlogPost({ post }: Props) {
+export default function BlogPost({ post, newerPost, olderPost }: Props) {
   const [isCopied, setIsCopied] = useState(false);
   const [likes, setLikes] = useState(post.likes || 0);
   const [isLiking, setIsLiking] = useState(false);
@@ -98,11 +102,13 @@ export default function BlogPost({ post }: Props) {
         transition={{ duration: 0.6 }}
       >
         {post.cover && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <Image
             src={post.cover}
             alt=""
-            className="absolute inset-0 w-full h-full object-cover"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
           />
         )}
         <div className="absolute inset-0 bg-black/20" />
@@ -315,13 +321,43 @@ export default function BlogPost({ post }: Props) {
           </div>
         </div>
 
+        {/* 이전/다음 글 */}
+        {(newerPost || olderPost) && (
+          <nav className="mt-12 grid sm:grid-cols-2 gap-4">
+            {olderPost ? (
+              <Link
+                href={postPath(olderPost)}
+                className="group bg-white rounded-2xl p-5 shadow-md hover:shadow-lg transition-shadow"
+              >
+                <p className="text-sm text-gray-500 mb-1">← 이전 글</p>
+                <p className="text-gray-800 group-hover:text-orange-600 transition-colors line-clamp-1 break-keep">
+                  {olderPost.title}
+                </p>
+              </Link>
+            ) : (
+              <span />
+            )}
+            {newerPost && (
+              <Link
+                href={postPath(newerPost)}
+                className="group bg-white rounded-2xl p-5 shadow-md hover:shadow-lg transition-shadow text-right"
+              >
+                <p className="text-sm text-gray-500 mb-1">다음 글 →</p>
+                <p className="text-gray-800 group-hover:text-orange-600 transition-colors line-clamp-1 break-keep">
+                  {newerPost.title}
+                </p>
+              </Link>
+            )}
+          </nav>
+        )}
+
         {/* Comments */}
         <div className="mt-16 pt-8 border-t border-gray-200">
           <h3 className="mb-6 flex items-center gap-2 text-gray-800">
             <Icon name="chat" size={20} className="text-orange-500" />
             <span>댓글</span>
           </h3>
-          <Comments />
+          <Comments term={post.id} />
         </div>
 
         {/* Back to list */}

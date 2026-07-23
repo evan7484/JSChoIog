@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next";
 import { getBlogPosts } from "@/lib/notion/blog";
-import { SITE_URL } from "@/lib/site";
+import { SITE_URL, postPath } from "@/lib/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = SITE_URL;
@@ -30,7 +30,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const posts = await getBlogPosts();
 
     const postEntries: MetadataRoute.Sitemap = posts.map((post) => ({
-      url: `${baseUrl}/blog/post/${post.id}`,
+      url: `${baseUrl}${postPath(post)}`,
       lastModified: post.date ? new Date(post.date) : new Date(),
       changeFrequency: "weekly",
       priority: 0.8,

@@ -14,6 +14,8 @@ export interface BlogPost {
   likes: number;
   /** Notion 페이지 커버 이미지 URL (없으면 빈 문자열 → 그라디언트 폴백) */
   cover: string;
+  /** URL 슬러그 (Notion Slug 속성, 없으면 빈 문자열 → UUID URL 사용) */
+  slug: string;
 }
 
 export interface Project {
