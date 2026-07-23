@@ -32,7 +32,8 @@ export async function getProjects(): Promise<Project[]> {
           props.Tags?.multi_select?.map((tag: { name: string }) => tag.name) ||
           [],
         color: getColorGradient(props.Color?.select?.name || "Blue"),
-        icon: props.Icon?.rich_text?.[0]?.plain_text || "📋",
+        // 비어 있으면 컴포넌트가 folder 아이콘으로 폴백
+        icon: props.Icon?.rich_text?.[0]?.plain_text || "",
         content,
       };
     })

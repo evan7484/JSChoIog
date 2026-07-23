@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { ArrowLeft, Check } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Icon from "@/components/icons";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
@@ -269,11 +270,15 @@ export default function BlogPost({ post }: Props) {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                {isLiking
-                  ? "👍 처리중..."
-                  : hasLiked
-                  ? `❤️ 좋아요 ${likes}`
-                  : `👍 좋아요 ${likes}`}
+                <span className="inline-flex items-center gap-2">
+                  <Icon
+                    name="heart"
+                    size={16}
+                    filled={hasLiked}
+                    className={hasLiked ? "text-red-500" : ""}
+                  />
+                  {isLiking ? "처리중..." : `좋아요 ${likes}`}
+                </span>
               </motion.button>
               <motion.button
                 onClick={handleShare}
@@ -287,7 +292,10 @@ export default function BlogPost({ post }: Props) {
                     <span className="text-green-600">복사됨!</span>
                   </>
                 ) : (
-                  "🔗 공유하기"
+                  <span className="inline-flex items-center gap-2">
+                    <Icon name="link" size={16} />
+                    공유하기
+                  </span>
                 )}
               </motion.button>
             </div>
