@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import HeroSection from "./AboutMe/HeroSection";
+import JourneySection from "./AboutMe/JourneySection";
 import SkillsSection from "./AboutMe/SkillsSection";
 import ProjectsSection from "./AboutMe/ProjectsSection";
 import ProjectModal from "./AboutMe/ProjectModal";
@@ -11,7 +12,6 @@ import type { Project, Skill } from "@/lib/notion/types";
 const skills: Skill[] = [
   {
     name: "React",
-    level: 40,
     icon: (
       <svg
         role="img"
@@ -26,7 +26,6 @@ const skills: Skill[] = [
   },
   {
     name: "TypeScript",
-    level: 35,
     icon: (
       <svg
         role="img"
@@ -41,7 +40,6 @@ const skills: Skill[] = [
   },
   {
     name: "Tailwind CSS",
-    level: 55,
     icon: (
       <svg
         role="img"
@@ -56,7 +54,6 @@ const skills: Skill[] = [
   },
   {
     name: "NextJS",
-    level: 20,
     icon: (
       <svg
         role="img"
@@ -71,7 +68,6 @@ const skills: Skill[] = [
   },
   {
     name: "HTML5",
-    level: 60,
     icon: (
       <svg
         role="img"
@@ -104,6 +100,7 @@ export default function AboutMe({ projects }: AboutMeProps) {
   return (
     <div className="max-w-7xl mx-auto px-6 py-12">
       <HeroSection />
+      <JourneySection />
       <SkillsSection skills={skills} />
       <ProjectsSection
         projects={displayProjects}

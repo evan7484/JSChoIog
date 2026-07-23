@@ -1,55 +1,29 @@
 import Image from "next/image";
-import Icon from "@/components/icons";
 
 export default function HeroSection() {
   return (
-    <div className="grid md:grid-cols-2 gap-12 items-center mb-24">
-      <div>
-        <div>
-          <h2 className="mb-6 break-keep">
-            <span className="block text-yellow-500">긍정적인</span>
-            <span>사고를 바탕으로</span>
-            <span className=" text-green-500">성장 </span>
-            <span>하는 개발자</span>
-            <span className="block">최준서입니다! 👋</span>
-          </h2>
-        </div>
-
-        <p className="text-gray-700 leading-relaxed mb-8">
-          항상 프로젝트에서 다양한 분야의 팀원들과 협력하고 재밌게 함께 만들어
-          나가는 걸 기대하고 있습니다! 저는 긍정적인 사람으로 팀프로젝트에서도
-          제 긍정적인 분위기를 팀원들에게 전달하는 역할을 수행할 수 있을
-          것이라고 생각합니다!
-        </p>
-
-        <div className="flex flex-wrap gap-3">
-          <div className="flex items-center gap-2 px-4 py-2 bg-linear-to-r from-orange-100 to-red-100 rounded-full">
-            <Icon name="target" size={16} className="text-orange-600" />
-            <span className="text-gray-800">팀워크</span>
-          </div>
-          <div className="flex items-center gap-2 px-4 py-2 bg-linear-to-r from-yellow-100 to-orange-100 rounded-full">
-            <Icon name="bulb" size={16} className="text-amber-600" />
-            <span className="text-gray-800">문제 해결</span>
-          </div>
-          <div className="flex items-center gap-2 px-4 py-2 bg-linear-to-r from-green-100 to-emerald-100 rounded-full">
-            <Icon name="rocket" size={16} className="text-emerald-600" />
-            <span className="text-gray-800">빠른 학습</span>
-          </div>
-        </div>
+    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 mb-20">
+      <div className="relative w-24 h-24 shrink-0 rounded-full overflow-hidden shadow-lg ring-2 ring-orange-200">
+        <Image
+          src="/images/profile3.webp"
+          alt="최준서 프로필"
+          fill
+          sizes="96px"
+          className="object-cover"
+        />
       </div>
-
-      <div className="relative">
-        <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl">
-          <Image
-            src="/images/profile3.webp"
-            alt="Profile"
-            width={400}
-            height={400}
-            className="w-full h-auto"
-          />
-        </div>
-        <div className="absolute -top-4 -right-4 w-72 h-72 bg-linear-to-br from-orange-300 to-red-300 rounded-full blur-3xl opacity-30 -z-10" />
-        <div className="absolute -bottom-4 -left-4 w-72 h-72 bg-linear-to-br from-yellow-300 to-orange-300 rounded-full blur-3xl opacity-30 -z-10" />
+      <div>
+        <h2 className="mb-2 break-keep">
+          최준서{" "}
+          <span className="bg-linear-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
+            — 긍정을 전파하는 개발자
+          </span>
+        </h2>
+        <p className="text-gray-700 leading-relaxed break-keep max-w-2xl">
+          다양한 분야의 팀원들과 함께 만드는 과정을 좋아합니다. 프로젝트의
+          분위기를 끌어올리는 역할을 맡아 왔고, 지금은 SW마에스트로 17기에서
+          팀 프로젝트를 준비하고 있습니다.
+        </p>
       </div>
     </div>
   );
