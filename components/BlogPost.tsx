@@ -3,34 +3,27 @@
 import { motion } from "motion/react";
 import { ArrowLeft, Check } from "lucide-react";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import type { BlogPost as BlogPostType } from "@/lib/notion/types";
 
 type Props = {
-  postId: string;
-  post: BlogPostType | null;
-  allPosts?: BlogPostType[]; // (옵션) 추후 prev/next 등에 쓰면 됨
-  isLoading?: boolean;
-  onBack: () => void;
+  post: BlogPostType;
 };
 
-export default function BlogPost({ post, isLoading, onBack }: Props) {
+export default function BlogPost({ post }: Props) {
   const [isCopied, setIsCopied] = useState(false);
-  const [likes, setLikes] = useState(post?.likes || 0);
+  const [likes, setLikes] = useState(post.likes || 0);
   const [isLiking, setIsLiking] = useState(false);
   const [hasLiked, setHasLiked] = useState(false);
 
   // 컴포넌트 마운트 시 localStorage에서 좋아요 여부 확인
   useEffect(() => {
-    if (post?.id) {
-      const likedPosts = JSON.parse(
-        localStorage.getItem("liked_posts") || "[]"
-      );
-      setHasLiked(likedPosts.includes(post.id));
-      setLikes(post.likes || 0);
-    }
+    const likedPosts = JSON.parse(localStorage.getItem("liked_posts") || "[]");
+    setHasLiked(likedPosts.includes(post.id));
+    setLikes(post.likes || 0);
   }, [post]);
 
   const handleShare = async () => {
@@ -45,7 +38,7 @@ export default function BlogPost({ post, isLoading, onBack }: Props) {
   };
 
   const handleLike = async () => {
-    if (!post || isLiking) return;
+    if (isLiking) return;
 
     setIsLiking(true);
     try {
@@ -80,64 +73,17 @@ export default function BlogPost({ post, isLoading, onBack }: Props) {
     }
   };
 
-  // ✅ 1) 로딩 상태
-  if (isLoading) {
-    return (
-      <div className="max-w-4xl mx-auto px-6 py-12">
-        <div className="max-w-4xl mx-auto px-6 py-6">
-          <motion.button
-            onClick={onBack}
-            className="flex items-center gap-2 text-gray-700 hover:text-orange-600 transition-colors"
-            whileHover={{ x: -5 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <ArrowLeft className="w-5 h-5" />
-            <span>목록으로 돌아가기</span>
-          </motion.button>
-        </div>
-
-        <div className="flex flex-col items-center justify-center py-20">
-          <div className="h-10 w-10 rounded-full border-4 border-orange-200 border-t-orange-500 animate-spin" />
-          <p className="mt-4 text-gray-500">포스트를 불러오는 중…</p>
-        </div>
-      </div>
-    );
-  }
-
-  // ✅ 2) 없는 경우
-  if (!post) {
-    return (
-      <div className="max-w-4xl mx-auto px-6 py-12">
-        <div className="max-w-4xl mx-auto px-6 py-6">
-          <motion.button
-            onClick={onBack}
-            className="flex items-center gap-2 text-gray-700 hover:text-orange-600 transition-colors"
-            whileHover={{ x: -5 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <ArrowLeft className="w-5 h-5" />
-            <span>목록으로 돌아가기</span>
-          </motion.button>
-        </div>
-        <p className="text-gray-600">포스트를 찾을 수 없습니다.</p>
-      </div>
-    );
-  }
-
-  // ✅ 3) 정상 렌더
   return (
     <div className="min-h-screen">
       {/* Back button */}
       <div className="max-w-4xl mx-auto px-6 py-6">
-        <motion.button
-          onClick={onBack}
-          className="flex items-center gap-2 text-gray-700 hover:text-orange-600 transition-colors"
-          whileHover={{ x: -5 }}
-          whileTap={{ scale: 0.95 }}
+        <Link
+          href="/blog"
+          className="inline-flex items-center gap-2 text-gray-700 hover:text-orange-600 hover:-translate-x-1 transition-all"
         >
           <ArrowLeft className="w-5 h-5" />
           <span>목록으로 돌아가기</span>
-        </motion.button>
+        </Link>
       </div>
 
       {/* Hero */}
@@ -350,15 +296,13 @@ export default function BlogPost({ post, isLoading, onBack }: Props) {
 
         {/* Back to list */}
         <div className="mt-12 text-center">
-          <motion.button
-            onClick={onBack}
-            className="inline-flex items-center gap-2 px-8 py-3 bg-linear-to-r from-orange-500 to-red-500 text-white rounded-full hover:shadow-lg transition-shadow"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-2 px-8 py-3 bg-linear-to-r from-orange-500 to-red-500 text-white rounded-full hover:shadow-lg hover:scale-105 active:scale-95 transition-all"
           >
             <ArrowLeft className="w-5 h-5" />
             <span>다른 글 보러가기</span>
-          </motion.button>
+          </Link>
         </div>
       </motion.article>
     </div>

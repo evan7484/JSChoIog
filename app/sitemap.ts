@@ -1,73 +1,44 @@
 import { MetadataRoute } from "next";
+import { getBlogPosts } from "@/lib/notion/blog";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
 
+  const staticPages: MetadataRoute.Sitemap = [
+    {
+      url: baseUrl,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 1,
+    },
+    {
+      url: `${baseUrl}/about`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/blog`,
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+  ];
+
   try {
-    // Fetch all blog posts from API
-    const res = await fetch(`${baseUrl}/api/posts`, {
-      next: { revalidate: 3600 }, // Revalidate every hour
-    });
+    const posts = await getBlogPosts();
 
-    if (!res.ok) {
-      throw new Error("Failed to fetch posts");
-    }
-
-    const posts = await res.json();
-
-    // Generate sitemap entries for blog posts
-    const postEntries: MetadataRoute.Sitemap = posts.map((post: any) => ({
+    const postEntries: MetadataRoute.Sitemap = posts.map((post) => ({
       url: `${baseUrl}/blog/post/${post.id}`,
-      lastModified: new Date(post.date),
-      changeFrequency: "weekly" as const,
+      lastModified: post.date ? new Date(post.date) : new Date(),
+      changeFrequency: "weekly",
       priority: 0.8,
     }));
-
-    // Static pages
-    const staticPages: MetadataRoute.Sitemap = [
-      {
-        url: baseUrl,
-        lastModified: new Date(),
-        changeFrequency: "monthly" as const,
-        priority: 1,
-      },
-      {
-        url: `${baseUrl}/about`,
-        lastModified: new Date(),
-        changeFrequency: "monthly" as const,
-        priority: 0.9,
-      },
-      {
-        url: `${baseUrl}/blog`,
-        lastModified: new Date(),
-        changeFrequency: "daily" as const,
-        priority: 0.9,
-      },
-    ];
 
     return [...staticPages, ...postEntries];
   } catch (error) {
     console.error("Error generating sitemap:", error);
-    // Return only static pages if posts fetch fails
-    return [
-      {
-        url: baseUrl,
-        lastModified: new Date(),
-        changeFrequency: "monthly" as const,
-        priority: 1,
-      },
-      {
-        url: `${baseUrl}/about`,
-        lastModified: new Date(),
-        changeFrequency: "monthly" as const,
-        priority: 0.9,
-      },
-      {
-        url: `${baseUrl}/blog`,
-        lastModified: new Date(),
-        changeFrequency: "daily" as const,
-        priority: 0.9,
-      },
-    ];
+    // 포스트 조회에 실패하면 정적 페이지만 반환
+    return staticPages;
   }
 }

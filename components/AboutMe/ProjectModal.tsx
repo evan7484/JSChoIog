@@ -118,7 +118,16 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               li: ({ node, ...props }) => (
                 <li className="leading-relaxed" {...props} />
               ),
-              code: ({ node, inline, ...props }: any) =>
+              code: ({
+                node,
+                inline,
+                ...props
+              }: {
+                node?: unknown;
+                inline?: boolean;
+                className?: string;
+                children?: React.ReactNode;
+              }) =>
                 inline ? (
                   <code
                     className="bg-gray-100 px-2 py-1 rounded text-sm font-mono text-gray-800"

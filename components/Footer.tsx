@@ -1,8 +1,6 @@
-"use client";
-
 const socialLinks = [
   {
-    icon: "📧",
+    icon: "📸",
     href: "https://www.instagram.com/junseo_chl/",
     label: "Instagram",
   },
@@ -19,7 +17,8 @@ export default function Footer() {
     <footer className="mt-20 bg-linear-to-r from-orange-100 to-amber-100 py-12">
       <div className="max-w-7xl mx-auto px-6 text-center">
         <p className="text-gray-700">
-          © 2025 JSChoIog. Built with passion and dedication 🚀
+          © {new Date().getFullYear()} JSChoIog. Built with passion and
+          dedication 🚀
         </p>
         <div className="flex items-center justify-center gap-4 mt-4">
           {socialLinks.map((link) => (
@@ -27,6 +26,7 @@ export default function Footer() {
               key={link.label}
               href={link.href}
               target="_blank"
+              rel="noopener noreferrer"
               className="relative w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg hover:scale-110 transition-all group"
               title={link.label}
             >

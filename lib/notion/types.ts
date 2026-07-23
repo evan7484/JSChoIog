@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 export interface BlogPost {
   id: string;
   title: string;
@@ -26,5 +28,5 @@ export interface Project {
 export interface Skill {
   name: string;
   level: number;
-  icon: React.ReactNode;
+  icon: ReactNode;
 }
