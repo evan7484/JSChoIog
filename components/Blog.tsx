@@ -64,7 +64,7 @@ export default function Blog({ posts }: BlogProps) {
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Sidebar */}
         <aside className="lg:w-64 shrink-0">
-          <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-24">
+          <div className="bg-white rounded-2xl shadow-lg p-6 lg:sticky lg:top-28">
             <h3 className="mb-6 flex items-center gap-2">
               <Icon name="book" size={22} className="text-orange-500" />
               <span>Categories</span>
