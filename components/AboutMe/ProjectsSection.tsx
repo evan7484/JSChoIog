@@ -18,9 +18,11 @@ export default function ProjectsSection({
       </h3>
       <div className="grid md:grid-cols-3 gap-6">
         {projects.map((project) => (
-          <div
+          <button
             key={project.id}
-            className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all cursor-pointer"
+            type="button"
+            aria-label={`${project.title} 프로젝트 자세히 보기`}
+            className="group relative block w-full text-left bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2"
             onClick={() => onProjectSelect(String(project.id))}
           >
             <div
@@ -54,7 +56,7 @@ export default function ProjectsSection({
               </div>
             </div>
             <div className="absolute inset-0 border-2 border-orange-400 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-          </div>
+          </button>
         ))}
       </div>
     </div>

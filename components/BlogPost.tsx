@@ -87,7 +87,7 @@ export default function BlogPost({ post, newerPost, olderPost }: Props) {
       <div className="max-w-4xl mx-auto px-6 py-6">
         <Link
           href="/blog"
-          className="inline-flex items-center gap-2 text-gray-700 hover:text-orange-600 hover:-translate-x-1 transition-all"
+          className="inline-flex items-center gap-2 text-gray-700 hover:text-orange-600 hover:-translate-x-1 transition-all rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2"
         >
           <ArrowLeft className="w-5 h-5" />
           <span>목록으로 돌아가기</span>
@@ -276,7 +276,7 @@ export default function BlogPost({ post, newerPost, olderPost }: Props) {
               <motion.button
                 onClick={handleLike}
                 disabled={isLiking}
-                className={`px-6 py-2 rounded-full transition-colors ${
+                className={`px-6 py-2 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 ${
                   hasLiked
                     ? "bg-orange-200 text-orange-700 hover:bg-orange-300"
                     : "bg-orange-100 text-orange-600 hover:bg-orange-200"
@@ -296,7 +296,7 @@ export default function BlogPost({ post, newerPost, olderPost }: Props) {
               </motion.button>
               <motion.button
                 onClick={handleShare}
-                className="px-6 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors"
+                className="px-6 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -322,7 +322,7 @@ export default function BlogPost({ post, newerPost, olderPost }: Props) {
             {olderPost ? (
               <Link
                 href={postPath(olderPost)}
-                className="group bg-white rounded-2xl p-5 shadow-md hover:shadow-lg transition-shadow"
+                className="group bg-white rounded-2xl p-5 shadow-md hover:shadow-lg transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2"
               >
                 <p className="text-sm text-gray-500 mb-1">← 이전 글</p>
                 <p className="text-gray-800 group-hover:text-orange-600 transition-colors line-clamp-1 break-keep">
@@ -335,7 +335,7 @@ export default function BlogPost({ post, newerPost, olderPost }: Props) {
             {newerPost && (
               <Link
                 href={postPath(newerPost)}
-                className="group bg-white rounded-2xl p-5 shadow-md hover:shadow-lg transition-shadow text-right"
+                className="group bg-white rounded-2xl p-5 shadow-md hover:shadow-lg transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 text-right"
               >
                 <p className="text-sm text-gray-500 mb-1">다음 글 →</p>
                 <p className="text-gray-800 group-hover:text-orange-600 transition-colors line-clamp-1 break-keep">
@@ -359,7 +359,7 @@ export default function BlogPost({ post, newerPost, olderPost }: Props) {
         <div className="mt-12 text-center">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 px-8 py-3 bg-linear-to-r from-orange-500 to-red-500 text-white rounded-full hover:shadow-lg hover:scale-105 active:scale-95 transition-all"
+            className="inline-flex items-center gap-2 px-8 py-3 bg-linear-to-r from-orange-500 to-red-500 text-white rounded-full hover:shadow-lg hover:scale-105 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2"
           >
             <ArrowLeft className="w-5 h-5" />
             <span>다른 글 보러가기</span>

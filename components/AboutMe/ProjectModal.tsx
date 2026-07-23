@@ -48,6 +48,9 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
       onClick={onClose}
     >
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={`${project.title} 프로젝트`}
         className="bg-white rounded-3xl max-w-3xl w-full shadow-2xl overflow-hidden my-auto"
         onClick={(e) => e.stopPropagation()}
       >
@@ -58,7 +61,8 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
           <div className="absolute inset-0 bg-black/20" />
           <button
             onClick={onClose}
-            className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/90 hover:bg-white flex items-center justify-center transition-colors shadow-lg z-10"
+            aria-label="닫기"
+            className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/90 hover:bg-white flex items-center justify-center transition-colors shadow-lg z-10 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
           >
             <X className="w-5 h-5 text-gray-700" />
           </button>
