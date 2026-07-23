@@ -233,9 +233,20 @@ export default function BlogPost({ post, newerPost, olderPost }: Props) {
                   {...props}
                 />
               ),
-              img: ({ ...props }) => (
-                <img className="rounded-lg my-6 w-full" {...props} />
-              ),
+              // 본문 이미지: 치수를 모르므로 반응형 패턴(width/height 0 + sizes)으로
+              // next/image 최적화(WebP·지연 로딩) 적용
+              img: ({ src, alt }) =>
+                typeof src === "string" ? (
+                  <Image
+                    src={src}
+                    alt={alt || ""}
+                    width={0}
+                    height={0}
+                    sizes="(max-width: 768px) 100vw, 768px"
+                    className="rounded-lg my-6"
+                    style={{ width: "100%", height: "auto" }}
+                  />
+                ) : null,
               hr: ({ ...props }) => (
                 <hr className="my-8 border-gray-200" {...props} />
               ),
