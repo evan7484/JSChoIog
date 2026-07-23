@@ -18,6 +18,8 @@ function mapPageToBlogPost(page: any): BlogPost {
     color: getColorGradient(props.Color?.select?.name || "Blue"),
     releasable: props.Published?.checkbox || false,
     likes: props.Likes?.number || 0,
+    // Notion 업로드 파일 URL은 만료가 있으므로(약 1시간) ISR 주기를 그보다 짧게 유지할 것
+    cover: page.cover?.external?.url || page.cover?.file?.url || "",
   };
 }
 

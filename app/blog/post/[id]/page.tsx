@@ -4,7 +4,8 @@ import { notFound } from "next/navigation";
 import BlogPost from "@/components/BlogPost";
 import { getBlogPostById } from "@/lib/notion/blog";
 
-export const revalidate = 3600;
+// Notion 커버 이미지 URL 만료(약 1시간)보다 짧게
+export const revalidate = 1800;
 
 // generateMetadata와 페이지 렌더링이 같은 요청을 공유하도록 캐싱
 const getPost = cache(getBlogPostById);
@@ -34,11 +35,13 @@ export async function generateMetadata({
       type: "article",
       publishedTime: post.date,
       tags: post.tags,
+      ...(post.cover && { images: [{ url: post.cover }] }),
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description,
+      ...(post.cover && { images: [post.cover] }),
     },
   };
 }

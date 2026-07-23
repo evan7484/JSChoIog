@@ -114,14 +114,26 @@ export default function Blog({ posts }: BlogProps) {
               >
                 <article>
                   <div
-                    className={`h-48 bg-linear-to-br ${post.color} flex items-center justify-center relative overflow-hidden`}
+                    className={`h-48 flex items-center justify-center relative overflow-hidden ${
+                      post.cover ? "" : `bg-linear-to-br ${post.color}`
+                    }`}
                   >
+                    {post.cover && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={post.cover}
+                        alt=""
+                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform"
+                      />
+                    )}
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
-                    <Icon
-                      name={getCategoryIcon(post.category)}
-                      size={52}
-                      className="text-white drop-shadow-md group-hover:scale-110 transition-transform relative z-10"
-                    />
+                    {!post.cover && (
+                      <Icon
+                        name={getCategoryIcon(post.category)}
+                        size={52}
+                        className="text-white drop-shadow-md group-hover:scale-110 transition-transform relative z-10"
+                      />
+                    )}
                   </div>
 
                   <div className="p-6">
