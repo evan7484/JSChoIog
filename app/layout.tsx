@@ -5,6 +5,7 @@ import "./globals.css";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { SITE_URL } from "@/lib/site";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({
@@ -13,8 +14,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
-  title: "JSChoIog",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "JSChoIog",
+    template: "%s | JSChoIog",
+  },
   description:
     "성실함과 열정을 바탕으로 성장하는 개발자 JSChoIog의 기술 블로그입니다.",
   verification: {
