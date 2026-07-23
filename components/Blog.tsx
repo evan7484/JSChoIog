@@ -64,8 +64,8 @@ export default function Blog({ posts }: BlogProps) {
   return (
     <div className="max-w-7xl mx-auto px-6 py-12">
       <div className="flex flex-col lg:flex-row gap-8">
-        {/* Sidebar */}
-        <aside className="lg:w-64 shrink-0">
+        {/* Sidebar (데스크톱) */}
+        <aside className="hidden lg:block lg:w-64 shrink-0">
           <div className="bg-white rounded-2xl shadow-lg p-6 lg:sticky lg:top-28">
             <h3 className="mb-6 flex items-center gap-2">
               <Icon name="book" size={22} className="text-orange-500" />
@@ -110,7 +110,43 @@ export default function Blog({ posts }: BlogProps) {
         </aside>
 
         {/* Main Content */}
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
+          {/* 카테고리 (모바일) — 가로 스크롤 칩. 세로 사이드바가 목록을
+              밀어내지 않도록 lg 미만에서만 노출 */}
+          <div className="lg:hidden -mx-6 px-6 mb-6 overflow-x-auto">
+            <div className="flex gap-2 w-max">
+              {allCategories.map((category) => (
+                <button
+                  key={category.name}
+                  onClick={() => setSelectedCategory(category.name)}
+                  className={`shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-all active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 ${
+                    selectedCategory === category.name
+                      ? "bg-linear-to-r from-orange-400 to-red-400 text-white shadow-md"
+                      : "bg-white text-gray-700 shadow-sm"
+                  }`}
+                >
+                  <Icon
+                    name={category.icon}
+                    size={16}
+                    className={
+                      selectedCategory === category.name ? "" : "text-orange-500"
+                    }
+                  />
+                  <span>{category.name}</span>
+                  <span
+                    className={`text-xs px-1.5 rounded-full ${
+                      selectedCategory === category.name
+                        ? "bg-white/20"
+                        : "bg-orange-100 text-orange-600"
+                    }`}
+                  >
+                    {category.count}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+
           <div className="mb-8">
             <h2 className="mb-2">
               {selectedCategory === "All" ? "모든 글" : selectedCategory}
