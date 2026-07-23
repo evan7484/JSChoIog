@@ -76,7 +76,7 @@ export default function Blog({ posts }: BlogProps) {
                 <button
                   key={category.name}
                   onClick={() => setSelectedCategory(category.name)}
-                  className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all hover:scale-105 active:scale-95 ${
+                  className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 ${
                     selectedCategory === category.name
                       ? "bg-linear-to-r from-orange-400 to-red-400 text-white shadow-lg"
                       : "bg-gray-50 text-gray-700 hover:bg-orange-50"
@@ -141,7 +141,7 @@ export default function Blog({ posts }: BlogProps) {
               <Link
                 key={post.id}
                 href={postPath(post)}
-                className="group relative block bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all"
+                className="group relative block bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2"
               >
                 <article>
                   <div
