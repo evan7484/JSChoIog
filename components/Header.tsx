@@ -10,7 +10,11 @@ export default function Header() {
   const isAbout = pathname === "/about" || pathname.startsWith("/about/");
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-orange-100">
+    // data-nosnippet: 검색엔진이 헤더 텍스트를 스니펫으로 쓰지 못하게
+    <header
+      data-nosnippet=""
+      className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-orange-100"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-2">
         <Link
           href="/blog"
