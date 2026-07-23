@@ -90,11 +90,21 @@ export default function BlogPost({ post }: Props) {
 
       {/* Hero */}
       <motion.div
-        className={`relative h-80 bg-linear-to-br ${post.color} overflow-hidden mb-12`}
+        className={`relative h-80 overflow-hidden mb-12 ${
+          post.cover ? "" : `bg-linear-to-br ${post.color}`
+        }`}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
       >
+        {post.cover && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={post.cover}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        )}
         <div className="absolute inset-0 bg-black/20" />
         <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent" />
 
@@ -104,15 +114,15 @@ export default function BlogPost({ post }: Props) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-4">
               <span className="px-4 py-1.5 bg-white/90 backdrop-blur-sm text-gray-800 rounded-full">
                 {post.category}
               </span>
               <span className="text-white/90">읽는데 {post.readTime}분</span>
-              <span className="text-white/90">•</span>
+              <span className="text-white/90 hidden sm:inline">•</span>
               <span className="text-white/90">{post.date}</span>
             </div>
-            <h1 className="text-white mb-0 text-4xl md:text-5xl">
+            <h1 className="text-white mb-0 text-3xl sm:text-4xl md:text-5xl break-keep">
               {post.title}
             </h1>
           </motion.div>
@@ -229,7 +239,9 @@ export default function BlogPost({ post }: Props) {
                 <hr className="my-8 border-gray-200" {...props} />
               ),
               table: ({ ...props }) => (
-                <table className="w-full my-6 border-collapse" {...props} />
+                <div className="overflow-x-auto my-6">
+                  <table className="w-full border-collapse" {...props} />
+                </div>
               ),
               thead: ({ ...props }) => (
                 <thead className="bg-gray-50" {...props} />

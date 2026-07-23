@@ -11,21 +11,21 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-orange-100">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-2">
         <Link
-          href="/about"
-          className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
+          href="/blog"
+          className="flex items-center gap-2 sm:gap-3 cursor-pointer hover:opacity-80 transition-opacity min-w-0"
         >
-          <div className="w-14 h-14 bg-linear-to-br from-orange-400 to-red-100 rounded-full flex items-center justify-center shadow-lg">
+          <div className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 bg-linear-to-br from-orange-400 to-red-100 rounded-full flex items-center justify-center shadow-lg">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/images/logo.svg" alt="로고" />
           </div>
-          <h1 className="font-bold text-2xl bg-linear-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
+          <h1 className="font-bold text-xl sm:text-2xl bg-linear-to-r from-orange-600 to-red-600 bg-clip-text text-transparent truncate">
             JSChoIog!
           </h1>
         </Link>
 
-        <nav className="flex gap-2">
+        <nav className="flex gap-1 sm:gap-2 shrink-0">
           <NavLink active={isBlog} href="/blog">
             Blog
           </NavLink>
@@ -50,7 +50,7 @@ function NavLink({
   return (
     <Link
       href={href}
-      className={`px-6 py-2 rounded-full transition-all hover:scale-105 active:scale-95 inline-flex items-center justify-center ${
+      className={`px-4 sm:px-6 py-2 rounded-full transition-all hover:scale-105 active:scale-95 inline-flex items-center justify-center whitespace-nowrap ${
         active
           ? "bg-linear-to-r from-orange-500 to-red-500 text-white shadow-lg"
           : "text-gray-700 hover:bg-orange-50"
