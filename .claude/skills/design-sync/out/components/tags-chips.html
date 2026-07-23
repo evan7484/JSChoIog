@@ -1,0 +1,39 @@
+<!-- @dsCard group="Components" -->
+<!doctype html>
+<meta charset="utf-8">
+<title>Tags · Chips</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif; background: linear-gradient(135deg, #fff7ed, #fffbeb, #fefce8); color: #1f2937; padding: 24px; }
+  h1 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+  .sub { font-size: 12px; color: #6b7280; margin-bottom: 20px; }
+  .section { font-size: 12px; font-weight: 600; color: #6b7280; margin: 20px 0 8px; text-transform: uppercase; letter-spacing: .04em; }
+  
+    .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    .chip { font-size: 13px; }
+    .chip.cat { padding: 4px 12px; border-radius: 999px; background: #ffedd5; color: #ea580c; }
+    .chip.tag { padding: 6px 14px; border-radius: 999px; background: #fff7ed; color: #ea580c; }
+    .chip.small { padding: 3px 8px; border-radius: 6px; background: #f3f4f6; color: #4b5563; font-size: 12px; }
+    .chip.hero { padding: 5px 14px; border-radius: 999px; background: rgba(255,255,255,.9); color: #1f2937; box-shadow: 0 1px 3px rgb(0 0 0/.15); }
+    .legend { margin-top: 10px; font-size: 11px; color: #6b7280; }
+    .ico { width: 84px; text-align: center; background: #fff; border-radius: 12px; padding: 10px 4px; box-shadow: 0 1px 3px rgb(0 0 0/.08); }
+    .ico span { font-size: 26px; display: block; }
+    .ico b { font-size: 10px; color: #4b5563; font-weight: 500; }
+</style>
+<body>
+<h1>Tags · Chips</h1>
+
+  <p class="sub">칩·태그 변형과 카테고리 아이콘 (components/Blog.tsx)</p>
+  <div class="section">Chips</div>
+  <div class="row">
+    <span class="chip cat">Tech</span>
+    <span class="chip tag">#Next.js</span>
+    <span class="chip small">#tag</span>
+    <span class="chip hero">Frontend</span>
+  </div>
+  <div class="legend">
+    카테고리(orange-100/600) · 포스트 태그(orange-50/600 pill) · 소형 태그(gray-100/600 rounded-md) · 히어로 위 칩(white/90 blur)
+  </div>
+  <div class="section">Category icons</div>
+  <div class="row"><div class="ico"><span>💻</span><b>Tech</b></div><div class="ico"><span>🌐</span><b>Frontend</b></div><div class="ico"><span>🎲</span><b>Algorithm</b></div><div class="ico"><span>⚙️</span><b>Backend</b></div><div class="ico"><span>🚀</span><b>DevOps</b></div><div class="ico"><span>📖</span><b>BookReview</b></div><div class="ico"><span>🎸</span><b>(기타)</b></div></div>
+</body>
