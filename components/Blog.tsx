@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import type { BlogPost } from "@/lib/notion/types";
+import { CATEGORY_ICONS, DEFAULT_CATEGORY_ICON } from "@/lib/design/tokens";
 
 interface Category {
   name: string;
@@ -15,15 +16,10 @@ interface BlogProps {
 }
 
 function getCategoryIcon(category: string): string {
-  const iconMap: Record<string, string> = {
-    Tech: "💻",
-    Frontend: "🌐",
-    Algorithm: "🎲",
-    Backend: "⚙️",
-    DevOps: "🚀",
-    BookReview: "📖",
-  };
-  return iconMap[category] || "🎸";
+  return (
+    (CATEGORY_ICONS as Record<string, string>)[category] ||
+    DEFAULT_CATEGORY_ICON
+  );
 }
 
 export default function Blog({ posts }: BlogProps) {

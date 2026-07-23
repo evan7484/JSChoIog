@@ -1,0 +1,66 @@
+<!-- @dsCard group="Components" -->
+<!doctype html>
+<meta charset="utf-8">
+<title>Cards</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif; background: linear-gradient(135deg, #fff7ed, #fffbeb, #fefce8); color: #1f2937; padding: 24px; }
+  h1 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+  .sub { font-size: 12px; color: #6b7280; margin-bottom: 20px; }
+  .section { font-size: 12px; font-weight: 600; color: #6b7280; margin: 20px 0 8px; text-transform: uppercase; letter-spacing: .04em; }
+  
+    .grid { display: flex; flex-wrap: wrap; gap: 16px; }
+    .card { position: relative; width: 250px; background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px -1px rgb(0 0 0/.1); }
+    .card.hovered { box-shadow: 0 25px 50px -12px rgb(0 0 0/.25); transform: translateY(-8px); }
+    .card.hovered::after { content: ''; position: absolute; inset: 0; border: 2px solid #fb923c; border-radius: 16px; pointer-events: none; }
+    .hero { height: 110px; display: flex; align-items: center; justify-content: center; }
+    .hero.sm { height: 80px; }
+    .hero span { font-size: 44px; }
+    .pad { padding: 16px; }
+    .meta { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+    .chip { padding: 3px 10px; border-radius: 999px; font-size: 12px; background: #ffedd5; color: #ea580c; }
+    .dim { font-size: 12px; color: #6b7280; }
+    .title { font-size: 15px; font-weight: 600; color: #1f2937; margin-bottom: 6px; }
+    .ex { font-size: 12px; color: #4b5563; margin-bottom: 10px; line-height: 1.5; }
+    .foot { display: flex; justify-content: space-between; align-items: center; }
+    .more { font-size: 12px; color: #ea580c; }
+    .tags { display: flex; gap: 6px; margin-top: 10px; }
+    .tags span { padding: 2px 8px; border-radius: 6px; font-size: 11px; background: #f3f4f6; color: #4b5563; }
+    .tags.pill span { border-radius: 999px; background: #fff7ed; color: #ea580c; padding: 3px 10px; }
+</style>
+<body>
+<h1>Cards</h1>
+
+  <p class="sub">블로그 포스트 카드(components/Blog.tsx) · 프로젝트 카드(ProjectsSection)</p>
+  <div class="grid">
+    <div class="card">
+      <div class="hero" style="background:linear-gradient(135deg,#60a5fa,#22d3ee)"><span>💻</span></div>
+      <div class="pad">
+        <div class="meta"><span class="chip">Tech</span><span class="dim">읽는데 5분</span></div>
+        <div class="title">Next.js 블로그를 서버 컴포넌트로 전환하기</div>
+        <p class="ex">클라이언트 fetch 구조를 ISR로 바꾸면서 배운 것들을 정리했습니다.</p>
+        <div class="foot"><span class="dim">2026-07-23</span><span class="more">더 보기 →</span></div>
+        <div class="tags"><span>#Next.js</span><span>#ISR</span></div>
+      </div>
+    </div>
+    <div class="card hovered">
+      <div class="hero" style="background:linear-gradient(135deg,#fb923c,#fbbf24)"><span>🚀</span></div>
+      <div class="pad">
+        <div class="meta"><span class="chip">DevOps</span><span class="dim">읽는데 3분</span></div>
+        <div class="title" style="color:#ea580c">hover 상태 — 오렌지 보더 + 리프트</div>
+        <p class="ex">shadow-2xl, -translate-y-2, 제목 오렌지 전환, 보더 오버레이.</p>
+        <div class="foot"><span class="dim">2026-07-22</span><span class="more">더 보기 →</span></div>
+        <div class="tags"><span>#UI</span></div>
+      </div>
+    </div>
+    <div class="card proj">
+      <div class="hero sm" style="background:linear-gradient(135deg,#c084fc,#a78bfa)"><span>🍷</span></div>
+      <div class="pad">
+        <div class="title">WINEQUEEN</div>
+        <div class="dim" style="margin:2px 0 8px">2025.06 ~ 2025.08</div>
+        <p class="ex">와인 추천 및 매칭 서비스 플랫폼</p>
+        <div class="tags pill"><span>Next.js</span><span>Supabase</span></div>
+      </div>
+    </div>
+  </div>
+</body>

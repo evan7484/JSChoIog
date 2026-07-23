@@ -1,0 +1,182 @@
+<!-- @dsCard group="Foundations" -->
+<!doctype html>
+<meta charset="utf-8">
+<title>Colors</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif; background: linear-gradient(135deg, #fff7ed, #fffbeb, #fefce8); color: #1f2937; padding: 24px; }
+  h1 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+  .sub { font-size: 12px; color: #6b7280; margin-bottom: 20px; }
+  .section { font-size: 12px; font-weight: 600; color: #6b7280; margin: 20px 0 8px; text-transform: uppercase; letter-spacing: .04em; }
+  
+    .row { display: flex; flex-wrap: wrap; gap: 10px; }
+    .sw { width: 108px; }
+    .chip { height: 56px; border-radius: 10px; border: 1px solid rgba(0,0,0,.06); }
+    .meta { margin-top: 4px; font-size: 11px; display: flex; flex-direction: column; }
+    .meta b { color: #374151; font-weight: 600; }
+    .meta span { color: #6b7280; font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10px; }
+</style>
+<body>
+<h1>Colors</h1>
+
+  <p class="sub">Tailwind 유틸리티 팔레트 사본 — 원본은 components/**의 클래스와 lib/notion/colors.ts</p>
+  <div class="section">Brand ramp (orange)</div>
+  <div class="row">
+    <div class="sw">
+      <div class="chip" style="background:#fff7ed;color:#374151"></div>
+      <div class="meta"><b>orange50</b><span>#fff7ed</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:#ffedd5;color:#374151"></div>
+      <div class="meta"><b>orange100</b><span>#ffedd5</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:#fed7aa;color:#374151"></div>
+      <div class="meta"><b>orange200</b><span>#fed7aa</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:#fdba74;color:#fff"></div>
+      <div class="meta"><b>orange300</b><span>#fdba74</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:#fb923c;color:#fff"></div>
+      <div class="meta"><b>orange400</b><span>#fb923c</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:#f97316;color:#fff"></div>
+      <div class="meta"><b>orange500</b><span>#f97316</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:#ea580c;color:#fff"></div>
+      <div class="meta"><b>orange600</b><span>#ea580c</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:#c2410c;color:#fff"></div>
+      <div class="meta"><b>orange700</b><span>#c2410c</span></div>
+    </div></div>
+  <div class="section">Accent (red · amber · yellow)</div>
+  <div class="row">
+    <div class="sw">
+      <div class="chip" style="background:#f87171;color:#fff"></div>
+      <div class="meta"><b>red400</b><span>#f87171</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:#ef4444;color:#374151"></div>
+      <div class="meta"><b>red500</b><span>#ef4444</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:#dc2626;color:#fff"></div>
+      <div class="meta"><b>red600</b><span>#dc2626</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:#fffbeb;color:#374151"></div>
+      <div class="meta"><b>amber50</b><span>#fffbeb</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:#fef3c7;color:#374151"></div>
+      <div class="meta"><b>amber100</b><span>#fef3c7</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:#fbbf24;color:#fff"></div>
+      <div class="meta"><b>amber400</b><span>#fbbf24</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:#fefce8;color:#374151"></div>
+      <div class="meta"><b>yellow50</b><span>#fefce8</span></div>
+    </div></div>
+  <div class="section">Grays (텍스트·보더·서피스)</div>
+  <div class="row">
+    <div class="sw">
+      <div class="chip" style="background:#f9fafb;color:#fff"></div>
+      <div class="meta"><b>gray-50</b><span>#f9fafb</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:#f3f4f6;color:#fff"></div>
+      <div class="meta"><b>gray-100</b><span>#f3f4f6</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:#e5e7eb;color:#fff"></div>
+      <div class="meta"><b>gray-200</b><span>#e5e7eb</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:#9ca3af;color:#fff"></div>
+      <div class="meta"><b>gray-400</b><span>#9ca3af</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:#6b7280;color:#fff"></div>
+      <div class="meta"><b>gray-500</b><span>#6b7280</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:#4b5563;color:#fff"></div>
+      <div class="meta"><b>gray-600</b><span>#4b5563</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:#374151;color:#fff"></div>
+      <div class="meta"><b>gray-700</b><span>#374151</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:#1f2937;color:#fff"></div>
+      <div class="meta"><b>gray-800</b><span>#1f2937</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:#111827;color:#fff"></div>
+      <div class="meta"><b>gray-900</b><span>#111827</span></div>
+    </div></div>
+  <div class="section">Brand gradients</div>
+  <div class="row">
+    
+    <div class="sw">
+      <div class="chip" style="background:linear-gradient(135deg,#f97316,#ef4444)"></div>
+      <div class="meta"><b>CTA · active nav</b><span>#f97316 → #ef4444</span></div>
+    </div>
+    
+    <div class="sw">
+      <div class="chip" style="background:linear-gradient(135deg,#fb923c,#f87171)"></div>
+      <div class="meta"><b>category active</b><span>#fb923c → #f87171</span></div>
+    </div>
+    
+    <div class="sw">
+      <div class="chip" style="background:linear-gradient(135deg,#ffedd5,#fef3c7)"></div>
+      <div class="meta"><b>footer</b><span>#ffedd5 → #fef3c7</span></div>
+    </div>
+    
+    <div class="sw">
+      <div class="chip" style="background:linear-gradient(135deg,#fff7ed,#fefce8)"></div>
+      <div class="meta"><b>page bg</b><span>#fff7ed → #fefce8</span></div>
+    </div>
+  </div>
+  <div class="section">Category gradients (lib/notion/colors.ts)</div>
+  <div class="row">
+    <div class="sw">
+      <div class="chip" style="background:linear-gradient(135deg,#60a5fa,#22d3ee)"></div>
+      <div class="meta"><b>Blue</b><span>#60a5fa → #22d3ee</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:linear-gradient(135deg,#4ade80,#34d399)"></div>
+      <div class="meta"><b>Green</b><span>#4ade80 → #34d399</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:linear-gradient(135deg,#f87171,#f472b6)"></div>
+      <div class="meta"><b>Red</b><span>#f87171 → #f472b6</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:linear-gradient(135deg,#fb923c,#fbbf24)"></div>
+      <div class="meta"><b>Orange</b><span>#fb923c → #fbbf24</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:linear-gradient(135deg,#c084fc,#a78bfa)"></div>
+      <div class="meta"><b>Purple</b><span>#c084fc → #a78bfa</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:linear-gradient(135deg,#f472b6,#fb7185)"></div>
+      <div class="meta"><b>Pink</b><span>#f472b6 → #fb7185</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:linear-gradient(135deg,#facc15,#fb923c)"></div>
+      <div class="meta"><b>Yellow</b><span>#facc15 → #fb923c</span></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:linear-gradient(135deg,#9ca3af,#94a3b8)"></div>
+      <div class="meta"><b>Gray</b><span>#9ca3af → #94a3b8</span></div>
+    </div></div>
+</body>
