@@ -3,6 +3,7 @@ import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import { useEffect, useMemo } from "react";
 import { X } from "lucide-react";
+import Image from "next/image";
 import type { Project } from "@/lib/notion/types";
 import Icon from "@/components/icons";
 
@@ -169,9 +170,18 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                   {...props}
                 />
               ),
-              img: ({ node, ...props }) => (
-                <img className="rounded-lg my-4 w-full" {...props} />
-              ),
+              img: ({ src, alt }) =>
+                typeof src === "string" ? (
+                  <Image
+                    src={src}
+                    alt={alt || ""}
+                    width={0}
+                    height={0}
+                    sizes="(max-width: 768px) 100vw, 700px"
+                    className="rounded-lg my-4"
+                    style={{ width: "100%", height: "auto" }}
+                  />
+                ) : null,
             }}
           >
             {memoizedContent}
