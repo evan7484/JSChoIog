@@ -1,6 +1,15 @@
 @import "tailwindcss";
+/* 코드 블록 문법 하이라이팅 (rehype-highlight) */
+@import "highlight.js/styles/github-dark.css";
 
 @custom-variant dark (&:is(.dark *));
+
+/* 컨테이너(CodeBlock의 pre)가 배경·패딩을 담당하므로 hljs 자체 배경은 제거,
+   토큰 색상만 gray-900 위에 얹는다 */
+.hljs {
+  background: transparent;
+  padding: 0;
+}
 
 :root {
   --font-size: 16px;

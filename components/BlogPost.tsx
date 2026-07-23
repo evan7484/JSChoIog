@@ -7,8 +7,10 @@ import Link from "next/link";
 import Image from "next/image";
 import Icon from "@/components/icons";
 import Comments from "@/components/Comments";
+import CodeBlock from "@/components/CodeBlock";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
+import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 import type { BlogPost as BlogPostType } from "@/lib/notion/types";
 import { postPath } from "@/lib/site";
@@ -160,7 +162,7 @@ export default function BlogPost({ post, newerPost, olderPost }: Props) {
         <div className="max-w-none">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
-            rehypePlugins={[rehypeRaw]}
+            rehypePlugins={[rehypeRaw, rehypeHighlight]}
             components={{
               h1: ({ ...props }) => (
                 <h1
@@ -219,19 +221,12 @@ export default function BlogPost({ post, newerPost, olderPost }: Props) {
                     {children}
                   </code>
                 ) : (
-                  <code
-                    className="block bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto font-mono text-sm"
-                    {...props}
-                  >
+                  // 블록 코드는 className(hljs·language-*)을 보존해 하이라이팅 유지
+                  <code className={className} {...props}>
                     {children}
                   </code>
                 ),
-              pre: ({ ...props }) => (
-                <pre
-                  className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto my-6"
-                  {...props}
-                />
-              ),
+              pre: (props) => <CodeBlock {...props} />,
               a: ({ ...props }) => (
                 <a
                   className="text-orange-500 hover:text-orange-600 underline"
