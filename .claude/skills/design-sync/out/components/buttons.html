@@ -1,0 +1,57 @@
+<!-- @dsCard group="Components" -->
+<!doctype html>
+<meta charset="utf-8">
+<title>Buttons · Pills</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif; background: linear-gradient(135deg, #fff7ed, #fffbeb, #fefce8); color: #1f2937; padding: 24px; }
+  h1 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+  .sub { font-size: 12px; color: #6b7280; margin-bottom: 20px; }
+  .section { font-size: 12px; font-weight: 600; color: #6b7280; margin: 20px 0 8px; text-transform: uppercase; letter-spacing: .04em; }
+  
+    .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    .col { display: flex; flex-direction: column; gap: 8px; max-width: 240px; }
+    button { border: 0; cursor: pointer; font-family: inherit; font-size: 14px; font-weight: 500; }
+    .cta { padding: 10px 24px; border-radius: 999px; color: #fff; background: linear-gradient(90deg, #f97316, #ef4444); box-shadow: 0 10px 15px -3px rgb(0 0 0/.1); }
+    .nav { padding: 10px 24px; border-radius: 999px; background: transparent; color: #374151; }
+    .nav:hover { background: #fff7ed; }
+    .cat { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-radius: 12px; background: #f9fafb; color: #374151; }
+    .cat .lbl { display: inline-flex; align-items: center; gap: 7px; }
+    .like, .share { display: inline-flex; align-items: center; gap: 6px; }
+    .cat.active { background: linear-gradient(90deg, #fb923c, #f87171); color: #fff; box-shadow: 0 10px 15px -3px rgb(0 0 0/.1); }
+    .badge { padding: 2px 8px; border-radius: 999px; font-size: 12px; background: #ffedd5; color: #ea580c; }
+    .badge.on { background: rgba(255,255,255,.2); color: #fff; }
+    .like { padding: 8px 24px; border-radius: 999px; background: #ffedd5; color: #ea580c; }
+    .like.liked { background: #fed7aa; color: #c2410c; }
+    .like[disabled] { opacity: .7; cursor: default; }
+    .share { padding: 8px 24px; border-radius: 999px; background: #f3f4f6; color: #374151; }
+    .share.copied { color: #16a34a; }
+</style>
+<body>
+<h1>Buttons · Pills</h1>
+
+  <p class="sub">components/Header·Blog·BlogPost의 버튼·필 상태</p>
+  <div class="section">CTA (gradient pill)</div>
+  <div class="row">
+    <button class="cta">← 다른 글 보러가기</button>
+    <button class="cta">Blog</button>
+  </div>
+  <div class="section">Nav pill (Header)</div>
+  <div class="row">
+    <button class="cta">Blog</button>
+    <button class="nav">About Me</button>
+  </div>
+  <div class="section">Sidebar category (Blog)</div>
+  <div class="col">
+    <button class="cat active"><span class="lbl"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:#fff;flex-shrink:0"><rect x="3.6" y="3.6" width="7.2" height="7.2" rx="1.8"/><rect x="13.2" y="3.6" width="7.2" height="7.2" rx="1.8"/><rect x="3.6" y="13.2" width="7.2" height="7.2" rx="1.8"/><rect x="13.2" y="13.2" width="7.2" height="7.2" rx="1.8"/></svg> All</span><span class="badge on">12</span></button>
+    <button class="cat"><span class="lbl"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#f97316" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:#f97316;flex-shrink:0"><rect x="6.5" y="6.5" width="11" height="11" rx="2"/><rect x="10.2" y="10.2" width="3.6" height="3.6" rx="1"/><path d="M9 3v3.5M15 3v3.5M9 17.5V21M15 17.5V21M3 9h3.5M3 15h3.5M17.5 9H21M17.5 15H21"/></svg> Tech</span><span class="badge">5</span></button>
+  </div>
+  <div class="section">Like / Share (BlogPost)</div>
+  <div class="row">
+    <button class="like"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#ea580c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:#ea580c;flex-shrink:0"><path d="M12 20s-7.5-4.7-7.5-10a4.3 4.3 0 0 1 7.5-2.8A4.3 4.3 0 0 1 19.5 10c0 5.3-7.5 10-7.5 10Z"/></svg> 좋아요 12</button>
+    <button class="like liked"><svg viewBox="0 0 24 24" width="14" height="14" fill="#ef4444" stroke="#ef4444" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:#ef4444;flex-shrink:0"><path d="M12 20s-7.5-4.7-7.5-10a4.3 4.3 0 0 1 7.5-2.8A4.3 4.3 0 0 1 19.5 10c0 5.3-7.5 10-7.5 10Z"/></svg> 좋아요 13</button>
+    <button class="like" disabled><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#ea580c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:#ea580c;flex-shrink:0"><path d="M12 20s-7.5-4.7-7.5-10a4.3 4.3 0 0 1 7.5-2.8A4.3 4.3 0 0 1 19.5 10c0 5.3-7.5 10-7.5 10Z"/></svg> 처리중...</button>
+    <button class="share"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#374151" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:#374151;flex-shrink:0"><path d="M9.5 14.5l5-5"/><path d="M11.2 17l-2.1 2.1a3.6 3.6 0 0 1-5.1-5.1L6.1 11.9"/><path d="M12.8 7l2.1-2.1a3.6 3.6 0 0 1 5.1 5.1L17.9 12.1"/></svg> 공유하기</button>
+    <button class="share copied">✓ 복사됨!</button>
+  </div>
+</body>

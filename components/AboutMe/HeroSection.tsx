@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Icon from "@/components/icons";
 
 export default function HeroSection() {
   return (
@@ -22,16 +23,16 @@ export default function HeroSection() {
         </p>
 
         <div className="flex flex-wrap gap-3">
-          <div className="px-4 py-2 bg-linear-to-r from-orange-100 to-red-100 rounded-full">
-            <span className="mr-2">🎯</span>
+          <div className="flex items-center gap-2 px-4 py-2 bg-linear-to-r from-orange-100 to-red-100 rounded-full">
+            <Icon name="target" size={16} className="text-orange-600" />
             <span className="text-gray-800">팀워크</span>
           </div>
-          <div className="px-4 py-2 bg-linear-to-r from-yellow-100 to-orange-100 rounded-full">
-            <span className="mr-2">💡</span>
+          <div className="flex items-center gap-2 px-4 py-2 bg-linear-to-r from-yellow-100 to-orange-100 rounded-full">
+            <Icon name="bulb" size={16} className="text-amber-600" />
             <span className="text-gray-800">문제 해결</span>
           </div>
-          <div className="px-4 py-2 bg-linear-to-r from-green-100 to-emerald-100 rounded-full">
-            <span className="mr-2">🚀</span>
+          <div className="flex items-center gap-2 px-4 py-2 bg-linear-to-r from-green-100 to-emerald-100 rounded-full">
+            <Icon name="rocket" size={16} className="text-emerald-600" />
             <span className="text-gray-800">빠른 학습</span>
           </div>
         </div>

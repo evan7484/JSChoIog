@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // design-sync 카드 생성기 등 Node 스크립트 (앱 코드 아님)
+    ".claude/**",
   ]),
 ]);
 

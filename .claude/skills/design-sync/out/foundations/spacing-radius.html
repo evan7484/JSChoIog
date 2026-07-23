@@ -1,0 +1,58 @@
+<!-- @dsCard group="Foundations" -->
+<!doctype html>
+<meta charset="utf-8">
+<title>Spacing · Radius</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif; background: linear-gradient(135deg, #fff7ed, #fffbeb, #fefce8); color: #1f2937; padding: 24px; }
+  h1 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+  .sub { font-size: 12px; color: #6b7280; margin-bottom: 20px; }
+  .section { font-size: 12px; font-weight: 600; color: #6b7280; margin: 20px 0 8px; text-transform: uppercase; letter-spacing: .04em; }
+  
+    .rrow { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+    .rbox { width: 72px; height: 40px; background: #fff; border: 2px solid #fb923c; }
+    .meta b { font-size: 12px; color: #374151; display: block; }
+    .meta span { font-size: 11px; color: #6b7280; }
+    .shrow { display: flex; gap: 20px; }
+    .shbox { width: 140px; height: 72px; background: #fff; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; text-align: center; }
+    .shbox span { font-weight: 400; font-size: 10px; color: #6b7280; }
+    .meta2 { font-size: 12px; color: #4b5563; line-height: 1.7; }
+</style>
+<body>
+<h1>Spacing · Radius</h1>
+
+  <p class="sub">radius·그림자·페이지 리듬 — 컴포넌트 클래스 사본</p>
+  <div class="section">Radius</div>
+  
+    <div class="rrow">
+      <div class="rbox" style="border-radius:6px"></div>
+      <div class="meta"><b>rounded-md · 6px</b><span>작은 태그 (#tag)</span></div>
+    </div>
+  
+    <div class="rrow">
+      <div class="rbox" style="border-radius:12px"></div>
+      <div class="meta"><b>rounded-xl · 12px</b><span>사이드바 카테고리 버튼</span></div>
+    </div>
+  
+    <div class="rrow">
+      <div class="rbox" style="border-radius:16px"></div>
+      <div class="meta"><b>rounded-2xl · 16px</b><span>카드 (블로그·프로젝트·사이드바)</span></div>
+    </div>
+  
+    <div class="rrow">
+      <div class="rbox" style="border-radius:24px"></div>
+      <div class="meta"><b>rounded-3xl · 24px</b><span>모달, 프로필 이미지</span></div>
+    </div>
+  
+    <div class="rrow">
+      <div class="rbox" style="border-radius:999px"></div>
+      <div class="meta"><b>rounded-full · 999px</b><span>필 버튼·칩·소셜 아이콘</span></div>
+    </div>
+  <div class="section">Shadow</div>
+  <div class="shrow">
+    <div class="shbox" style="box-shadow:0 4px 6px -1px rgb(0 0 0/.1),0 2px 4px -2px rgb(0 0 0/.1)">shadow-lg<br><span>카드 기본</span></div>
+    <div class="shbox" style="box-shadow:0 25px 50px -12px rgb(0 0 0/.25)">shadow-2xl<br><span>카드 hover · 모달</span></div>
+  </div>
+  <div class="section">Page rhythm</div>
+  <div class="meta2">컨테이너 max-w-7xl(목록·헤더) / max-w-4xl(포스트 본문) · 좌우 px-6 · 상하 py-12 · 카드 그리드 gap-6 · hover 리프트 -translate-y-2 + 오렌지 보더 오버레이</div>
+</body>

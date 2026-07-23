@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import type { BlogPost } from "@/lib/notion/types";
+import { CATEGORY_ICONS, DEFAULT_CATEGORY_ICON } from "@/lib/design/tokens";
+import Icon from "@/components/icons";
 
 interface Category {
   name: string;
@@ -15,15 +17,10 @@ interface BlogProps {
 }
 
 function getCategoryIcon(category: string): string {
-  const iconMap: Record<string, string> = {
-    Tech: "💻",
-    Frontend: "🌐",
-    Algorithm: "🎲",
-    Backend: "⚙️",
-    DevOps: "🚀",
-    BookReview: "📖",
-  };
-  return iconMap[category] || "🎸";
+  return (
+    (CATEGORY_ICONS as Record<string, string>)[category] ||
+    DEFAULT_CATEGORY_ICON
+  );
 }
 
 export default function Blog({ posts }: BlogProps) {
@@ -32,12 +29,12 @@ export default function Blog({ posts }: BlogProps) {
   // 동적 카테고리 계산
   const uniqueCategories = Array.from(
     new Map(
-      posts.map((post) => [post.category, { name: post.category, icon: "📚" }])
+      posts.map((post) => [post.category, { name: post.category, icon: "" }])
     ).values()
   );
 
   const allCategories: Category[] = [
-    { name: "All", count: posts.length, icon: "📚" },
+    { name: "All", count: posts.length, icon: "grid" },
     ...uniqueCategories.map((cat) => ({
       ...cat,
       count: posts.filter((p) => p.category === cat.name).length,
@@ -57,7 +54,7 @@ export default function Blog({ posts }: BlogProps) {
         <aside className="lg:w-64 shrink-0">
           <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-24">
             <h3 className="mb-6 flex items-center gap-2">
-              <span className="text-2xl">📖</span>
+              <Icon name="book" size={22} className="text-orange-500" />
               <span>Categories</span>
             </h3>
             <div className="space-y-2">
@@ -72,7 +69,15 @@ export default function Blog({ posts }: BlogProps) {
                   }`}
                 >
                   <span className="flex items-center gap-2">
-                    <span>{category.icon}</span>
+                    <Icon
+                      name={category.icon}
+                      size={18}
+                      className={
+                        selectedCategory === category.name
+                          ? ""
+                          : "text-orange-500"
+                      }
+                    />
                     <span>{category.name}</span>
                   </span>
                   <span
@@ -112,9 +117,11 @@ export default function Blog({ posts }: BlogProps) {
                     className={`h-48 bg-linear-to-br ${post.color} flex items-center justify-center relative overflow-hidden`}
                   >
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
-                    <span className="text-6xl group-hover:scale-110 transition-transform relative z-10">
-                      {getCategoryIcon(post.category)}
-                    </span>
+                    <Icon
+                      name={getCategoryIcon(post.category)}
+                      size={52}
+                      className="text-white drop-shadow-md group-hover:scale-110 transition-transform relative z-10"
+                    />
                   </div>
 
                   <div className="p-6">
@@ -163,7 +170,11 @@ export default function Blog({ posts }: BlogProps) {
 
           {filteredPosts.length === 0 && (
             <div className="text-center py-20">
-              <span className="text-6xl mb-4 block">📭</span>
+              <Icon
+                name="inbox"
+                size={56}
+                className="text-gray-400 mx-auto mb-4"
+              />
               <p className="text-gray-500">
                 해당 카테고리에 포스트가 없습니다.
               </p>

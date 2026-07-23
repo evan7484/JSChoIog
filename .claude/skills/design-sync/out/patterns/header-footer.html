@@ -1,0 +1,47 @@
+<!-- @dsCard group="Patterns" -->
+<!doctype html>
+<meta charset="utf-8">
+<title>Header · Footer</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif; background: linear-gradient(135deg, #fff7ed, #fffbeb, #fefce8); color: #1f2937; padding: 24px; }
+  h1 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+  .sub { font-size: 12px; color: #6b7280; margin-bottom: 20px; }
+  .section { font-size: 12px; font-weight: 600; color: #6b7280; margin: 20px 0 8px; text-transform: uppercase; letter-spacing: .04em; }
+  
+    .shell { border-radius: 16px; overflow: hidden; border: 1px solid #e5e7eb; background: linear-gradient(135deg, #fff7ed, #fffbeb, #fefce8); }
+    .hd { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(255,255,255,.8); backdrop-filter: blur(8px); border-bottom: 1px solid #ffedd5; }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .logo { width: 40px; height: 40px; border-radius: 999px; background: linear-gradient(135deg, #fb923c, #fee2e2); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 6px -1px rgb(0 0 0/.1); }
+    .wordmark { font-size: 20px; font-weight: 700; background: linear-gradient(90deg, #ea580c, #dc2626); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .nav { display: flex; gap: 8px; }
+    .pill { padding: 8px 20px; border-radius: 999px; font-size: 13px; font-weight: 500; color: #374151; }
+    .pill.on { background: linear-gradient(90deg, #f97316, #ef4444); color: #fff; box-shadow: 0 10px 15px -3px rgb(0 0 0/.1); }
+    .body-hint { padding: 40px; text-align: center; font-size: 12px; color: #9ca3af; }
+    .ft { padding: 24px; text-align: center; background: linear-gradient(90deg, #ffedd5, #fef3c7); }
+    .ft p { font-size: 12px; color: #374151; margin-bottom: 12px; }
+    .socials { display: flex; gap: 12px; justify-content: center; }
+    .socials span { width: 36px; height: 36px; border-radius: 999px; background: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgb(0 0 0/.1); }
+</style>
+<body>
+<h1>Header · Footer</h1>
+
+  <p class="sub">고정 헤더(white/80 + blur)와 푸터(오렌지→앰버 그라디언트)</p>
+  <div class="shell">
+    <div class="hd">
+      <div class="brand">
+        <div class="logo">🙂</div>
+        <span class="wordmark">JSChoIog!</span>
+      </div>
+      <div class="nav">
+        <span class="pill on">Blog</span>
+        <span class="pill">About Me</span>
+      </div>
+    </div>
+    <div class="body-hint">…page content (pt-20 오프셋)…</div>
+    <div class="ft">
+      <p>© 2026 JSChoIog. Built with passion and dedication 🚀</p>
+      <div class="socials"><span><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#ea580c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:#ea580c;flex-shrink:0"><rect x="4" y="4" width="16" height="16" rx="4.6"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.8" cy="7.2" r="1.05" fill="currentColor" stroke="none"/></svg></span><span><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#ea580c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:#ea580c;flex-shrink:0"><rect x="3.6" y="3.6" width="16.8" height="16.8" rx="3.4"/><path d="M8 11v5.6"/><circle cx="8" cy="7.9" r="1.05" fill="currentColor" stroke="none"/><path d="M11.7 16.6v-3.4a2.5 2.5 0 0 1 5 0v3.4"/></svg></span><span><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#ea580c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:#ea580c;flex-shrink:0"><path d="M9.4 20.6c-4.9-1.4-6.2-5.9-4.6-9.5-.8-2 .2-3.6.2-3.6s1.4-.3 3.4 1.2a10.4 10.4 0 0 1 7.2 0c2-1.5 3.4-1.2 3.4-1.2s1 1.6.2 3.6c1.6 3.6.3 8.1-4.6 9.5"/><path d="M9.4 20.6v-2.5c0-.9.3-1.5.8-1.9"/><path d="M14.6 20.6v-2.5c0-.9-.3-1.5-.8-1.9"/></svg></span></div>
+    </div>
+  </div>
+</body>
