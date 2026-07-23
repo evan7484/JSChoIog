@@ -12,6 +12,8 @@ export interface BlogPost {
   releasable: boolean;
   content?: string;
   likes: number;
+  /** Notion 페이지 커버 이미지 URL (없으면 빈 문자열 → 그라디언트 폴백) */
+  cover: string;
 }
 
 export interface Project {

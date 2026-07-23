@@ -90,11 +90,21 @@ export default function BlogPost({ post }: Props) {
 
       {/* Hero */}
       <motion.div
-        className={`relative h-80 bg-linear-to-br ${post.color} overflow-hidden mb-12`}
+        className={`relative h-80 overflow-hidden mb-12 ${
+          post.cover ? "" : `bg-linear-to-br ${post.color}`
+        }`}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
       >
+        {post.cover && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={post.cover}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        )}
         <div className="absolute inset-0 bg-black/20" />
         <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent" />
 
