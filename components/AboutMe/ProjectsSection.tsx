@@ -1,4 +1,5 @@
 import type { Project } from "@/lib/notion/types";
+import Icon from "@/components/icons";
 
 interface ProjectsSectionProps {
   projects: Project[];
@@ -12,7 +13,7 @@ export default function ProjectsSection({
   return (
     <div>
       <h3 className="mb-8 flex items-center gap-3">
-        <span className="text-4xl">📝</span>
+        <Icon name="folder" size={30} className="text-orange-500" />
         <span>Projects</span>
       </h3>
       <div className="grid md:grid-cols-3 gap-6">
@@ -25,9 +26,17 @@ export default function ProjectsSection({
             <div
               className={`h-32 bg-linear-to-br ${project.color} flex items-center justify-center`}
             >
-              <span className="text-6xl group-hover:scale-110 transition-transform">
-                {project.icon}
-              </span>
+              {project.icon ? (
+                <span className="text-6xl group-hover:scale-110 transition-transform">
+                  {project.icon}
+                </span>
+              ) : (
+                <Icon
+                  name="folder"
+                  size={48}
+                  className="text-white drop-shadow-md group-hover:scale-110 transition-transform"
+                />
+              )}
             </div>
             <div className="p-6">
               <h4 className="mb-2">{project.title}</h4>

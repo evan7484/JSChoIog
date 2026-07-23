@@ -13,6 +13,7 @@ const {
   CATEGORY_ICONS: TOKEN_ICONS,
   DEFAULT_CATEGORY_ICON,
 } = require("../../../lib/design/tokens.js");
+const { ICONS } = require("../../../lib/design/icons.js");
 
 const OUT = path.join(__dirname, "out");
 
@@ -21,6 +22,10 @@ const CATEGORY_GRADIENTS = Object.fromEntries(
   Object.entries(CATEGORY_COLORS).map(([name, { hex }]) => [name, hex])
 );
 const CATEGORY_ICONS = { ...TOKEN_ICONS, "(기타)": DEFAULT_CATEGORY_ICON };
+
+// 커스텀 아이콘 인라인 렌더 (시안 B — 지오메트리는 lib/design/icons.js)
+const icon = (name, size = 20, color = "#fff", filled = false) =>
+  `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="${filled ? color : "none"}" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:${color};flex-shrink:0">${ICONS[name] || ""}</svg>`;
 
 // 앱 전역 배경: bg-linear-to-br from-orange-50 via-amber-50 to-yellow-50 (app/layout.tsx)
 const PAGE_BG = `linear-gradient(135deg, ${BRAND.orange50}, ${BRAND.amber50}, ${BRAND.yellow50})`;
@@ -186,15 +191,15 @@ const out = (rel, html) => {
   </div>
   <div class="section">Sidebar category (Blog)</div>
   <div class="col">
-    <button class="cat active"><span>📚 All</span><span class="badge on">12</span></button>
-    <button class="cat"><span>💻 Tech</span><span class="badge">5</span></button>
+    <button class="cat active"><span class="lbl">${icon("grid", 16)} All</span><span class="badge on">12</span></button>
+    <button class="cat"><span class="lbl">${icon("cpu", 16, BRAND.orange500)} Tech</span><span class="badge">5</span></button>
   </div>
   <div class="section">Like / Share (BlogPost)</div>
   <div class="row">
-    <button class="like">👍 좋아요 12</button>
-    <button class="like liked">❤️ 좋아요 13</button>
-    <button class="like" disabled>👍 처리중...</button>
-    <button class="share">🔗 공유하기</button>
+    <button class="like">${icon("heart", 14, BRAND.orange600)} 좋아요 12</button>
+    <button class="like liked">${icon("heart", 14, BRAND.red500, true)} 좋아요 13</button>
+    <button class="like" disabled>${icon("heart", 14, BRAND.orange600)} 처리중...</button>
+    <button class="share">${icon("link", 14, GRAY.g700)} 공유하기</button>
     <button class="share copied">✓ 복사됨!</button>
   </div>`;
 
@@ -208,6 +213,8 @@ const out = (rel, html) => {
     .nav { padding: 10px 24px; border-radius: 999px; background: transparent; color: ${GRAY.g700}; }
     .nav:hover { background: ${BRAND.orange50}; }
     .cat { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-radius: 12px; background: ${GRAY.g50}; color: ${GRAY.g700}; }
+    .cat .lbl { display: inline-flex; align-items: center; gap: 7px; }
+    .like, .share { display: inline-flex; align-items: center; gap: 6px; }
     .cat.active { background: linear-gradient(90deg, ${BRAND.orange400}, ${BRAND.red400}); color: #fff; box-shadow: 0 10px 15px -3px rgb(0 0 0/.1); }
     .badge { padding: 2px 8px; border-radius: 999px; font-size: 12px; background: ${BRAND.orange100}; color: ${BRAND.orange600}; }
     .badge.on { background: rgba(255,255,255,.2); color: #fff; }
@@ -227,7 +234,7 @@ const out = (rel, html) => {
   <p class="sub">블로그 포스트 카드(components/Blog.tsx) · 프로젝트 카드(ProjectsSection)</p>
   <div class="grid">
     <div class="card">
-      <div class="hero" style="background:linear-gradient(135deg,${ba},${bb})"><span>💻</span></div>
+      <div class="hero" style="background:linear-gradient(135deg,${ba},${bb})">${icon("cpu", 44)}</div>
       <div class="pad">
         <div class="meta"><span class="chip">Tech</span><span class="dim">읽는데 5분</span></div>
         <div class="title">Next.js 블로그를 서버 컴포넌트로 전환하기</div>
@@ -237,7 +244,7 @@ const out = (rel, html) => {
       </div>
     </div>
     <div class="card hovered">
-      <div class="hero" style="background:linear-gradient(135deg,${oa},${ob})"><span>🚀</span></div>
+      <div class="hero" style="background:linear-gradient(135deg,${oa},${ob})">${icon("rocket", 44)}</div>
       <div class="pad">
         <div class="meta"><span class="chip">DevOps</span><span class="dim">읽는데 3분</span></div>
         <div class="title" style="color:${BRAND.orange600}">hover 상태 — 오렌지 보더 + 리프트</div>
@@ -295,9 +302,12 @@ const out = (rel, html) => {
   <div class="legend">
     카테고리(orange-100/600) · 포스트 태그(orange-50/600 pill) · 소형 태그(gray-100/600 rounded-md) · 히어로 위 칩(white/90 blur)
   </div>
-  <div class="section">Category icons</div>
+  <div class="section">Category icons (커스텀 SVG · lib/design/icons.js)</div>
   <div class="row">${Object.entries(CATEGORY_ICONS)
-    .map(([k, v]) => `<div class="ico"><span>${v}</span><b>${k}</b></div>`)
+    .map(
+      ([k, v]) =>
+        `<div class="ico"><span class="ichip">${icon(v, 20)}</span><b>${k}</b></div>`
+    )
     .join("")}</div>`;
 
   out(
@@ -310,9 +320,9 @@ const out = (rel, html) => {
     .chip.small { padding: 3px 8px; border-radius: 6px; background: ${GRAY.g100}; color: ${GRAY.g600}; font-size: 12px; }
     .chip.hero { padding: 5px 14px; border-radius: 999px; background: rgba(255,255,255,.9); color: ${GRAY.g800}; box-shadow: 0 1px 3px rgb(0 0 0/.15); }
     .legend { margin-top: 10px; font-size: 11px; color: ${GRAY.g500}; }
-    .ico { width: 84px; text-align: center; background: #fff; border-radius: 12px; padding: 10px 4px; box-shadow: 0 1px 3px rgb(0 0 0/.08); }
-    .ico span { font-size: 26px; display: block; }
-    .ico b { font-size: 10px; color: ${GRAY.g600}; font-weight: 500; }`)
+    .ico { width: 84px; text-align: center; background: #fff; border-radius: 12px; padding: 10px 4px 8px; box-shadow: 0 1px 3px rgb(0 0 0/.08); }
+    .ico .ichip { width: 38px; height: 38px; margin: 0 auto 5px; border-radius: 999px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, ${BRAND.orange500}, ${BRAND.red500}); }
+    .ico b { font-size: 10px; color: ${GRAY.g600}; font-weight: 500; display: block; }`)
   );
 }
 
@@ -334,7 +344,7 @@ const out = (rel, html) => {
     <div class="body-hint">…page content (pt-20 오프셋)…</div>
     <div class="ft">
       <p>© 2026 JSChoIog. Built with passion and dedication 🚀</p>
-      <div class="socials"><span>📸</span><span>💼</span><span>🐙</span></div>
+      <div class="socials"><span>${icon("instagram", 17, BRAND.orange600)}</span><span>${icon("linkedin", 17, BRAND.orange600)}</span><span>${icon("github", 17, BRAND.orange600)}</span></div>
     </div>
   </div>`;
 
@@ -390,6 +400,50 @@ const out = (rel, html) => {
     .tags { display: flex; gap: 8px; padding-bottom: 16px; border-bottom: 1px solid ${GRAY.g200}; margin-bottom: 16px; }
     .tags span { padding: 6px 14px; border-radius: 999px; font-size: 13px; background: ${BRAND.orange50}; color: ${BRAND.orange600}; }
     blockquote { border-left: 4px solid ${BRAND.orange400}; background: ${BRAND.orange50}; padding: 12px 16px; border-radius: 0 8px 8px 0; font-style: italic; font-size: 13px; color: ${GRAY.g800}; }`)
+  );
+}
+
+/* ---------- components/icons ---------- */
+{
+  const SET = [
+    ["cpu", "Tech"],
+    ["browser", "Frontend"],
+    ["flow", "Algorithm"],
+    ["server", "Backend"],
+    ["rocket", "DevOps"],
+    ["book", "BookReview"],
+    ["sparkle", "기타"],
+    ["grid", "All"],
+    ["heart", "좋아요"],
+    ["link", "공유"],
+    ["instagram", "Instagram"],
+    ["linkedin", "LinkedIn"],
+    ["github", "GitHub"],
+    ["inbox", "빈 상태"],
+    ["folder", "Projects"],
+    ["code", "Skills"],
+    ["target", "팀워크"],
+    ["bulb", "문제 해결"],
+  ];
+  const body = `
+  <p class="sub">이모지를 대체한 커스텀 세트 (Issue #5 · 시안 B 채택) — 24px · 1.8px 스트로크 · currentColor 상속. 원본: lib/design/icons.js, 렌더러: components/icons.tsx</p>
+  <div class="grid">${SET.map(
+    ([k, label]) => `
+    <figure class="cell">
+      <span class="chip">${icon(k, 22)}</span>
+      <figcaption><b>${label}</b><code>${k}</code></figcaption>
+    </figure>`
+  ).join("")}</div>`;
+
+  out(
+    "components/icons.html",
+    page("Components", "Icons", body, `
+    .grid { display: flex; flex-wrap: wrap; gap: 12px; }
+    .cell { width: 78px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .chip { width: 46px; height: 46px; border-radius: 999px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, ${BRAND.orange500}, ${BRAND.red500}); box-shadow: 0 4px 10px -4px rgb(249 115 22 / .55); }
+    figcaption { text-align: center; }
+    figcaption b { display: block; font-size: 10.5px; color: ${GRAY.g700}; font-weight: 600; }
+    figcaption code { font-size: 9.5px; color: ${GRAY.g500}; font-family: ui-monospace, monospace; }`)
   );
 }
 

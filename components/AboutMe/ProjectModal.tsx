@@ -2,7 +2,9 @@ import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import { useEffect, useMemo } from "react";
+import { X } from "lucide-react";
 import type { Project } from "@/lib/notion/types";
+import Icon from "@/components/icons";
 
 interface ProjectModalProps {
   project: Project | null;
@@ -58,10 +60,18 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             onClick={onClose}
             className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/90 hover:bg-white flex items-center justify-center transition-colors shadow-lg z-10"
           >
-            <span className="text-xl">✕</span>
+            <X className="w-5 h-5 text-gray-700" />
           </button>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-8xl mb-4">{project.icon}</span>
+            {project.icon ? (
+              <span className="text-8xl mb-4">{project.icon}</span>
+            ) : (
+              <Icon
+                name="folder"
+                size={72}
+                className="text-white drop-shadow-md mb-4"
+              />
+            )}
             <h2 className="text-white mb-2">{project.title}</h2>
             <p className="text-white/90">{project.period}</p>
           </div>

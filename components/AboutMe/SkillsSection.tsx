@@ -1,3 +1,5 @@
+import Icon from "@/components/icons";
+
 interface Skill {
   name: string;
   level: number;
@@ -12,7 +14,7 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
   return (
     <div className="mb-24">
       <h3 className="mb-8 flex items-center gap-3">
-        <span className="text-4xl">🧑‍💻</span>
+        <Icon name="code" size={30} className="text-orange-500" />
         <span>Skills</span>
       </h3>
       <div className="grid md:grid-cols-2 gap-6">
