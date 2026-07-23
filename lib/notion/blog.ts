@@ -20,6 +20,7 @@ function mapPageToBlogPost(page: any): BlogPost {
     likes: props.Likes?.number || 0,
     // Notion 업로드 파일 URL은 만료가 있으므로(약 1시간) ISR 주기를 그보다 짧게 유지할 것
     cover: page.cover?.external?.url || page.cover?.file?.url || "",
+    slug: props.Slug?.rich_text?.[0]?.plain_text || "",
   };
 }
 
@@ -61,7 +62,8 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
   return response.results.map((page: any) => mapPageToBlogPost(page));
 }
 
-export async function getBlogPostById(id: string): Promise<BlogPost | null> {
+// 본문 없이 메타데이터만 — OG 이미지 생성 등 가벼운 소비처용
+export async function getBlogPostMeta(id: string): Promise<BlogPost | null> {
   try {
     const page = await notion.pages.retrieve({ page_id: id });
     const post = mapPageToBlogPost(page);
@@ -69,16 +71,49 @@ export async function getBlogPostById(id: string): Promise<BlogPost | null> {
     // 미공개 글은 노출하지 않는다
     if (!post.releasable) return null;
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const props = (page as any).properties;
-    post.content = await getPageContent(
-      id,
-      props.Content?.rich_text?.[0]?.plain_text || ""
-    );
-
     return post;
   } catch (error) {
     console.error("Failed to fetch blog post:", error);
     return null;
   }
+}
+
+export async function getBlogPostById(id: string): Promise<BlogPost | null> {
+  const post = await getBlogPostMeta(id);
+  if (!post) return null;
+
+  post.content = await getPageContent(id, post.excerpt);
+  return post;
+}
+
+// 슬러그로 조회 (본문 제외) — Notion DB에 Slug 속성이 없으면 쿼리가 400이므로 null 처리
+export async function getBlogPostMetaBySlug(
+  slug: string
+): Promise<BlogPost | null> {
+  if (!process.env.NOTION_POSTS_DATABASE_ID || !slug) return null;
+
+  try {
+    const response = await queryDatabase(process.env.NOTION_POSTS_DATABASE_ID, {
+      and: [
+        { property: "Slug", rich_text: { equals: slug } },
+        { property: "Published", checkbox: { equals: true } },
+      ],
+    });
+
+    const page = response.results[0];
+    return page ? mapPageToBlogPost(page) : null;
+  } catch (error) {
+    console.error("Failed to fetch post by slug:", error);
+    return null;
+  }
+}
+
+export async function getBlogPostBySlug(
+  slug: string
+): Promise<BlogPost | null> {
+  const post = await getBlogPostMetaBySlug(slug);
+  if (!post) return null;
+
+  post.content = await getPageContent(post.id, post.excerpt);
+  return post;
 }
