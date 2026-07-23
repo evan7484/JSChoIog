@@ -416,6 +416,7 @@ const out = (rel, html) => {
     ["grid", "All"],
     ["heart", "좋아요"],
     ["link", "공유"],
+    ["chat", "댓글"],
     ["instagram", "Instagram"],
     ["linkedin", "LinkedIn"],
     ["github", "GitHub"],
