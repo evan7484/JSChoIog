@@ -25,6 +25,7 @@ function getCategoryIcon(category: string): string {
 
 export default function Blog({ posts }: BlogProps) {
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
 
   // 동적 카테고리 계산
   const uniqueCategories = Array.from(
@@ -42,10 +43,21 @@ export default function Blog({ posts }: BlogProps) {
     })),
   ];
 
-  const filteredPosts =
+  const byCategory =
     selectedCategory === "All"
       ? posts
       : posts.filter((post) => post.category === selectedCategory);
+
+  // 제목·요약·태그·카테고리 클라이언트 검색 (카테고리 필터와 조합)
+  const query = searchQuery.trim().toLowerCase();
+  const filteredPosts = query
+    ? byCategory.filter((post) =>
+        [post.title, post.excerpt, post.category, ...post.tags]
+          .join(" ")
+          .toLowerCase()
+          .includes(query)
+      )
+    : byCategory;
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-12">
@@ -104,6 +116,23 @@ export default function Blog({ posts }: BlogProps) {
             <p className="text-gray-600">
               총 {filteredPosts.length}개의 포스트
             </p>
+          </div>
+
+          {/* Search */}
+          <div className="relative mb-8">
+            <Icon
+              name="search"
+              size={18}
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+            />
+            <input
+              type="search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="제목, 태그, 내용으로 검색…"
+              aria-label="블로그 글 검색"
+              className="w-full pl-11 pr-4 py-3 bg-white rounded-full shadow-md focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-orange-400 text-gray-800 placeholder-gray-400 transition-shadow"
+            />
           </div>
           <div className="grid md:grid-cols-2 gap-6">
             {filteredPosts.map((post) => (
@@ -188,7 +217,9 @@ export default function Blog({ posts }: BlogProps) {
                 className="text-gray-400 mx-auto mb-4"
               />
               <p className="text-gray-500">
-                해당 카테고리에 포스트가 없습니다.
+                {query
+                  ? `"${searchQuery.trim()}" 검색 결과가 없습니다.`
+                  : "해당 카테고리에 포스트가 없습니다."}
               </p>
             </div>
           )}
