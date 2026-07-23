@@ -37,8 +37,10 @@ export default function JourneySection() {
           <div key={item.title} className="relative pb-8 last:pb-0">
             <span className="absolute -left-8 top-1.5 w-4 h-4 rounded-full bg-orange-500 ring-4 ring-orange-100" />
             <p className="text-sm font-semibold text-orange-600">{item.when}</p>
-            <h4 className="text-gray-900">{item.title}</h4>
-            <p className="text-gray-600 text-sm break-keep">{item.desc}</p>
+            <h4 className="text-gray-900 dark:text-gray-100">{item.title}</h4>
+            <p className="text-gray-600 dark:text-gray-400 text-sm break-keep">
+              {item.desc}
+            </p>
           </div>
         ))}
       </div>

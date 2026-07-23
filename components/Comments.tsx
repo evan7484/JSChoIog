@@ -15,9 +15,14 @@ const GISCUS_CONFIG: Record<string, string> = {
   "data-reactions-enabled": "1",
   "data-emit-metadata": "0",
   "data-input-position": "top",
-  "data-theme": "light",
   "data-lang": "ko",
 };
+
+function giscusTheme(): string {
+  return document.documentElement.classList.contains("dark")
+    ? "dark_dimmed"
+    : "light";
+}
 
 export default function Comments({ term }: { term: string }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -34,10 +39,23 @@ export default function Comments({ term }: { term: string }) {
       script.setAttribute(key, value)
     );
     script.setAttribute("data-term", term);
+    script.setAttribute("data-theme", giscusTheme());
     el.appendChild(script);
 
-    // 포스트 간 이동 시 이전 위젯 정리 (pathname 매핑이 새로 잡히도록)
+    // 사이트 테마 토글 시 giscus iframe에 테마 변경을 postMessage로 전달
+    const onThemeChange = () => {
+      const iframe =
+        el.querySelector<HTMLIFrameElement>("iframe.giscus-frame");
+      iframe?.contentWindow?.postMessage(
+        { giscus: { setConfig: { theme: giscusTheme() } } },
+        "https://giscus.app"
+      );
+    };
+    window.addEventListener("themechange", onThemeChange);
+
+    // 포스트 간 이동 시 이전 위젯 정리 (term 매핑이 새로 잡히도록)
     return () => {
+      window.removeEventListener("themechange", onThemeChange);
       el.innerHTML = "";
     };
   }, [term]);

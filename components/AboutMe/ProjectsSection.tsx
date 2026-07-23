@@ -22,7 +22,7 @@ export default function ProjectsSection({
             key={project.id}
             type="button"
             aria-label={`${project.title} 프로젝트 자세히 보기`}
-            className="group relative block w-full text-left bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2"
+            className="group relative block w-full text-left bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2"
             onClick={() => onProjectSelect(String(project.id))}
           >
             <div
@@ -42,8 +42,12 @@ export default function ProjectsSection({
             </div>
             <div className="p-6">
               <h4 className="mb-2">{project.title}</h4>
-              <p className="text-gray-600 mb-4">{project.period}</p>
-              <p className="text-gray-700 mb-4">{project.description}</p>
+              <p className="text-gray-600 dark:text-gray-400 mb-4">
+                {project.period}
+              </p>
+              <p className="text-gray-700 dark:text-gray-300 mb-4">
+                {project.description}
+              </p>
               <div className="flex flex-wrap gap-2">
                 {project.tags.map((tag) => (
                   <span

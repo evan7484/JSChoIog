@@ -145,11 +145,11 @@ export default function BlogPost({ post, newerPost, olderPost }: Props) {
         transition={{ delay: 0.3 }}
       >
         {/* Tags */}
-        <div className="flex flex-wrap gap-2 mb-12 pb-8 border-b border-gray-200">
+        <div className="flex flex-wrap gap-2 mb-12 pb-8 border-b border-gray-200 dark:border-gray-700">
           {post.tags.map((tag) => (
             <motion.span
               key={tag}
-              className="px-4 py-2 bg-orange-50 text-orange-600 rounded-full hover:bg-orange-100 transition-colors cursor-pointer"
+              className="px-4 py-2 bg-orange-50 text-orange-600 dark:bg-orange-500/15 dark:text-orange-300 rounded-full hover:bg-orange-100 dark:hover:bg-orange-500/25 transition-colors cursor-pointer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -166,40 +166,43 @@ export default function BlogPost({ post, newerPost, olderPost }: Props) {
             components={{
               h1: ({ ...props }) => (
                 <h1
-                  className="text-4xl font-bold mt-8 mb-4 text-gray-900"
+                  className="text-4xl font-bold mt-8 mb-4 text-gray-900 dark:text-gray-50"
                   {...props}
                 />
               ),
               h2: ({ ...props }) => (
                 <h2
-                  className="text-3xl font-bold mt-8 mb-4 pb-2 border-b border-gray-200 text-gray-900"
+                  className="text-3xl font-bold mt-8 mb-4 pb-2 border-b border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-50"
                   {...props}
                 />
               ),
               h3: ({ ...props }) => (
                 <h3
-                  className="text-2xl font-bold mt-6 mb-3 text-gray-800"
+                  className="text-2xl font-bold mt-6 mb-3 text-gray-800 dark:text-gray-100"
                   {...props}
                 />
               ),
               p: ({ ...props }) => (
-                <p className="text-gray-700 leading-relaxed mb-6" {...props} />
+                <p
+                  className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6"
+                  {...props}
+                />
               ),
               ul: ({ ...props }) => (
                 <ul
-                  className="list-disc list-inside my-6 space-y-2 text-gray-700"
+                  className="list-disc list-inside my-6 space-y-2 text-gray-700 dark:text-gray-300"
                   {...props}
                 />
               ),
               ol: ({ ...props }) => (
                 <ol
-                  className="list-decimal list-inside my-6 space-y-2 text-gray-700"
+                  className="list-decimal list-inside my-6 space-y-2 text-gray-700 dark:text-gray-300"
                   {...props}
                 />
               ),
               blockquote: ({ ...props }) => (
                 <blockquote
-                  className="border-l-4 border-orange-400 bg-orange-50 py-4 px-6 rounded-r-lg my-6 text-gray-800 italic"
+                  className="border-l-4 border-orange-400 bg-orange-50 dark:bg-orange-500/10 py-4 px-6 rounded-r-lg my-6 text-gray-800 dark:text-gray-200 italic"
                   {...props}
                 />
               ),
@@ -215,7 +218,7 @@ export default function BlogPost({ post, newerPost, olderPost }: Props) {
               }) =>
                 inline ? (
                   <code
-                    className="bg-gray-100 px-2 py-1 rounded text-sm font-mono text-gray-800"
+                    className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm font-mono text-gray-800 dark:text-gray-200"
                     {...props}
                   >
                     {children}
@@ -248,7 +251,10 @@ export default function BlogPost({ post, newerPost, olderPost }: Props) {
                   />
                 ) : null,
               hr: ({ ...props }) => (
-                <hr className="my-8 border-gray-200" {...props} />
+                <hr
+                  className="my-8 border-gray-200 dark:border-gray-700"
+                  {...props}
+                />
               ),
               table: ({ ...props }) => (
                 <div className="overflow-x-auto my-6">
@@ -256,22 +262,31 @@ export default function BlogPost({ post, newerPost, olderPost }: Props) {
                 </div>
               ),
               thead: ({ ...props }) => (
-                <thead className="bg-gray-50" {...props} />
+                <thead className="bg-gray-50 dark:bg-gray-800" {...props} />
               ),
               tbody: ({ ...props }) => (
-                <tbody className="divide-y divide-gray-200" {...props} />
+                <tbody
+                  className="divide-y divide-gray-200 dark:divide-gray-700"
+                  {...props}
+                />
               ),
               tr: ({ ...props }) => (
-                <tr className="border-b border-gray-200" {...props} />
+                <tr
+                  className="border-b border-gray-200 dark:border-gray-700"
+                  {...props}
+                />
               ),
               th: ({ ...props }) => (
                 <th
-                  className="px-4 py-2 text-left font-semibold text-gray-900"
+                  className="px-4 py-2 text-left font-semibold text-gray-900 dark:text-gray-100"
                   {...props}
                 />
               ),
               td: ({ ...props }) => (
-                <td className="px-4 py-2 text-gray-700" {...props} />
+                <td
+                  className="px-4 py-2 text-gray-700 dark:text-gray-300"
+                  {...props}
+                />
               ),
             }}
           >
@@ -280,17 +295,19 @@ export default function BlogPost({ post, newerPost, olderPost }: Props) {
         </div>
 
         {/* Actions */}
-        <div className="mt-16 pt-8 border-t border-gray-200">
+        <div className="mt-16 pt-8 border-t border-gray-200 dark:border-gray-700">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <p className="text-gray-600">이 글이 도움이 되셨나요?</p>
+            <p className="text-gray-600 dark:text-gray-400">
+              이 글이 도움이 되셨나요?
+            </p>
             <div className="flex gap-3">
               <motion.button
                 onClick={handleLike}
                 disabled={isLiking}
                 className={`px-6 py-2 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 ${
                   hasLiked
-                    ? "bg-orange-200 text-orange-700 hover:bg-orange-300"
-                    : "bg-orange-100 text-orange-600 hover:bg-orange-200"
+                    ? "bg-orange-200 text-orange-700 hover:bg-orange-300 dark:bg-orange-500/30 dark:text-orange-200"
+                    : "bg-orange-100 text-orange-600 hover:bg-orange-200 dark:bg-orange-500/15 dark:text-orange-300 dark:hover:bg-orange-500/25"
                 }`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -307,7 +324,7 @@ export default function BlogPost({ post, newerPost, olderPost }: Props) {
               </motion.button>
               <motion.button
                 onClick={handleShare}
-                className="px-6 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2"
+                className="px-6 py-2 bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -333,10 +350,10 @@ export default function BlogPost({ post, newerPost, olderPost }: Props) {
             {olderPost ? (
               <Link
                 href={postPath(olderPost)}
-                className="group bg-white rounded-2xl p-5 shadow-md hover:shadow-lg transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2"
+                className="group bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-md hover:shadow-lg transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2"
               >
                 <p className="text-sm text-gray-500 mb-1">← 이전 글</p>
-                <p className="text-gray-800 group-hover:text-orange-600 transition-colors line-clamp-1 break-keep">
+                <p className="text-gray-800 dark:text-gray-200 group-hover:text-orange-600 transition-colors line-clamp-1 break-keep">
                   {olderPost.title}
                 </p>
               </Link>
@@ -346,10 +363,10 @@ export default function BlogPost({ post, newerPost, olderPost }: Props) {
             {newerPost && (
               <Link
                 href={postPath(newerPost)}
-                className="group bg-white rounded-2xl p-5 shadow-md hover:shadow-lg transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 text-right"
+                className="group bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-md hover:shadow-lg transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 text-right"
               >
                 <p className="text-sm text-gray-500 mb-1">다음 글 →</p>
-                <p className="text-gray-800 group-hover:text-orange-600 transition-colors line-clamp-1 break-keep">
+                <p className="text-gray-800 dark:text-gray-200 group-hover:text-orange-600 transition-colors line-clamp-1 break-keep">
                   {newerPost.title}
                 </p>
               </Link>
@@ -358,8 +375,8 @@ export default function BlogPost({ post, newerPost, olderPost }: Props) {
         )}
 
         {/* Comments */}
-        <div className="mt-16 pt-8 border-t border-gray-200">
-          <h3 className="mb-6 flex items-center gap-2 text-gray-800">
+        <div className="mt-16 pt-8 border-t border-gray-200 dark:border-gray-700">
+          <h3 className="mb-6 flex items-center gap-2 text-gray-800 dark:text-gray-100">
             <Icon name="chat" size={20} className="text-orange-500" />
             <span>댓글</span>
           </h3>

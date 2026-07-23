@@ -19,10 +19,10 @@ export default function Footer() {
     // data-nosnippet: 검색엔진이 푸터 텍스트를 스니펫으로 쓰지 못하게
     <footer
       data-nosnippet=""
-      className="mt-20 bg-linear-to-r from-orange-100 to-amber-100 py-12"
+      className="mt-20 bg-linear-to-r from-orange-100 to-amber-100 dark:from-gray-900 dark:to-gray-900 dark:border-t dark:border-gray-800 py-12"
     >
       <div className="max-w-7xl mx-auto px-6 text-center">
-        <p className="text-gray-700">
+        <p className="text-gray-700 dark:text-gray-400">
           © {new Date().getFullYear()} JSChoIog. Built with passion and
           dedication 🚀
         </p>
@@ -33,7 +33,7 @@ export default function Footer() {
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="relative w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg hover:scale-110 transition-all group focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2"
+              className="relative w-10 h-10 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center shadow-md hover:shadow-lg hover:scale-110 transition-all group focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2"
               title={link.label}
             >
               <Icon name={link.icon} size={18} className="text-orange-600" />
