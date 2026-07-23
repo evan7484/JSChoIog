@@ -1,6 +1,14 @@
+import { Metadata } from "next";
 import AboutMe from "@/components/AboutMe";
 import { getProjects } from "@/lib/notion/projects";
 import type { Project } from "@/lib/notion/types";
+
+export const metadata: Metadata = {
+  title: "About Me",
+  description:
+    "긍정을 전파하며 성장하는 개발자 최준서를 소개합니다 — 여정, 기술 스택, 프로젝트.",
+  alternates: { canonical: "/about" },
+};
 
 export const revalidate = 3600;
 
