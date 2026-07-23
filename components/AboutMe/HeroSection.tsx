@@ -6,7 +6,7 @@ export default function HeroSection() {
     <div className="grid md:grid-cols-2 gap-12 items-center mb-24">
       <div>
         <div>
-          <h2 className="mb-6">
+          <h2 className="mb-6 break-keep">
             <span className="block text-yellow-500">긍정적인</span>
             <span>사고를 바탕으로</span>
             <span className=" text-green-500">성장 </span>

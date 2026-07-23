@@ -36,7 +36,9 @@ export default function RootLayout({
       >
         <MotionConfig reducedMotion="user">
           <Header />
-          <main className="pt-20">{children}</main>
+          {/* pt-24: 고정 헤더(모바일 80px/데스크톱 88px)에 본문이 가리지 않도록
+              overflow-x-clip: About 히어로의 데코 블러 원이 모바일 가로 스크롤을 만들지 않도록 */}
+          <main className="pt-24 overflow-x-clip">{children}</main>
           <Footer />
         </MotionConfig>
       </body>

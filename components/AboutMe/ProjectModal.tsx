@@ -78,7 +78,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
         </div>
 
         {/* Content */}
-        <div className="p-8 md:p-10">
+        <div className="p-6 sm:p-8 md:p-10">
           {/* Tags */}
           <div className="flex flex-wrap gap-2 mb-8 pb-6 border-b border-gray-200">
             {project.tags
