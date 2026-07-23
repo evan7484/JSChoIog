@@ -31,10 +31,6 @@ export async function POST(
       },
     });
 
-    console.log(
-      `Post ${id} likes updated: ${currentLikes} -> ${currentLikes + 1}`
-    );
-
     return Response.json({
       success: true,
       likes: currentLikes + 1,
@@ -76,8 +72,6 @@ export async function DELETE(
         },
       },
     });
-
-    console.log(`Post ${id} likes updated: ${currentLikes} -> ${newLikes}`);
 
     return Response.json({
       success: true,

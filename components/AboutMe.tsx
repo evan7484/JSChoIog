@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import HeroSection from "./AboutMe/HeroSection";
 import SkillsSection from "./AboutMe/SkillsSection";
 import ProjectsSection from "./AboutMe/ProjectsSection";
@@ -86,56 +86,27 @@ const skills: Skill[] = [
   },
 ];
 
-export default function AboutMe() {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+interface AboutMeProps {
+  projects: Project[];
+}
+
+export default function AboutMe({ projects }: AboutMeProps) {
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(
     null
   );
 
-  useEffect(() => {
-    async function fetchProjects() {
-      try {
-        setLoading(true);
-        const response = await fetch("/api/projects");
-        if (!response.ok) throw new Error("Failed to fetch projects");
-        const data = await response.json();
-        setProjects(data);
-        setError(null);
-      } catch (err) {
-        console.error("Failed to fetch projects:", err);
-        setError(err instanceof Error ? err.message : "Unknown error");
-        setProjects([]);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchProjects();
-  }, []);
+  // 노션 데이터가 없으면 기본 프로젝트 데이터로 대체
+  const displayProjects = projects.length > 0 ? projects : getDefaultProjects();
 
   const selectedProject =
-    projects.find((p) => p.id === selectedProjectId) || null;
-
-  if (loading) {
-    return (
-      <div className="max-w-7xl mx-auto px-6 py-12 text-center">
-        <p className="text-gray-500">로딩 중...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    console.error("Error loading projects:", error);
-  }
+    displayProjects.find((p) => p.id === selectedProjectId) || null;
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-12">
       <HeroSection />
       <SkillsSection skills={skills} />
       <ProjectsSection
-        projects={projects.length > 0 ? projects : getDefaultProjects()}
+        projects={displayProjects}
         onProjectSelect={setSelectedProjectId}
       />
       <ProjectModal

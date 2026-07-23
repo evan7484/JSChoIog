@@ -1,35 +1,11 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Blog from "@/components/Blog";
-import { useRouter } from "next/navigation";
-import { useBlogStore } from "@/stores/blogStore";
+import { getBlogPosts } from "@/lib/notion/blog";
 
-export default function BlogPage() {
-  const router = useRouter();
-  const { posts, isLoaded, setPosts } = useBlogStore();
-  const [isLoading, setIsLoading] = useState(!isLoaded);
+// 1시간마다 백그라운드 재생성 (ISR) — 방문마다 Notion을 호출하지 않는다
+export const revalidate = 3600;
 
-  useEffect(() => {
-    if (isLoaded) return;
+export default async function BlogPage() {
+  const posts = await getBlogPosts();
 
-    (async () => {
-      try {
-        const res = await fetch("/api/posts");
-        if (!res.ok) return;
-        const data = await res.json();
-        setPosts(data);
-      } finally {
-        setIsLoading(false);
-      }
-    })();
-  }, [isLoaded, setPosts]);
-
-  return (
-    <Blog
-      posts={posts}
-      isLoading={isLoading}
-      onPostClick={(id) => router.push(`/blog/post/${id}`)}
-    />
-  );
+  return <Blog posts={posts} />;
 }
