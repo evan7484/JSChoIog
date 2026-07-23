@@ -61,7 +61,8 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
   return response.results.map((page: any) => mapPageToBlogPost(page));
 }
 
-export async function getBlogPostById(id: string): Promise<BlogPost | null> {
+// 본문 없이 메타데이터만 — OG 이미지 생성 등 가벼운 소비처용
+export async function getBlogPostMeta(id: string): Promise<BlogPost | null> {
   try {
     const page = await notion.pages.retrieve({ page_id: id });
     const post = mapPageToBlogPost(page);
@@ -69,16 +70,17 @@ export async function getBlogPostById(id: string): Promise<BlogPost | null> {
     // 미공개 글은 노출하지 않는다
     if (!post.releasable) return null;
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const props = (page as any).properties;
-    post.content = await getPageContent(
-      id,
-      props.Content?.rich_text?.[0]?.plain_text || ""
-    );
-
     return post;
   } catch (error) {
     console.error("Failed to fetch blog post:", error);
     return null;
   }
+}
+
+export async function getBlogPostById(id: string): Promise<BlogPost | null> {
+  const post = await getBlogPostMeta(id);
+  if (!post) return null;
+
+  post.content = await getPageContent(id, post.excerpt);
+  return post;
 }

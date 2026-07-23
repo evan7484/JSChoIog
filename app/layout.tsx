@@ -5,6 +5,7 @@ import "./globals.css";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import JsonLd from "@/components/JsonLd";
 import { SITE_URL } from "@/lib/site";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -21,6 +22,9 @@ export const metadata: Metadata = {
   },
   description:
     "성실함과 열정을 바탕으로 성장하는 개발자 JSChoIog의 기술 블로그입니다.",
+  alternates: {
+    types: { "application/rss+xml": "/rss.xml" },
+  },
   verification: {
     other: {
       "naver-site-verification": "f3181935906491b568c387c16d9d8d13a3021534",
@@ -38,6 +42,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-linear-to-br from-orange-50 via-amber-50 to-yellow-50`}
       >
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "JSChoIog",
+            url: SITE_URL,
+            inLanguage: "ko",
+          }}
+        />
         <MotionConfig reducedMotion="user">
           <Header />
           {/* pt-24: 고정 헤더(모바일 80px/데스크톱 88px)에 본문이 가리지 않도록
