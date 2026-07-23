@@ -2,7 +2,9 @@ import { cache } from "react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import BlogPost from "@/components/BlogPost";
+import JsonLd from "@/components/JsonLd";
 import { getBlogPostById } from "@/lib/notion/blog";
+import { SITE_URL } from "@/lib/site";
 
 // Notion 커버 이미지 URL 만료(약 1시간)보다 짧게
 export const revalidate = 1800;
@@ -55,5 +57,28 @@ export default async function BlogPostPage({ params }: PageProps) {
     notFound();
   }
 
-  return <BlogPost post={post} />;
+  return (
+    <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          headline: post.title,
+          description: post.excerpt || post.title,
+          datePublished: post.date,
+          author: {
+            "@type": "Person",
+            name: "최준서",
+            url: `${SITE_URL}/about`,
+          },
+          mainEntityOfPage: `${SITE_URL}/blog/post/${id}`,
+          ...(post.cover && { image: post.cover }),
+          keywords: post.tags.join(", "),
+          articleSection: post.category,
+          inLanguage: "ko",
+        }}
+      />
+      <BlogPost post={post} />
+    </>
+  );
 }
