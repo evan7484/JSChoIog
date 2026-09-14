@@ -1,4 +1,4 @@
-import { queryDatabase, n2m } from "./client";
+import { queryDatabase, pageToMarkdown } from "./client";
 import { getColorGradient } from "./colors";
 import type { Project } from "./types";
 
@@ -15,13 +15,7 @@ export async function getProjects(): Promise<Project[]> {
       const props = page.properties;
 
       // 페이지의 블록 내용을 마크다운으로 변환 (모달에서 사용)
-      let content = "";
-      try {
-        const mdblocks = await n2m.pageToMarkdown(page.id);
-        content = n2m.toMarkdownString(mdblocks).parent;
-      } catch (error) {
-        console.error(`Failed to fetch blocks for project ${page.id}:`, error);
-      }
+      const content = await pageToMarkdown(page.id);
 
       return {
         id: page.id,
