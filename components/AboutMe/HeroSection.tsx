@@ -20,9 +20,9 @@ export default function HeroSection() {
           </span>
         </h2>
         <p className="text-gray-700 dark:text-gray-300 leading-relaxed break-keep max-w-2xl">
-          다양한 분야의 팀원들과 함께 만드는 과정을 좋아합니다. 프로젝트의
-          분위기를 끌어올리는 역할을 맡아 왔고, 지금은 SW마에스트로 17기에서
-          팀 프로젝트를 준비하고 있습니다.
+          사용자가 화면과 주고받는 상호작용에서 즐거움을 느껴 프론트엔드를
+          선택했습니다. 지금은 SW마에스트로 17기에서 소셜 루틴 앱 루게더를
+          iOS·Android·웹으로 출시해 운영하고 있습니다.
         </p>
       </div>
     </div>
