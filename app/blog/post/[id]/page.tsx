@@ -1,17 +1,11 @@
-import { cache } from "react";
 import { Metadata } from "next";
-import { notFound, permanentRedirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import BlogPost from "@/components/BlogPost";
 import JsonLd from "@/components/JsonLd";
-import {
-  getBlogPostMeta,
-  getBlogPostMetaBySlug,
-  getBlogPosts,
-  getPageContent,
-} from "@/lib/notion/blog";
-import type { BlogPost as BlogPostType } from "@/lib/notion/types";
+import { getBlogPosts } from "@/lib/notion/blog";
 import { SITE_URL, UUID_RE, postPath } from "@/lib/site";
 import { postDescription } from "@/lib/text";
+import { getPosts, resolveContent, resolvePost } from "./resolve";
 
 // Notion 커버 이미지 URL 만료(약 1시간)보다 짧게
 export const revalidate = 1800;
@@ -22,16 +16,6 @@ export async function generateStaticParams() {
   const posts = await getBlogPosts();
   return posts.map((post) => ({ id: post.slug || post.id }));
 }
-
-// URL 파라미터는 UUID(구 URL) 또는 슬러그 — generateMetadata와 렌더링이 공유.
-// 본문은 따로 페치한다: UUID → 슬러그 301 대상이면 본문이 버려지므로
-const resolvePost = cache(async (param: string) =>
-  UUID_RE.test(param) ? getBlogPostMeta(param) : getBlogPostMetaBySlug(param)
-);
-const resolveContent = cache(async (post: BlogPostType) =>
-  getPageContent(post.id, post.excerpt)
-);
-const getPosts = cache(getBlogPosts);
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -80,16 +64,11 @@ export async function generateMetadata({
 
 export default async function BlogPostPage({ params }: PageProps) {
   const { id } = await params;
+  // 없는 글·구 UUID URL은 layout.tsx에서 이미 404/308로 걸러진다
   const meta = await resolvePost(id);
 
   if (!meta) {
     notFound();
-  }
-
-  // 슬러그가 생긴 글의 구 UUID URL은 301로 슬러그 URL에 정착 (기존 색인 보존)
-  // — 본문 페치 전에 처리해 리다이렉트에 버려질 비용을 만들지 않는다
-  if (UUID_RE.test(id) && meta.slug) {
-    permanentRedirect(postPath(meta));
   }
 
   // 본문 변환과 이전/다음용 목록 조회는 서로 독립 — 병렬로
