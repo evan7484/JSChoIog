@@ -198,17 +198,6 @@ export default function CaseStudy({ data }: { data: CaseStudyData }) {
         <section className="mt-20 border-t border-gray-200 pt-12 dark:border-gray-800">
           <h2 className="text-xl font-bold tracking-tight text-gray-900 dark:text-gray-50">그 밖에 만든 것</h2>
 
-          {data.extras.stats && (
-            <dl className="mt-6 grid gap-4 sm:grid-cols-3">
-              {data.extras.stats.map((s) => (
-                <div key={s.label} className="rounded-2xl bg-(--cs-tint) px-5 py-4 dark:bg-white/5">
-                  <dd className="text-3xl font-bold tracking-tight text-(--cs-accent)">{s.value}</dd>
-                  <dt className="mt-1 text-sm text-gray-600 dark:text-gray-400">{s.label}</dt>
-                </div>
-              ))}
-            </dl>
-          )}
-
           <div className="mt-8 grid gap-8 md:grid-cols-2">
             {data.extras.items.map((e) => (
               <div key={e.title}>

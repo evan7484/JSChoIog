@@ -26,7 +26,15 @@ export default function PortfolioPage() {
           "@type": "ProfilePage",
           name: `${profile.name} 포트폴리오`,
           url: `${SITE_URL}/portfolio`,
-          mainEntity: { "@type": "Person", name: profile.name, jobTitle: profile.title },
+          mainEntity: {
+            "@type": "Person",
+            name: profile.name,
+            jobTitle: profile.title,
+            // GitHub·LinkedIn을 같은 사람으로 묶어 검색엔진이 프로필을 연결하게 한다
+            sameAs: profile.links
+              .filter((l) => l.href.startsWith("http"))
+              .map((l) => l.href),
+          },
         }}
       />
       <Hero />
