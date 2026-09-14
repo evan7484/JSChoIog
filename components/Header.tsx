@@ -9,6 +9,7 @@ export default function Header() {
 
   const isBlog = pathname === "/blog" || pathname.startsWith("/blog/");
   const isAbout = pathname === "/about" || pathname.startsWith("/about/");
+  const isPortfolio = pathname === "/portfolio" || pathname.startsWith("/portfolio/");
 
   return (
     // data-nosnippet: 검색엔진이 헤더 텍스트를 스니펫으로 쓰지 못하게
@@ -36,6 +37,9 @@ export default function Header() {
           </NavLink>
           <NavLink active={isAbout} href="/about">
             About Me
+          </NavLink>
+          <NavLink active={isPortfolio} href="/portfolio">
+            Portfolio
           </NavLink>
           <ThemeToggle />
         </nav>
