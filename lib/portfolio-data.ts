@@ -104,9 +104,9 @@ export const caseStudies: CaseStudy[] = [
     ],
     icon: "/portfolio/rougether-icon.png",
     screenshots: [
-      { src: "/portfolio/rougether-my-room.png", alt: "루게더 나의 방 화면", width: 560, height: 1136 },
-      { src: "/portfolio/rougether-house.png", alt: "루게더 집 화면", width: 560, height: 1136 },
-      { src: "/portfolio/rougether-routines.png", alt: "루게더 루틴 목록", width: 560, height: 1136 },
+      { src: "/portfolio/rougether-my-room.jpg", alt: "루게더 나의 방 화면", width: 640, height: 1299 },
+      { src: "/portfolio/rougether-house.jpg", alt: "루게더 집 화면", width: 640, height: 1299 },
+      { src: "/portfolio/rougether-routines.jpg", alt: "루게더 루틴 목록", width: 640, height: 1299 },
     ],
     theme: { bg: "#2D2623", muted: "#E8DCC8", accent: "#7FA87F", tint: "#EEF4EE" },
     responsibilities: [
@@ -356,6 +356,10 @@ const edgeBackPan = useMemo(() => Gesture.Pan()
       { label: "GitHub", href: "https://github.com/TEAM-SEED-PLUS/SEED-PLUS-FRONTEND" },
     ],
     icon: "/portfolio/seedplus-icon.png",
+    screenshots: [
+      { src: "/portfolio/seedplus-dashboard.png", alt: "SEED+ 홈 대시보드 — 상권날씨·주간 브리핑·실시간 채팅", width: 1400, height: 784 },
+      { src: "/portfolio/seedplus-store-builder.png", alt: "SEED+ 내 상가 만들기 — 업종·지역 필터와 수익률 카드", width: 1432, height: 806 },
+    ],
     theme: { bg: "#3182F6", muted: "#DCEBFF", accent: "#3182F6", tint: "#EAF2FF" },
     responsibilities: [
       {

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "최준서 — Frontend Developer Portfolio",
     description: "루게더 · SEED+ 문제 해결 기록",
-    images: ["/portfolio/rougether-my-room.png"],
+    images: ["/portfolio/rougether-my-room.jpg"],
   },
 };
 
