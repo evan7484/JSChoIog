@@ -62,7 +62,7 @@ export interface CaseStudy {
     issues: Issue[];
     lesson?: string[];
   };
-  extras: { stats?: { value: string; label: string }[]; items: Extra[] };
+  extras: { items: Extra[] };
 }
 
 export const profile = {
@@ -75,6 +75,10 @@ export const profile = {
   ],
   links: [
     { label: "GitHub", href: "https://github.com/evan7484" },
+    {
+      label: "LinkedIn",
+      href: "https://www.linkedin.com/in/%EC%A4%80%EC%84%9C-%EC%B5%9C-6b46a4395/",
+    },
     { label: "이메일", href: "mailto:evan7484@naver.com" },
   ],
   activities: [
@@ -304,11 +308,6 @@ const edgeBackPan = useMemo(() => Gesture.Pan()
       ],
     },
     extras: {
-      stats: [
-        { value: "273", label: "컴포넌트" },
-        { value: "1,523", label: "테스트 케이스 (파일 250개)" },
-        { value: "18", label: "Dev 갤러리 등록 화면·컴포넌트" },
-      ],
       items: [
         {
           title: "같은 코드로 웹·데스크톱까지",
