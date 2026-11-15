@@ -8,8 +8,8 @@ hljs.registerLanguage("typescript", typescript);
 export default function Code({ sample }: { sample: CodeSample }) {
   const html = hljs.highlight(sample.code, { language: "typescript" }).value;
   return (
-    <figure className="overflow-hidden rounded-xl bg-gray-900 ring-1 ring-black/10 dark:ring-white/10">
-      <figcaption className="flex items-center gap-2 border-b border-white/10 px-4 py-2 font-mono text-xs text-gray-400">
+    <figure className="overflow-hidden rounded-lg bg-[#14171f]">
+      <figcaption className="flex items-center gap-2 border-b border-white/10 px-4 py-2 font-mono text-xs text-[#7f8aa3]">
         <span className="size-2 rounded-full bg-gray-600" aria-hidden />
         {sample.file}
       </figcaption>
