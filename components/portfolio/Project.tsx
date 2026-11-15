@@ -1,4 +1,4 @@
-import type { Case, Project as ProjectData } from "@/lib/portfolio-data";
+import type { Block, Case, Project as ProjectData } from "@/lib/portfolio-data";
 import { BlockView, Caption, SectionTitle, ShotFrame, Stats } from "./Blocks";
 
 /** 쪽 머리 — 왼쪽에 번호·이름, 오른쪽에 링크 */
@@ -20,23 +20,30 @@ export function Kicker({ no, name, link }: { no: string; name: string; link: { l
   );
 }
 
+function Columns({ left, right }: { left: Block[]; right: Block[] }) {
+  return (
+    <div className="grid gap-x-10 gap-y-5 md:grid-cols-2">
+      <div className="min-w-0 space-y-4">
+        {left.map((b, i) => (
+          <BlockView key={i} block={b} />
+        ))}
+      </div>
+      <div className="min-w-0 space-y-4">
+        {right.map((b, i) => (
+          <BlockView key={i} block={b} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function CaseView({ data }: { data: Case }) {
   return (
     <section className="space-y-5">
       <SectionTitle>{data.title}</SectionTitle>
       {data.lead?.map((b, i) => <BlockView key={i} block={b} />)}
-      <div className="grid gap-x-10 gap-y-5 md:grid-cols-2">
-        <div className="min-w-0 space-y-4">
-          {data.left.map((b, i) => (
-            <BlockView key={i} block={b} />
-          ))}
-        </div>
-        <div className="min-w-0 space-y-4">
-          {data.right.map((b, i) => (
-            <BlockView key={i} block={b} />
-          ))}
-        </div>
-      </div>
+      {data.left && data.right && <Columns left={data.left} right={data.right} />}
+      {data.second && <Columns left={data.second.left} right={data.second.right} />}
       {data.tail?.map((b, i) => <BlockView key={i} block={b} />)}
     </section>
   );

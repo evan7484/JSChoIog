@@ -33,8 +33,10 @@ export interface Case {
   title: string;
   /** 2단 위에 한 줄로 놓이는 블록 */
   lead?: Block[];
-  left: Block[];
-  right: Block[];
+  left?: Block[];
+  right?: Block[];
+  /** 첫 2단 아래에 놓이는 둘째 2단 */
+  second?: { left: Block[]; right: Block[] };
   /** 2단 아래에 한 줄로 놓이는 블록 */
   tail?: Block[];
 }
@@ -580,22 +582,39 @@ export function useAppFrame() {
               "코드 발췌(타입 생략, 줄바꿈 조정). useHydrated는 웹의 첫 렌더에서 false, 마운트 뒤 true를 돌려줍니다. 판단 로직을 순수 함수로 분리해 창 폭별 결과를 테스트합니다.",
           },
         ],
+        second: {
+          left: [
+            {
+              type: "shot",
+              shot: {
+                src: "/portfolio/rougether-home-split.jpg",
+                alt: "루게더 웹 홈 — 왼쪽에 방, 오른쪽에 오늘의 할 일이 놓인 2단 레이아웃",
+                width: 1365,
+                height: 726,
+              },
+            },
+          ],
+          right: [
+            {
+              type: "list",
+              label: "실제 화면 (창 폭 960px 이상)",
+              items: [
+                "왼쪽에 방, 오른쪽에 오늘의 할 일을 나란히 둔 2단 레이아웃입니다.",
+                "창이 더 좁아지면 480px 폰 화면 한 단으로 바뀝니다.",
+                "폰 앱과 같은 코드가 그리는 화면입니다.",
+              ],
+            },
+          ],
+        },
       },
       {
         title: "그 밖에 웹에서 한 일",
-        left: [
+        lead: [
           {
             type: "list",
             items: [
               "**웹 접근성.** 스토리북의 모든 스토리에 axe 검사를 붙이고, RN Web이 옮기지 않던 접근성 상태를 개별 aria-* 속성으로 바꿔 ARIA 위반 54건을 0건으로 줄였습니다(예외 1건). 이후 회귀는 CI가 막습니다.",
               "**웹 구글 로그인.** 구글 버튼이 iframe으로 바뀌며 로그인이 막힌 문제를 OAuth 리다이렉트 방식으로 바꿔 해결하고, state·nonce 검증과 회귀 테스트를 더했습니다.",
-            ],
-          },
-        ],
-        right: [
-          {
-            type: "list",
-            items: [
               "**폰트 글리프.** 사용자가 고르는 폰트의 글리프 표를 대조해, 한 줄 안에서 문장부호만 시스템 서체로 바뀌는 곳 22개를 찾아 고치고 테스트로 고정했습니다.",
               "**자동화.** GitHub Actions 워크플로 14종으로 빌드, 배포, 릴리스 검증을 돌립니다.",
             ],

@@ -64,9 +64,9 @@ export default function Closing() {
         </dl>
       </section>
 
-      <footer className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2 pt-4">
+      <footer className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2 border-t-[1.5px] border-(--pf-ink) pt-6">
         <p className="text-2xl font-bold tracking-tight text-(--pf-ink)">감사합니다.</p>
-        <p className="text-sm text-(--pf-sub)">
+        <p className="text-sm text-(--pf-ink)">
           {profile.links
             .filter((l) => l.label !== "LinkedIn")
             .map((l) => l.text)
