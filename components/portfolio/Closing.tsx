@@ -2,13 +2,13 @@ import { profile, sideProjects } from "@/lib/portfolio-data";
 import { Rich, SectionTitle } from "./Blocks";
 import { Kicker } from "./Project";
 
-/** 마지막 쪽 — 작은 프로젝트 둘, 여기까지 온 길, 일하는 방식, 활동·자격 */
+/** 마지막 쪽 — 작은 프로젝트, 여기까지 온 길, 배운 것, 활동·자격 */
 export default function Closing() {
   return (
     <article id={sideProjects.id} className="scroll-mt-28 space-y-12">
       <Kicker no={sideProjects.no} name={sideProjects.name} link={sideProjects.link} />
 
-      <div className="grid gap-x-10 gap-y-10 md:grid-cols-2">
+      <div className="space-y-10">
         {sideProjects.items.map((p) => (
           <section key={p.name} className="space-y-3">
             <h2 className="text-2xl font-bold tracking-tight text-(--pf-ink)">{p.name}</h2>
@@ -33,7 +33,7 @@ export default function Closing() {
       </section>
 
       <section className="space-y-1">
-        <SectionTitle>일하는 방식</SectionTitle>
+        <SectionTitle>배운 것</SectionTitle>
         <dl>
           {profile.principles.map((p) => (
             <div
