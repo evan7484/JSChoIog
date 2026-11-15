@@ -1,0 +1,78 @@
+import { profile, sideProjects } from "@/lib/portfolio-data";
+import { Rich, SectionTitle } from "./Blocks";
+import { Kicker } from "./Project";
+
+/** 마지막 쪽 — 작은 프로젝트 둘, 여기까지 온 길, 일하는 방식, 활동·자격 */
+export default function Closing() {
+  return (
+    <article id={sideProjects.id} className="scroll-mt-28 space-y-12">
+      <Kicker no={sideProjects.no} name={sideProjects.name} link={sideProjects.link} />
+
+      <div className="grid gap-x-10 gap-y-10 md:grid-cols-2">
+        {sideProjects.items.map((p) => (
+          <section key={p.name} className="space-y-3">
+            <h2 className="text-2xl font-bold tracking-tight text-(--pf-ink)">{p.name}</h2>
+            <p className="text-sm leading-relaxed text-(--pf-sub) break-keep">{p.meta}</p>
+            <ul className="list-disc space-y-1.5 pl-5 leading-[1.7] text-(--pf-body) marker:text-(--pf-mute) break-keep">
+              {p.points.map((pt) => (
+                <li key={pt}>
+                  <Rich text={pt} />
+                </li>
+              ))}
+            </ul>
+            <p className="text-xs leading-relaxed text-(--pf-sub)">{p.stack}</p>
+          </section>
+        ))}
+      </div>
+
+      <section className="space-y-4">
+        <SectionTitle>여기까지 온 길과 앞으로</SectionTitle>
+        <p className="leading-[1.7] text-(--pf-body) break-keep">
+          <Rich text={profile.path} />
+        </p>
+      </section>
+
+      <section className="space-y-1">
+        <SectionTitle>일하는 방식</SectionTitle>
+        <dl>
+          {profile.principles.map((p) => (
+            <div
+              key={p.name}
+              className="flex flex-col gap-x-4 gap-y-0.5 border-b border-(--pf-line) py-3 text-sm leading-relaxed sm:flex-row"
+            >
+              <dt className="shrink-0 font-bold text-(--pf-ink) sm:w-52">{p.name}</dt>
+              <dd className="text-(--pf-body) break-keep">{p.body}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      <section className="space-y-1">
+        <SectionTitle>활동 · 자격</SectionTitle>
+        <dl>
+          {profile.activities.map((a) => (
+            <div
+              key={a.period}
+              className="flex flex-col gap-x-4 gap-y-0.5 border-b border-(--pf-line) py-3 text-sm leading-relaxed sm:flex-row"
+            >
+              <dt className="shrink-0 text-(--pf-sub) sm:w-52">{a.period}</dt>
+              <dd className="text-(--pf-body) break-keep">
+                <Rich text={a.body} />
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      <footer className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2 pt-4">
+        <p className="text-2xl font-bold tracking-tight text-(--pf-ink)">감사합니다.</p>
+        <p className="text-sm text-(--pf-sub)">
+          {profile.links
+            .filter((l) => l.label !== "LinkedIn")
+            .map((l) => l.text)
+            .join(" · ")}
+        </p>
+      </footer>
+    </article>
+  );
+}

@@ -1,465 +1,742 @@
-// 포트폴리오 내용의 단일 소스.
+// 포트폴리오 내용의 단일 소스 — Figma "최준서_포트폴리오" 문서와 같은 구성.
 // 문장·숫자·코드를 고칠 때는 이 파일만 건드리면 된다. 화면 구조는 components/portfolio/*.
-
-export type Emphasis = { text: string; strong?: boolean };
-export type Paragraph = string | Emphasis[];
+// 본문 문자열 안의 **굵게** 표기는 강조로 렌더된다.
 
 export interface CodeSample {
   file: string;
   code: string;
 }
 
-export interface Step {
+export interface Shot {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}
+
+export type Block =
+  | { type: "text"; label?: string; body: string }
+  | { type: "list"; label?: string; items: string[] }
+  | { type: "code"; sample: CodeSample; caption?: string }
+  | { type: "terminal"; lines: { text: string; tone?: "fail" | "pass" }[]; caption?: string }
+  | { type: "flow"; title: string; steps: string[] }
+  | {
+      type: "bars";
+      groups: { title: string; rows: { label: string; value: string; ratio: number; after?: boolean }[] }[];
+      note: string;
+    }
+  | { type: "coords" }
+  | { type: "shot"; shot: Shot }
+  | { type: "result"; label: "결과" | "배운 것"; body: string };
+
+export interface Case {
   title: string;
+  /** 2단 위에 한 줄로 놓이는 블록 */
+  lead?: Block[];
+  left: Block[];
+  right: Block[];
+  /** 2단 아래에 한 줄로 놓이는 블록 */
+  tail?: Block[];
+}
+
+export interface Stat {
+  label?: string;
+  value: string;
   body: string;
 }
 
-export interface Issue {
-  title: string;
-  symptom: Paragraph[];
-  fixTitle: string;
-  fix: Paragraph[];
-  code?: CodeSample[];
-  /** 같은 손동작이 어디서 어떤 뜻이었는지 — 제스처 이슈에만 쓴다 */
-  meanings?: { area: string; meaning: string; kept: boolean }[];
-}
-
-export interface Extra {
-  title: string;
-  body: string[];
-}
-
-export interface CaseStudy {
+export interface Project {
   id: string;
+  no: string;
   name: string;
-  subtitle: string;
   tagline: string;
-  role: string;
-  team: string;
   period: string;
-  stack: string[];
-  links: { label: string; href: string }[];
-  icon: string;
-  screenshots?: { src: string; alt: string; width: number; height: number }[];
-  theme: {
-    /** 풀블리드 헤더 배경 */
-    bg: string;
-    /** 헤더 위 보조 텍스트 */
-    muted: string;
-    /** 강조 색 — 단계 번호, 결과 패널 */
-    accent: string;
-    /** 강조 색의 연한 배경 */
-    tint: string;
-  };
-  responsibilities: { group: string; items: string[] }[];
-  deepDive: {
-    headline: string;
-    background: Paragraph[];
-    approach: Step[];
-    code: CodeSample[];
-    codeNotes: { title: string; body: string }[];
-    result: Paragraph[];
-    issues: Issue[];
-    lesson?: string[];
-  };
-  extras: { items: Extra[] };
+  /** 목차에 쓰는 한 줄 요약 */
+  covers: string;
+  link: { label: string; href: string };
+  /** /about 카드에 쓰는 앱 아이콘 — 없으면 카드에 나오지 않는다 */
+  icon?: string;
+  overview: { label: string; lines: string[] }[];
+  intro: Block[];
+  screens?: { title: string; main: Shot; pair: [Shot, Shot]; caption: string };
+  cases: Case[];
+  stats?: { title: string; items: Stat[] };
+  closing?: Block;
 }
 
 export const profile = {
   name: "최준서",
   title: "Frontend Developer",
-  intro: [
-    "사용자가 화면과 주고받는 상호작용에서 즐거움을 느껴 프론트엔드를 선택했고, 눌렀을 때의 반응과 흐름의 자연스러움까지 UI/UX의 일부로 여기고 설계합니다.",
-    "기획부터 스토어 출시·운영까지, 실제 사용자가 쓰는 제품을 끝까지 만들어 본 프론트엔드 개발자입니다.",
-    "인증·유효성 검증·CI/CD 파이프라인처럼 화면 뒤의 안정성도 프론트엔드의 책임으로 여기고 직접 설계합니다.",
-  ],
+  lead: "제 코드가 화면을 만지는 사람의 손끝에 바로 닿는다는 점이 좋아 프론트엔드를 합니다.",
+  intro:
+    "작은 손맛 하나가 누군가의 창작을 편하게도, 답답하게도 만든다는 것을 편집기를 만들며 겪었습니다. 그래서 만든 화면은 숫자와 테스트로 확인하고, 팀이 같은 기준을 보도록 기록으로 남깁니다.",
+  highlights: [
+    {
+      label: "손끝의 차이",
+      value: "12 → 2회",
+      body: "편집기에서 가구를 한 번 선택할 때 다시 그려지는 타일 수. 출시 뒤에도 사용자 제보에서 원인을 찾아 계속 다듬었습니다.",
+    },
+    {
+      label: "통과가 아니라 확인",
+      value: "npm 공개",
+      body: "통과한 빌드가 실행 즉시 꺼진 사고 뒤, 빌드 산출물을 검사하는 오픈소스 CLI를 만들었습니다.",
+    },
+    {
+      label: "기억이 아니라 기록",
+      value: "6개 직무",
+      body: "역할이 잘게 나뉜 팀에 노션 티켓으로 일을 주고받는 방식을 제안하고 저부터 지켰습니다.",
+    },
+  ] satisfies Stat[],
   links: [
-    { label: "GitHub", href: "https://github.com/evan7484" },
+    { label: "Email", text: "evan7484@naver.com", href: "mailto:evan7484@naver.com" },
+    { label: "GitHub", text: "github.com/evan7484", href: "https://github.com/evan7484" },
     {
       label: "LinkedIn",
+      text: "linkedin.com/in/준서-최",
       href: "https://www.linkedin.com/in/%EC%A4%80%EC%84%9C-%EC%B5%9C-6b46a4395/",
     },
-    { label: "이메일", href: "mailto:evan7484@naver.com" },
+    { label: "Blog", text: "jschoiog.site", href: "https://www.jschoiog.site" },
+  ],
+  education: "건국대학교 컴퓨터공학부 (2027.08 졸업 예정)",
+  path: "동아리 첫 팀 프로젝트에서 버튼과 입력창을 만들던 저는, 지금 요소를 고르고 옮기고 되돌리는 편집기의 핵심 동작을 설계하고 있습니다. 앞으로는 **누구나 무언가를 만들 수 있게 돕는 도구**를 만드는 프론트엔드 엔지니어가 되고 싶습니다. 배운 것은 문서로 정리해 소실되지 않는 지식으로 남기겠습니다.",
+  principles: [
+    {
+      name: "\"통과\"가 아니라 \"확인\"",
+      body: "렌더 횟수나 테스트 결과처럼 확인한 값만 결과로 적고, 측정한 것과 추정한 것을 구분합니다.",
+    },
+    {
+      name: "기억이 아니라 기록",
+      body: "규칙은 테스트에, 약속은 티켓과 문서에 둡니다. 제안한 방식은 저부터 지킵니다.",
+    },
+    {
+      name: "출시 뒤에도 계속 다듬기",
+      body: "사용자 제보에서 원인을 찾아 구조를 바꾸고, 같은 문제가 돌아오지 않게 테스트로 고정합니다.",
+    },
+    {
+      name: "AI와 일하되 확인은 직접",
+      body: "AI 에이전트로 구현 속도를 높이고, 실기기 확인과 결과 검증은 제가 맡습니다.",
+    },
   ],
   activities: [
-    { name: "SW마에스트로 17기", period: "2026.04 ~ 2026.12", role: "팀 tripleS · 프론트엔드/모바일" },
-    { name: "KUIT 5·6·7기", period: "2025.03 ~ 2026.08", role: "웹 FE 파트원 → 파트 리드" },
-    { name: "GDGoC Konkuk 25-26", period: "2025.09 ~ 2026.07", role: "스터디원" },
+    { period: "2026.04 ~ 2026.12", body: "**SW마에스트로 17기**  팀 tripleS 프론트엔드(앱·웹)" },
+    {
+      period: "2025.03 ~ 2026.08",
+      body: "**KUIT 웹 프론트엔드 파트**  5기 파트원 → 6·7기 파트 리드(두 기수 약 40명)",
+    },
+    { period: "2025.09 ~ 현재", body: "**GDGoC Konkuk**  멤버 → 코어 멤버" },
+    {
+      period: "자격",
+      body: "Google Analytics Certification (2026.10) · TOPCIT 수준 3 (600점, 2026.10)",
+    },
   ],
-  education: { school: "건국대학교", major: "컴퓨터공학부", period: "2022.03 ~ 2026.08 (졸업 예정)" },
 };
 
-export const caseStudies: CaseStudy[] = [
-  {
-    id: "rougether",
-    name: "루게더",
-    subtitle: "Rougether",
-    tagline: "루틴이 방을 키우고, 방이 모여 집이 되는 소셜 루틴 앱. iOS·Android 출시, 같은 코드로 웹(PWA)·데스크톱 버전 운영 중.",
-    role: "프론트엔드·모바일 리드",
-    team: "2인 — 프론트엔드·모바일 1 (본인), 백엔드 1",
-    period: "2026.04 ~ 현재 · SW마에스트로 17기",
-    stack: [
-      "React", "React Native", "React Native Web", "Expo Router", "TypeScript",
-      "Reanimated", "Gesture Handler", "TanStack Query", "Jest", "GitHub Actions", "EAS", "PWA", "GA4",
-    ],
-    links: [
-      { label: "서비스", href: "https://rougether.com" },
-      { label: "GitHub", href: "https://github.com/TripleS-soma" },
-    ],
-    icon: "/portfolio/rougether-icon.png",
-    screenshots: [
-      { src: "/portfolio/rougether-my-room.jpg", alt: "루게더 나의 방 화면", width: 640, height: 1299 },
-      { src: "/portfolio/rougether-house.jpg", alt: "루게더 집 화면", width: 640, height: 1299 },
-      { src: "/portfolio/rougether-routines.jpg", alt: "루게더 루틴 목록", width: 640, height: 1299 },
-    ],
-    theme: { bg: "#2D2623", muted: "#E8DCC8", accent: "#7FA87F", tint: "#EEF4EE" },
-    responsibilities: [
-      {
-        group: "프론트엔드·모바일",
-        items: [
-          "제스처 우선순위 · 페이저 · iOS 엣지 백 설계",
-          "웹·데스크톱(PWA) 버전, 2단 레이아웃",
-          "컴포넌트 개발 하네스(Dev 탭) 구축",
-          "프론트·백 공유 계약(spec) 저장소 운영",
-          "스토어 출시 · GA4 계측 · 랜딩(Astro)",
-        ],
-      },
-      {
-        group: "빌드·배포",
-        items: ["GitHub Actions 워크플로 12종", "EAS 빌드 · OTA 배포 · 릴리스 스모크 테스트"],
-      },
-    ],
-    deepDive: {
-      headline: "손가락 하나에 뜻이 다섯이던 화면, 제스처의 우선순위를 설계하자",
-      background: [
-        [
-          { text: "한 화면 위에 " },
-          { text: "세로 당김 새로고침, 하단 탭 가로 페이저, 방↔달력 서브탭 플링, 집 화면 핀치 확대·자리 드래그", strong: true },
-          { text: "가 겹쳐 있었고, 아이폰 사용자 습관에 맞춰 직접 만든 가장자리 뒤로가기까지 같은 터치를 두고 경합했습니다." },
-        ],
-        [
-          { text: "집을 확대해 두면 옆 탭으로 못 넘어갔고, 같은 가로 스와이프가 위치에 따라 " },
-          { text: "'달력으로'와 '집으로'로 갈렸으며", strong: true },
-          { text: ", 시뮬레이터에선 되던 것이 실기기·다른 OS에서 달랐습니다. JS 스레드에서 처리하니 손을 놓은 뒤에야 화면이 따라와 '손맛'도 죽었습니다." },
-        ],
-      ],
-      approach: [
-        {
-          title: "판정 문법을 하나로 — 축과 임계",
-          body: "가로 제스처는 activeOffsetX ±24 / failOffsetY ±36, 세로 당김은 activeOffsetY ±12 / failOffsetX ±12. 한쪽의 실패 조건이 다른 쪽의 활성 조건이 되게 맞췄습니다.",
-        },
-        {
-          title: "누가 먼저 판정하는지 그래프로",
-          body: "더 깊은 자식 디텍터가 동률에서 이기고, iOS는 자식 ScrollView가 requireExternalGestureToFail로 페이저의 방향 판정을 기다립니다. 새로고침 팬은 스크롤과 동시 인식.",
-        },
-        {
-          title: "UI 스레드로 옮기고 상태 커밋만 JS로",
-          body: "worklet에서 판정·이동을 처리하고 runOnJS는 탭 선택·저장 같은 커밋에만 씁니다. 제스처 객체는 마운트 시 1회만 만들어 드래그 중 리렌더에도 살아남게 했습니다.",
-        },
-      ],
-      code: [
-        {
-          file: "src/utils/gesture.ts",
-          code: `// 가로 우세 + 최소 이동일 때만 활성 — 세로 스크롤·탭은 살려 둔다
-export const SWIPE_CLAIM_DX = 24;
-export const SWIPE_FAIL_DY = SWIPE_CLAIM_DX * 1.5;
-
-export const horizontalFlingGesture = (id, onFling) =>
-  Gesture.Pan().withTestId(id).runOnJS(true)
-    .activeOffsetX([-SWIPE_CLAIM_DX, SWIPE_CLAIM_DX])
-    .failOffsetY([-SWIPE_FAIL_DY, SWIPE_FAIL_DY]);`,
-        },
-        {
-          file: "src/components/ui/pager-scroll-view.tsx",
-          code: `// iOS: 자식 ScrollView는 페이저의 방향 판정을 기다린다
-export function usePagerNativeGesture(pager) {
-  const native = Gesture.Native();
-  return pager ? native.requireExternalGestureToFail(pager) : native;
-}
-// pager && Platform.OS === 'ios'
-//   ? <GestureDetector gesture={native}>{scroll}</GestureDetector>
-//   : scroll`,
-        },
-        {
-          file: "src/components/screens/house/camera.ts",
-          code: `// 집 화면: 카메라가 이동을 가져가는 조건 (UI 스레드)
-export function cameraClaimsMove(touchCount, zoomed, draggingSeat, dx, dy) {
-  'worklet';
-  if (draggingSeat) return false;
-  if (touchCount >= 2) return true;
-  return zoomed && Math.hypot(dx, dy) > CAM_PAN_SLOP;
-}`,
-        },
-      ],
-      codeNotes: [
-        {
-          title: "임계는 상수로, 한 곳에",
-          body: "가로 우세 판정(24px)과 세로 실패 임계(×1.5)를 utils/gesture.ts에 모아, 집 전환·친구 방 순회·온보딩 슬라이드가 같은 문법을 씁니다.",
-        },
-        {
-          title: "iOS만 스크롤 중재",
-          body: "iOS는 ScrollView가 페이저보다 먼저 터치를 잡아 가로 스와이프가 죽었습니다. 자식 스크롤을 Gesture.Native로 감싸 페이저가 '아니다'라고 할 때까지 기다리게 했고, Android는 그대로 둡니다.",
-        },
-        {
-          title: "집 화면 잠금",
-          body: "두 손가락이거나 확대 상태의 이동은 카메라가 가져가고(worklet), 그동안 페이저를 잠급니다. 단, 집 페이지가 활성일 때만.",
-        },
-      ],
-      result: [
-        "세로 당김·가로 페이저·핀치 확대가 한 화면에서 서로를 방해하지 않고, iOS와 Android가 같은 손동작에 같은 결과를 냅니다.",
-        "판정과 이동이 UI 스레드에서 돌아 손가락을 따라오는 반응이 즉시 나옵니다.",
-      ],
-      issues: [
-        {
-          title: "다 맞춰도, 같은 손동작에 뜻이 셋",
-          symptom: [
-            [
-              { text: "임계와 우선순위를 다 맞춰도 " },
-              { text: "'나의 방'에서는 가로 스와이프가 손가락 위치에 따라 다른 뜻", strong: true },
-              { text: "이었습니다. 달력 위에서는 '월 이동', 방 영역에서는 '방↔달력 서브탭 전환', 그 밖에서는 '하단 탭 이동'." },
-            ],
-            "세 제스처가 모두 정상 동작해도 사용자는 무엇이 일어날지 예측할 수 없었습니다. 기술적으로는 풀 수 있는 충돌이었지만, 풀수록 규칙이 늘어 사용자에게 설명이 안 되는 화면이 됐습니다.",
-          ],
-          meanings: [
-            { area: "달력 위", meaning: "월 이동 (#562)", kept: false },
-            { area: "방 영역", meaning: "방 ↔ 달력 전환 (#561)", kept: false },
-            { area: "그 밖", meaning: "하단 탭 이동 (#563)", kept: true },
-          ],
-          fixTitle: "충돌을 푸는 대신 뜻을 하나로 줄였습니다",
-          fix: [
-            "방↔달력 서브탭 플링과 달력 월 스와이프를 제거하고(monthSwipe=false), 가로 스와이프는 어디서 시작하든 하단 탭 이동 하나만 뜻하게 했습니다. 서브탭은 탭 버튼으로만 바꿉니다. (#825)",
-            "제거한 코드는 남겨 두지 않고 주석에 이유를 적어, 나중에 누가 다시 붙이려 할 때 왜 뺐는지 알 수 있게 했습니다.",
-          ],
-          code: [
-            {
-              file: "src/components/screens/my-room-screen.tsx",
-              code: `// monthSwipe=false 유지 (#825) — 달력 위 가로 스와이프가
-// '월 이동'이라는 또 다른 뜻을 갖지 않게 한다.
-<Calendar monthSwipe={false} ... />
-
-// 스와이프는 전부 셸 탭 페이저 몫 — 나의 방 안에서 같은 손동작이
-// 손가락 위치에 따라 '달력으로'와 '집으로'로 갈리던 것을 하나로 통일.`,
-            },
-          ],
-        },
-        {
-          title: "iOS 실기기에서만, 스와이프가 갑자기 멈춤",
-          symptom: [
-            [
-              { text: "iOS 실기기에서만, 탭 사이를 스와이프하다 갑자기 멈추고 그 뒤로 스와이프가 전혀 먹지 않았습니다.", strong: true },
-              { text: " 시뮬레이터에선 재현이 안 됐습니다." },
-            ],
-            "원인은 뒤로가기였습니다. 앱이 네이티브 스택이 아니라 셸 상태로 화면을 바꾸는 구조라 아이폰 사용자 습관에 맞춰 엣지 백을 직접 만들었는데(#564), 이 팬이 페이저와 같은 터치를 두고 경합했습니다.",
-            [
-              { text: "형제 디텍터가 리렌더로 재부착되며 활성 팬이 취소되면 " },
-              { text: "onFinalize가 JS에 닿지 않아 swiping 래치가 true로 굳고", strong: true },
-              { text: ", 이후 활성화가 영영 건너뛰어졌습니다. (2026-09-08 분석)" },
-            ],
-          ],
-          fixTitle: "인식 단계에서 끄고, 래치는 매 터치마다 리셋",
-          fix: [
-            [
-              { text: "탭 루트에선 엣지 백 인식 자체를 끔", strong: true },
-              { text: " — JS 가드가 아니라 enabled로, 페이저의 터치를 먼저 잡을 수 없게 (#1143)" },
-            ],
-            [
-              { text: "래치를 매 터치 시작·외부 탭 전환에서 리셋", strong: true },
-              { text: " — onFinalize가 누락돼도 다음 스와이프가 살아남게" },
-            ],
-            [
-              { text: "엣지 백은 탭/서브화면 경계를 넘을 때만 재구성", strong: true },
-              { text: " — 데이터 리렌더가 활성 제스처를 갈아끼우지 않게. 서브화면은 전폭 스와이프 백(#1135), 가로 제스처를 쓰는 화면은 왼쪽 28px만" },
-            ],
-          ],
-          code: [
-            {
-              file: "src/components/app/use-app-navigation.ts",
-              code: `// 탭 루트에선 인식 자체를 끈다 (#1143)
-const edgeBackEnabled =
-  Platform.OS === 'ios' && TAB_FOR_SCREEN[screen] == null;
-
-const edgeBackPan = useMemo(() => Gesture.Pan()
-  .enabled(edgeBackEnabled).runOnJS(true).maxPointers(1)
-  .activeOffsetX(24).failOffsetY([-16, 16])
-  .onTouchesDown((e, mgr) => {
-    // 서브화면은 전폭(#1135), 가로 제스처 화면은 왼쪽 28px만
-    const ok = fullSwipeRef.current || e.allTouches[0].x <= EDGE_BACK_WIDTH;
-    if (!ok) mgr.fail();
-  })
-  .onEnd((e) => {
-    if (e.translationX > 64 || e.velocityX > 700) goBackRef.current();
-  }),
-  [edgeBackEnabled]); // 경계를 넘을 때만 재구성`,
-            },
-            {
-              file: "src/components/app/tab-pager.tsx",
-              code: `.onTouchesDown((e, mgr) => {
-  // iOS: 활성 팬이 형제 디텍터의 재부착·취소로 드롭되면
-  // onFinalize가 JS에 닿지 않아 true로 굳는다 (2026-09-08 분석)
-  swiping.value = false;
-  ...`,
-            },
-          ],
-        },
-      ],
-      lesson: [
-        "제스처 충돌은 대부분 기술로 풀 수 있지만, 풀었다고 사용자가 편해지는 건 아닙니다. 손동작 하나에 뜻이 여럿이면 규칙을 아무리 잘 세워도 사용자는 그 규칙을 모릅니다.",
-        "실기기에서 iOS·Android를 번갈아 눌러 보는 것을 검증 절차에 넣었습니다. 시뮬레이터가 통과시키는 제스처 버그가 생각보다 많았습니다.",
-      ],
-    },
-    extras: {
-      items: [
-        {
-          title: "같은 코드로 웹·데스크톱까지",
-          body: [
-            "expo export --platform web으로 PWA 빌드, app.rougether.com에 배포. .web.ts 모듈 6개로 네이티브 SDK를 웹 번들에서 제외하고, 카카오 로그인은 REST 인가 코드 리다이렉트를 직접 구현.",
-            "데스크톱은 480px 폰 컬럼, 960px 이상은 [캔버스 | 할 일] 2단으로 최대 1200px.",
-            "정적 export의 서버 렌더는 창 폭을 몰라 첫 렌더 마크업이 어긋나면 React가 className 차이를 고치지 않아 프레임이 영영 안 붙었습니다. 첫 렌더는 서버와 같게 두고 마운트 뒤에 프레임을 적용하고, 루트 타입이 Fragment↔View로 바뀌어 리마운트되지 않도록 항상 같은 트리를 그립니다.",
-          ],
-        },
-        {
-          title: "곰 발바닥 당겨서 새로고침",
-          body: [
-            "RN RefreshControl은 인디케이터 커스텀이 안 돼, RNGH 팬 + Reanimated로 직접 구현.",
-            "맨 위에서 아래로 끌면 콘텐츠가 절반 저항으로 따라오고 발바닥이 자라남 — iOS 바운스는 이중 동작이라 끔.",
-          ],
-        },
-        {
-          title: "하단바 드래그 선택",
-          body: [
-            "알약 안에서 8px 넘게 끌면 선택 표시가 손가락을 따라오고, 놓을 때 한 번만 전환.",
-            "실제 탭 너비·중심을 측정해 글꼴·화면 폭이 달라도 좌표를 가정하지 않음.",
-          ],
-        },
-        {
-          title: "배포가 사용자에게 닿았는지까지 검증",
-          body: [
-            "GitHub Actions 워크플로 12종 — CI, EAS 빌드, dev·production OTA, 핫픽스 OTA, iOS 릴리스 스모크 테스트.",
-            "배포 후 번들 지문을 대조해 OTA 도달 여부를 확인하고 Sentry 소스맵을 함께 올려, 릴리스 성공 여부를 사람이 확인하지 않아도 되게.",
-          ],
-        },
-      ],
-    },
-  },
+export const projects: Project[] = [
   {
     id: "seedplus",
+    no: "01",
     name: "SEED+",
-    subtitle: "시드플러스",
-    tagline: "AI·공공데이터로 상권 분석·수익률·생존율 예측을 제공하는 점포형 창업 의사결정 플랫폼. seedplusai.com 운영 중.",
-    role: "프론트엔드 리드 개발자",
-    team: "팀 SEED+ — FE 1 (본인), BE, AI",
+    tagline: "공공데이터와 AI로 상권 분석과 수익률·생존율 예측을 제공하는 창업 의사결정 웹 서비스",
     period: "2026.02 ~ 현재",
-    stack: ["React", "TypeScript", "Vite", "Tailwind CSS", "Zustand", "framer-motion", "Vitest", "husky", "Docker", "nginx", "GitHub Actions", "GA4"],
-    links: [
-      { label: "서비스", href: "https://www.seedplusai.com" },
-      { label: "GitHub", href: "https://github.com/TEAM-SEED-PLUS/SEED-PLUS-FRONTEND" },
-    ],
+    covers: "여섯 직무가 같은 티켓을 보게 하기 · 기획서 규칙 번호를 코드·테스트와 맞추기",
+    link: { label: "seedplusai.com", href: "https://www.seedplusai.com" },
     icon: "/portfolio/seedplus-icon.png",
-    screenshots: [
-      { src: "/portfolio/seedplus-dashboard.png", alt: "SEED+ 홈 대시보드 — 상권날씨·주간 브리핑·실시간 채팅", width: 1400, height: 784 },
-      { src: "/portfolio/seedplus-store-builder.png", alt: "SEED+ 내 상가 만들기 — 업종·지역 필터와 수익률 카드", width: 1432, height: 806 },
+    overview: [
+      { label: "역할", lines: ["프론트엔드 1인", "(저장소 커밋의 약 95%)"] },
+      { label: "팀", lines: ["기획·디자인·FE·BE·", "인프라·데이터"] },
+      { label: "기간", lines: ["2026.02 ~ 현재", "운영 중"] },
+      { label: "스택", lines: ["React · TypeScript · Vite", "Tailwind · Zustand · Vitest"] },
     ],
-    theme: { bg: "#3182F6", muted: "#DCEBFF", accent: "#3182F6", tint: "#EAF2FF" },
-    responsibilities: [
+    intro: [
       {
-        group: "프론트엔드 리드",
+        type: "list",
         items: [
-          "수익률·생존율 계산기, 내 상가 만들기(필터·북마크), 마이페이지, 피드 구현 및 실 API 연동",
-          "세션 기반 인증·회원가입 폼 흐름, 유효성 규칙 V-01~V-07 구현",
-          "랜딩 · SEO(OG/robots/sitemap) · GA 웹 스트림",
-          "Vitest 테스트 CI · husky 훅 · Docker + nginx 배포 · PR/이슈 컨벤션 문서화",
+          "화면 12개 영역과 컴포넌트 50여 개를 구현하고 목 데이터를 실제 API로 전환했습니다. 수익률·생존율 계산기, 내 상가 만들기, 마이페이지, 피드, 생존율 리포트 PDF 출력을 만들었습니다.",
+          "스크롤 스냅 랜딩, OG·robots·sitemap, GA 연동을 맡았습니다.",
         ],
       },
     ],
-    deepDive: {
-      headline: "기획서의 규칙 번호가 그대로 코드와 테스트가 되게 하자",
-      background: [
-        [
-          { text: "회원가입·로그인 기능명세서 v2.0의 유효성·처리규칙 시트에는 " },
-          { text: "V-01(이메일)부터 V-07까지 번호가 붙은 규칙", strong: true },
-          { text: "이 있었습니다. 기획·백엔드·프론트가 같은 번호로 대화하는데, 코드에서는 규칙이 컴포넌트 안에 흩어져 \"V-02가 어디 있지?\"를 찾기 어려웠습니다." },
-        ],
-        [
-          { text: "게다가 인증 계약이 휴대폰 → loginId / 이메일 기반으로 바뀌는 중", strong: true },
-          { text: "이라 기존 검증을 깨지 않으면서 새 규칙을 준비해야 했습니다." },
-        ],
+    screens: {
+      title: "서비스 화면",
+      main: {
+        src: "/portfolio/seedplus-weather.jpg",
+        alt: "SEED+ 상권 날씨 — 서울 자치구 지도와 시간대별 상권 지표",
+        width: 1030,
+        height: 594,
+      },
+      pair: [
+        {
+          src: "/portfolio/seedplus-store-builder.jpg",
+          alt: "SEED+ 내 상가 만들기 — 예상 매출과 수익률 카드",
+          width: 1190,
+          height: 654,
+        },
+        { src: "/portfolio/seedplus-landing.jpg", alt: "SEED+ 랜딩 페이지", width: 1456, height: 800 },
       ],
-      approach: [
-        {
-          title: "규칙 = 함수 = 테스트",
-          body: "authValidation.ts에 규칙마다 함수를 두고 주석에 V-번호를 적었으며, Vitest describe 이름도 'V-01 이메일'처럼 같은 번호를 씁니다. 규칙이 바뀌면 테스트가 불일치를 먼저 잡습니다.",
-        },
-        {
-          title: "서버와 같은 정규화",
-          body: "서버가 이메일을 소문자로 저장하므로 normalizeEmail로 동일하게 맞췄습니다. V-08(로그인 실패 잠금)은 서버 책임이라 제외했습니다.",
-        },
-        {
-          title: "병행 이행",
-          body: "기존 휴대폰 기반 formValidation.ts는 그대로 두고 신규 모듈을 분리해, 백엔드 이메일 API가 준비된 뒤 화면을 연결하도록 했습니다.",
-        },
-      ],
-      code: [
-        {
-          file: "src/utils/authValidation.ts",
-          code: `// 기능명세서 v2.0 ③유효성·처리규칙 시트(V-01~V-07) 구현.
-/** V-01 이메일 — RFC 5322 단순화 패턴 */
-const EMAIL_PATTERN = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/;
-
-/** 서버가 소문자로 정규화해 저장하므로 클라이언트도 동일하게 맞춘다 */
-export const normalizeEmail = (v: string) => v.trim().toLowerCase();
+      caption:
+        "위: 서울 25개 자치구의 상권 상태를 지도와 지표로 보여 주는 상권 날씨 · 아래: 내 상가 만들기(예상 매출·수익률), 랜딩 페이지",
+    },
+    cases: [
+      {
+        title: "CASE 1 · 여섯 직무가 같은 티켓을 보도록",
+        left: [
+          {
+            type: "text",
+            label: "상황",
+            body: "SEED+는 기획·디자인·프론트엔드·백엔드·인프라·데이터 여섯 직무가 함께 만들고 운영합니다. 보통의 팀 프로젝트보다 역할이 훨씬 잘게 나뉘어 있고, 그중 프론트엔드는 저 혼자입니다. 화면 하나에도 여러 직무의 결정이 함께 담기는 만큼, **말로만 주고받으면 누군가의 의도가 중간에서 사라지기 쉬운 구조**였습니다.",
+          },
+          {
+            type: "text",
+            label: "제안",
+            body: "그래서 **모든 작업을 노션 티켓으로 주고받고 기록하는 방식**을 팀에 제안했습니다. AI 에이전트와 함께 일하는 지금은 문서화가 업무 효율에 더 크게 작용한다고 봤습니다. 잘 정리된 티켓은 사람에게도, AI에게도 바로 일을 시작할 수 있는 맥락이 됩니다.",
+          },
+        ],
+        right: [
+          {
+            type: "list",
+            label: "제안한 만큼 저부터 지켰습니다",
+            items: [
+              "기획자와 다른 직무가 넘겨준 티켓으로 일을 받습니다.",
+              "그 티켓에 작업 내용과 진행 상태를 빠짐없이 기록합니다.",
+              "다른 직무에 부탁할 일은 아주 간단한 것이라도 티켓으로 요청합니다.",
+            ],
+          },
+          { type: "flow", title: "티켓 한 장에 남는 것", steps: ["요청", "작업 내용", "진행 상태"] },
+          {
+            type: "result",
+            label: "결과",
+            body: "무엇을 요청했고 어디까지 진행됐는지가 한곳에 남아 소통이 한결 편해졌고, 지금까지 전달 오류가 거의 없이 프로젝트를 이어 가고 있습니다.",
+          },
+        ],
+        tail: [
+          {
+            type: "result",
+            label: "배운 것",
+            body: "좋은 협업은 기억이 아니라 기록 위에서 이루어집니다. 앞으로도 팀이 같은 문서를 보며 일하는 환경을 만들고, 그 약속을 가장 먼저 지키는 사람이 되겠습니다.",
+          },
+        ],
+      },
+      {
+        title: "CASE 2 · 사람이 잊는 규칙은 훅과 테스트가 확인하도록",
+        lead: [
+          {
+            type: "text",
+            body: "프론트엔드 개발자가 저 한 명이라, 기억에 기대던 확인을 도구로 옮겼습니다. 제가 Git 훅과 단위 테스트를 만들었고, 인프라 담당이 구성한 PR CI가 PR마다 이를 실행합니다.",
+          },
+          {
+            type: "flow",
+            title: "PR마다 실행되는 CI 7단계 · 파이프라인은 인프라 담당이 구성",
+            steps: ["시크릿 스캔", "lint", "타입 체크", "Vitest", "build", "Docker 빌드", "이미지 스캔"],
+          },
+        ],
+        left: [
+          {
+            type: "list",
+            label: "제가 만든 것",
+            items: [
+              "Git 훅(husky)으로 브랜치 이름과 커밋 메시지 규칙 검사",
+              "커밋 전에 하드코딩된 IP 주소 차단",
+              "Vitest 도입과 검증 로직 단위 테스트",
+              "배포 전 검증 스크립트(lint → 타입 체크 → build)",
+            ],
+          },
+        ],
+        right: [
+          {
+            type: "list",
+            label: "운영하며 고친 것",
+            items: [
+              "nginx 캐시 헤더를 추가해 배포 뒤에도 옛 파일이 쓰이던 문제 해결",
+              "Docker 이미지의 OS 패키지 보안 패치 적용",
+            ],
+          },
+        ],
+      },
+      {
+        title: "CASE 3 · 기획서의 규칙 번호가 그대로 코드와 테스트가 되도록",
+        left: [
+          {
+            type: "text",
+            label: "문제",
+            body: "회원가입·로그인 기능명세서에는 V-01(이메일)부터 V-07(생년월일)까지 번호가 붙은 유효성 규칙이 있습니다. 기획·백엔드와는 이 번호로 대화하는데, 코드에서 규칙이 컴포넌트마다 흩어져 있으면 \"V-02가 어디 있는지\"부터 찾아야 합니다.",
+          },
+          {
+            type: "list",
+            label: "해결",
+            items: [
+              "**규칙 하나에 함수 하나, 테스트 하나.** 함수 주석과 테스트 이름에 같은 V- 번호를 붙였습니다.",
+              "서버가 이메일을 소문자로 저장하므로 클라이언트도 같은 방식으로 정규화했습니다.",
+              "비밀번호 길이가 명세(8~64자)와 서버(8~72자)에서 달랐습니다. 추측으로 맞추지 않고 더 좁은 명세를 따르며 그 차이를 코드에 남겼습니다.",
+              "로그인 실패 잠금(V-08)은 서버가 맡는 규칙이라 제외하고 그 경계를 적어 두었습니다.",
+            ],
+          },
+          {
+            type: "result",
+            label: "결과",
+            body: "규칙 변경 요청이 오면 고칠 함수와 테스트를 번호로 바로 찾습니다. 명세가 바뀌면 같은 번호의 테스트가 먼저 실패합니다.",
+          },
+        ],
+        right: [
+          {
+            type: "code",
+            sample: {
+              file: "src/utils/authValidation.ts",
+              code: `// V-08(로그인 실패 잠금)은 서버 책임이라 제외한다.
 
 /** V-01 */
 export const validateEmail = (value: string) => {
   const email = value.trim();
   if (!email) return '이메일을 입력해주세요';
-  if (!EMAIL_PATTERN.test(email)) return '올바른 이메일 형식이 아닙니다';
+  if (!EMAIL_PATTERN.test(email))
+    return '올바른 이메일 형식이 아닙니다';
   return '';
 };
 
-/** V-02 보조 — 강도바·체크리스트 표시에 사용 */
-export const getPasswordChecklist = (v: string) => ({
-  hasLetter: /[A-Za-z]/.test(v),
-  hasNumber: /\\d/.test(v),
-  hasSpecial: /[!@#$%^&*]/.test(v),
-  hasMinLength: v.length >= 8 && v.length <= 64,
-});`,
-        },
-        {
-          file: "src/utils/authValidation.test.ts",
-          code: `// 규칙이 바뀌면 이 테스트가 명세와의 불일치를 잡는다
+/** 서버가 소문자로 정규화해 저장하므로
+ *  클라이언트도 동일하게 맞춘다 */
+export const normalizeEmail = (value: string) =>
+  value.trim().toLowerCase();`,
+            },
+          },
+          {
+            type: "code",
+            sample: {
+              file: "src/utils/authValidation.test.ts",
+              code: `// 규칙이 바뀌면 이 테스트가 명세와의 불일치를 잡아준다.
 describe('V-01 이메일', () => {
   it('빈 값과 잘못된 형식을 구분해 안내한다', () => {
-    expect(validateEmail('')).toBe('이메일을 입력해주세요');
-    expect(validateEmail('seedplus@')).toBe('올바른 이메일 형식이 아닙니다');
-  });
-  it('앞뒤 공백은 무시한다', () => {
-    expect(validateEmail('  seedplus@email.com  ')).toBe('');
+    expect(validateEmail(''))
+      .toBe('이메일을 입력해주세요');
   });
 });`,
-        },
-      ],
-      codeNotes: [
-        { title: "규칙 하나 = 함수 하나", body: "패턴 상수 위에 V-번호 주석을 달아 명세서와 1:1로 대응시켰습니다. 빈 값과 형식 오류를 다른 문구로 안내합니다." },
-        { title: "체크리스트 · 강도 표시", body: "V-02 보조 함수로 강도바와 체크리스트 UI가 같은 규칙을 공유합니다." },
-        { title: "테스트가 명세를 지킨다", body: "describe('V-01 이메일')처럼 번호를 그대로 써서 리뷰어가 기획서와 테스트를 나란히 읽을 수 있습니다." },
-      ],
-      result: [
-        "기획서 → 코드 → 테스트가 같은 번호를 공유해, 규칙 변경 요청이 오면 어느 함수와 테스트를 고칠지 바로 찾습니다.",
-        "휴대폰 기반 검증을 유지한 채 이메일 기반 규칙을 미리 준비해, 백엔드 계약 전환 시 화면 연결만으로 이행했습니다.",
-      ],
-      issues: [],
-    },
-    extras: {
-      items: [
+            },
+            caption: "코드 발췌. 명세서와 테스트를 나란히 놓고 번호로 대조할 수 있습니다.",
+          },
+        ],
+      },
+      {
+        title: "화면에서는 이렇게 보입니다",
+        left: [
+          {
+            type: "shot",
+            shot: {
+              src: "/portfolio/seedplus-signup-validation.jpg",
+              alt: "SEED+ 회원가입 화면 — 이메일 입력란 아래에 형식 오류 안내가 표시된 상태",
+              width: 600,
+              height: 524,
+            },
+          },
+        ],
+        right: [
+          {
+            type: "list",
+            label: "명세 → 코드 → 테스트 → 화면",
+            items: [
+              "입력값이 규칙에 맞지 않으면 입력란 아래에 안내 문구가 표시됩니다.",
+              "화면의 \"올바른 이메일 형식이 아닙니다\"는 V-01 함수가 돌려주는 문구이고, 테스트가 같은 문구를 확인합니다.",
+              "규칙 번호 하나로 명세, 함수, 테스트, 화면을 차례로 따라갈 수 있습니다.",
+            ],
+          },
+          {
+            type: "result",
+            label: "배운 것",
+            body: "혼자 맡은 영역일수록 기준을 머릿속이 아니라 밖에 둡니다. 규칙은 테스트에, 약속은 티켓에 두면 제가 없어도 같은 결과가 나옵니다.",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "rougether",
+    no: "02",
+    name: "루게더",
+    tagline:
+      "루틴을 지키면 방이 자라는 소셜 할 일 관리 앱. iOS·Android 출시, 같은 코드로 웹(PWA)·데스크톱 운영",
+    period: "2026.04 ~ 현재",
+    covers: "자유 배치 편집기 설계 · 선택과 렌더 최적화 · 웹 버전",
+    link: { label: "app.rougether.com", href: "https://app.rougether.com" },
+    icon: "/portfolio/rougether-icon.png",
+    overview: [
+      { label: "역할", lines: ["프론트엔드 1인", "(앱·웹)"] },
+      { label: "팀", lines: ["SW마에스트로 17기", "팀 tripleS"] },
+      { label: "기간", lines: ["2026.04 ~ 현재", "운영 중"] },
+      { label: "스택", lines: ["React · RN Web · Expo", "TypeScript · Reanimated"] },
+    ],
+    intro: [
+      {
+        type: "text",
+        body: "제 코드가 사용자의 손끝에 닿는다는 것을 가장 진하게 느낀 화면이 방 꾸미기 편집기입니다. 정해진 칸에 가구를 넣던 방식을 마음대로 끌어 놓는 자유 배치 편집기로 바꿨고, 출시 뒤에도 이 화면을 계속 다듬었습니다.",
+      },
+    ],
+    screens: {
+      title: "서비스 화면 (웹)",
+      main: {
+        src: "/portfolio/rougether-editor-selected.jpg",
+        alt: "루게더 방 꾸미기 편집기 — 가구를 선택해 회전·반전·순서·삭제 도구가 나타난 상태",
+        width: 1457,
+        height: 812,
+      },
+      pair: [
         {
-          title: "사람이 잊는 규칙은 훅과 CI가 대신 기억하게",
-          body: [
-            "PR CI 7단계 — secrets 스캔 → lint → tsc -b → Vitest → build → Docker build → 이미지 취약점 스캔. 하나라도 실패하면 머지 불가. 테스트가 명세 역할을 하므로 CI가 곧 기획서 검증.",
-            "Git 훅(husky) — 브랜치명·커밋 메시지 규칙 검사, 스테이징된 추가 라인만 훑어 하드코딩 IPv4 차단 (127.0.0.1 등 허용, lock 파일 제외).",
-            "CI/CD — develop push → Docker 빌드 → ECR push, CI 성공 시 Dev CD가 이어서 배포(workflow_run), prod는 별도 AWS CD. nginx 단일 컨테이너, 환경별 값은 window.__ENV__로 런타임 주입.",
-          ],
+          src: "/portfolio/rougether-editor.jpg",
+          alt: "루게더 편집기와 가구 카탈로그",
+          width: 1457,
+          height: 800,
+        },
+        {
+          src: "/portfolio/rougether-calendar.jpg",
+          alt: "루게더 달력 — 넓은 창의 2단 레이아웃",
+          width: 1457,
+          height: 800,
         },
       ],
+      caption:
+        "위: 방 꾸미기 편집기. 가구를 선택하면 회전, 반전, 앞뒤 순서, 삭제 도구가 나타납니다 · 아래: 편집기와 가구 카탈로그, 달력(넓은 창의 2단 레이아웃)",
     },
+    cases: [
+      {
+        title: "CASE 1 · 칸에 끼워 넣던 방 꾸미기를 자유 배치 편집기로",
+        left: [
+          {
+            type: "text",
+            label: "문제",
+            body: "방 꾸미기는 정해진 칸에만 가구를 넣는 방식이었습니다. 끌어서 아무 데나 놓고 회전, 반전, 크기, 앞뒤 순서를 바꾸는 편집기로 만들려면 화면보다 **저장되는 문서를 어떻게 정의할지**가 먼저였습니다. 같은 방이 폰, 웹, 친구 방, 작은 미리보기 타일에 모두 그려지기 때문입니다.",
+          },
+          {
+            type: "list",
+            label: "설계",
+            items: [
+              "**0~1 정규화 좌표.** 픽셀이 아니라 방 크기에 대한 비율로 저장해 어떤 화면에서도 같은 자리에 놓입니다.",
+              "**리비전으로 충돌 방지.** 폰과 웹에서 동시에 고치면 늦은 쪽이 409를 받고 다시 불러옵니다.",
+              "**드래그 중에는 리렌더 0회.** 손가락을 따라가는 값은 UI 스레드에서만 움직이고, 놓는 순간 한 번만 상태에 반영합니다.",
+            ],
+          },
+        ],
+        right: [
+          { type: "coords" },
+          {
+            type: "list",
+            label: "출시 뒤에 더한 것",
+            items: [
+              "**실행 취소·다시 실행.** 명령 패턴 대신 스냅샷 스택으로 구현했습니다. 모든 편집이 불변 갱신이라 바뀌지 않은 가구는 스냅샷끼리 공유합니다. 최대 50단계이고, 변화가 없는 편집은 쌓지 않습니다.",
+              "**웹 키보드 단축키.** 방향키 연타는 한 단계로 묶어 한 번에 되돌립니다.",
+              "**스마트 가이드.** 다른 가구의 중심선이나 방 가운데에 가까워지면 붙습니다.",
+            ],
+          },
+        ],
+      },
+      {
+        title: "CASE 2 · \"다른 가구까지 같이 움직여 배치가 불편하다\"",
+        left: [
+          {
+            type: "text",
+            label: "문제",
+            body: "사용자 제보였습니다. 가구가 몰린 곳에서 특히 심했습니다. 눈으로는 아래 러그를 잡았는데 실제로는 위에 있는 램프가 끌려갔습니다.",
+          },
+          {
+            type: "list",
+            label: "원인",
+            items: [
+              "**선택이 입력에 영향을 주지 않았습니다.** 선택은 테두리를 그리는 데만 쓰였고 드래그는 모든 가구에 붙어 있었습니다.",
+              "**터치 영역이 그림이 아니라 정사각형 박스였습니다.** 가구 이미지의 투명한 여백까지 터치를 받았습니다.",
+            ],
+          },
+        ],
+        right: [
+          {
+            type: "list",
+            label: "해결",
+            items: [
+              "드래그와 크기 조절은 **선택한 가구만** 받도록 제스처를 분리했습니다.",
+              "터치 영역을 박스의 78%로 줄여 투명한 모서리를 제외하고, 작은 가구는 **최소 44pt**를 보장했습니다.",
+              "겹친 곳에서는 위에 그려진 가구가 먼저 선택되도록 그리는 순서와 선택 순서를 맞췄습니다.",
+            ],
+          },
+          {
+            type: "result",
+            label: "결과",
+            body: "선택한 가구만 움직입니다. 선택과 조작을 나눈 이 구조가 이후 실행 취소와 단축키의 바탕이 됐습니다.",
+          },
+        ],
+      },
+      {
+        title: "CASE 3 · 방을 건드릴 때마다 카탈로그 전체가 다시 그려지던 문제",
+        left: [
+          {
+            type: "text",
+            label: "측정",
+            body: "편집기는 위쪽 캔버스와 아래쪽 카탈로그 패널이 한 화면의 상태를 함께 씁니다. 렌더 횟수를 세어 보니 방 안 가구를 **한 번 선택할 때 타일이 12번** 다시 그려졌습니다(데모 카탈로그 10종 + 방 가구 2개). 실제 카탈로그는 189종이라 차이는 더 커집니다.",
+          },
+          {
+            type: "list",
+            label: "원인과 해결",
+            items: [
+              "그리드와 타일에 **memo 경계**가 없었습니다.",
+              "memo만으로는 부족했습니다. 콜백 12곳이 인라인 함수라 매번 새 참조가 내려갔고, **콜백 참조를 고정**해 함께 해결했습니다.",
+              "타일마다 배열을 훑던 배치 여부 확인을 Set 조회로 바꿨습니다.",
+              "**렌더 횟수 테스트**를 추가해 다시 늘어나면 CI에서 실패합니다.",
+            ],
+          },
+        ],
+        right: [
+          {
+            type: "bars",
+            groups: [
+              {
+                title: "가구 1회 선택당 타일 렌더",
+                rows: [
+                  { label: "수정 전", value: "12회", ratio: 1 },
+                  { label: "수정 후", value: "2회", ratio: 2 / 12, after: true },
+                ],
+              },
+              {
+                title: "방 렌더 시간 (Jest, 좌석 12칸 × 40커밋)",
+                rows: [
+                  { label: "수정 전", value: "3.8ms", ratio: 1 },
+                  { label: "수정 후", value: "2.1ms", ratio: 2.1 / 3.8, after: true },
+                ],
+              },
+            ],
+            note: "커밋당 −45%. 테스트 환경에서 잰 값이며 실기기 프레임은 따로 재지 않았습니다.",
+          },
+          {
+            type: "result",
+            label: "배운 것",
+            body: "작은 손맛 하나가 누군가의 창작을 편하게도, 답답하게도 만듭니다. 그 차이는 \"느린 것 같다\"는 느낌이 아니라 횟수를 세는 데서 찾았습니다.",
+          },
+        ],
+      },
+      {
+        title: "CASE 4 · 하루에도 여러 번 로그인이 풀리던 문제",
+        left: [
+          {
+            type: "text",
+            label: "문제와 원인",
+            body: "같은 기기인데 하루에도 여러 번 로그인 화면으로 나간다는 보고가 있었습니다. refresh 토큰은 1회용이라 갱신할 때마다 바뀌는데, 여러 탭이나 백그라운드 작업이 동시에 갱신하면 늦은 쪽이 이미 쓰인 토큰을 내밀게 됩니다. 서버는 이를 탈취로 보고 그 회원의 토큰을 모두 폐기했습니다.",
+          },
+        ],
+        right: [
+          {
+            type: "list",
+            label: "해결",
+            items: [
+              "클라이언트: **Web Locks API**로 탭 사이의 갱신을 한 번으로 묶고, 백그라운드에서는 토큰을 회전하지 않게 했습니다.",
+              "서버: 직접 고쳤습니다. 직전 토큰 재사용에 60초 유예를 두고, 폐기 범위를 기기 단위로 좁혔습니다.",
+              "바뀐 정책은 팀 공유 문서에 남겼습니다.",
+            ],
+          },
+        ],
+      },
+      {
+        title: "CASE 5 · 같은 코드로 웹과 데스크톱까지: 하이드레이션이 프레임을 지우던 문제",
+        left: [
+          {
+            type: "text",
+            label: "배경",
+            body: "앱 코드를 정적 웹으로 빌드해 PWA로 배포했습니다. 넓은 창에서는 480px 폰 화면을 가운데에 두고, 960px 이상에서는 2단 레이아웃으로 보여 줍니다(최대 1200px).",
+          },
+          {
+            type: "text",
+            label: "문제",
+            body: "정적 빌드는 창 폭을 모른 채 HTML을 만듭니다. 브라우저의 첫 렌더가 그 HTML과 다르면 React가 className 차이를 고치지 않아 **프레임이 끝내 붙지 않았습니다.**",
+          },
+          {
+            type: "list",
+            label: "해결",
+            items: [
+              "첫 렌더는 정적 HTML과 같게(프레임 없이) 그리고, 마운트된 뒤에 프레임을 적용했습니다.",
+              "루트가 Fragment와 View 사이에서 바뀌면 하위 트리 전체가 다시 마운트되므로, 프레임 여부와 상관없이 **항상 같은 엘리먼트 트리**를 그리게 했습니다.",
+            ],
+          },
+        ],
+        right: [
+          {
+            type: "code",
+            sample: {
+              file: "src/hooks/use-app-frame.ts",
+              code: `export function resolveAppFrame(
+  os, window, hydrated = true,
+) {
+  const framed = hydrated && os === 'web'
+    && window.width > APP_FRAME_MAX_WIDTH;
+  if (!framed)
+    return { ...window, framed, split: false };
+  const split =
+    window.width >= SPLIT_MIN_WINDOW_WIDTH;
+  const width = split
+    ? Math.min(window.width, SPLIT_FRAME_MAX_WIDTH)
+    : APP_FRAME_MAX_WIDTH;
+  return { ...window, width, framed, split };
+}
+
+export function useAppFrame() {
+  const window = useWindowDimensions();
+  const hydrated = useHydrated();
+  return resolveAppFrame(
+    Platform.OS, window, hydrated);
+}`,
+            },
+            caption:
+              "코드 발췌(타입 생략, 줄바꿈 조정). useHydrated는 웹의 첫 렌더에서 false, 마운트 뒤 true를 돌려줍니다. 판단 로직을 순수 함수로 분리해 창 폭별 결과를 테스트합니다.",
+          },
+        ],
+      },
+      {
+        title: "그 밖에 웹에서 한 일",
+        left: [
+          {
+            type: "list",
+            items: [
+              "**웹 접근성.** 스토리북의 모든 스토리에 axe 검사를 붙이고, RN Web이 옮기지 않던 접근성 상태를 개별 aria-* 속성으로 바꿔 ARIA 위반 54건을 0건으로 줄였습니다(예외 1건). 이후 회귀는 CI가 막습니다.",
+              "**웹 구글 로그인.** 구글 버튼이 iframe으로 바뀌며 로그인이 막힌 문제를 OAuth 리다이렉트 방식으로 바꿔 해결하고, state·nonce 검증과 회귀 테스트를 더했습니다.",
+            ],
+          },
+        ],
+        right: [
+          {
+            type: "list",
+            items: [
+              "**폰트 글리프.** 사용자가 고르는 폰트의 글리프 표를 대조해, 한 줄 안에서 문장부호만 시스템 서체로 바뀌는 곳 22개를 찾아 고치고 테스트로 고정했습니다.",
+              "**자동화.** GitHub Actions 워크플로 14종으로 빌드, 배포, 릴리스 검증을 돌립니다.",
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "expo-release-guard",
+    no: "03",
+    name: "expo-release-guard",
+    tagline: "Expo 앱의 빌드 산출물을 출시 전에 검사하는 오픈소스 CLI",
+    period: "2026.11 ~ 현재",
+    covers: "통과한 빌드가 실행 즉시 꺼진 사고를 도구로 만들기",
+    link: {
+      label: "github.com/evan7484/expo-release-guard",
+      href: "https://github.com/evan7484/expo-release-guard",
+    },
+    overview: [
+      { label: "역할", lines: ["개인 프로젝트"] },
+      { label: "배포", lines: ["npm v0.3.0", "GitHub Action 포함"] },
+      { label: "기간", lines: ["2026.11 ~ 현재"] },
+      { label: "스택", lines: ["TypeScript · Node.js", "tsup · Vitest"] },
+    ],
+    intro: [],
+    cases: [
+      {
+        title: "초록불만 믿어서는 안 된다는 것을 배운 날",
+        left: [
+          {
+            type: "text",
+            label: "사고",
+            body: "루게더를 AI 에이전트와 함께 빠르게 만들던 때였습니다. 캘린더 기능을 붙인 버전이 **빌드 성공, 테스트 990개 통과, 스토어 업로드**까지 모두 초록불이었는데도, 배포 전 실기기 확인에서 실행하자마자 꺼졌습니다.",
+          },
+          {
+            type: "list",
+            items: [
+              "원인은 AI가 쓰지 않는 권한이라 판단해 지운 키였습니다. 캘린더 라이브러리가 앱이 켜지는 순간 그 키를 찾았습니다.",
+              "설정 파일(입력)은 정상이고 **빌드 산출물만** 깨져 있어, 입력을 보는 테스트는 모두 통과했습니다.",
+              "앱이 오류 수집 도구보다 먼저 꺼져 기록도 남지 않았습니다.",
+            ],
+          },
+          {
+            type: "list",
+            label: "바로 한 일",
+            items: [
+              "빌드 결과물을 직접 검사하는 단계를 모든 PR에 추가",
+              "\"배포 전 실기기 확인은 사람이 맡는다\"를 AI 작업 규칙에 명시",
+              "작업마다 무엇을 측정했고 무엇이 추정인지 구분해 기록",
+            ],
+          },
+        ],
+        right: [
+          {
+            type: "terminal",
+            lines: [
+              { text: "$ npx expo-release-guard check" },
+              { text: "✖ ios-plist: 1 of 3 Info.plist rule(s) violated", tone: "fail" },
+              { text: "    - NSRemindersUsageDescription is missing" },
+              { text: "      or empty." },
+              { text: "      expo-calendar reads this key on launch." },
+              { text: "      Without it the app dies on the splash" },
+              { text: "      screen." },
+              { text: "✔ android-manifest: all 15 permission", tone: "pass" },
+              { text: "  rule(s) satisfied" },
+              { text: "" },
+              { text: "1 check(s) failed." },
+            ],
+            caption:
+              "출력 예시(줄바꿈 조정). 무엇이 빠졌는지와, 그 항목을 지우면 안 되는 이유를 함께 보여 줍니다.",
+          },
+          {
+            type: "list",
+            label: "도구로 만들며 정한 원칙",
+            items: [
+              "**입력이 아니라 산출물을 봅니다.**",
+              "**모든 규칙에 이유를 적습니다.** 다음 사람이 같은 키를 다시 지우지 않도록.",
+              "**추측하지 않습니다.** 후보 파일이 여러 개면 고르지 않고 경로를 요구하며 실패합니다.",
+            ],
+          },
+        ],
+      },
+    ],
+    stats: {
+      title: "구성",
+      items: [
+        { value: "검사 5종", body: "Info.plist 키, Android 권한(소스·병합본), 대체 아이콘, 런처 별칭" },
+        { value: "테스트 71개", body: "Vitest · TypeScript strict · 판별 유니온 결과 타입 · 한·영 문서" },
+        { value: "루게더 적용", body: "루게더 CI가 기존 스크립트 대신 이 패키지로 검사합니다." },
+      ],
+    },
+    closing: {
+      type: "result",
+      label: "배운 것",
+      body: "AI로 생산성이 올라간 만큼 결과를 끝까지 확인하는 일은 더 온전히 제 몫이 됐습니다. 이제는 \"통과했다\"가 아니라 \"확인했다\"고 말할 수 있을 때 작업을 완료했다고 합니다.",
+    },
+  },
+];
+
+/** 04 · JSChoIog · 당번 — 한 쪽에 나란히 놓이는 작은 프로젝트 둘 */
+export const sideProjects = {
+  id: "jschoiog-dangbun",
+  no: "04",
+  name: "JSChoIog · 당번",
+  period: "2025.06 ~ 현재",
+  covers: "Notion 기반 블로그 · 첫 팀 프로젝트",
+  link: { label: "jschoiog.site", href: "https://www.jschoiog.site" },
+  items: [
+    {
+      name: "JSChoIog",
+      meta: "Notion을 CMS로 쓰는 기술 블로그·포트폴리오 · 개인 · 2026.02 ~ 현재",
+      points: [
+        "검색으로 읽혀야 하는 기술 블로그라 **SEO에 유리한 Next.js**를 골랐습니다. 글을 정적 생성하고 글마다 메타데이터·OG 이미지, sitemap·RSS를 제공합니다.",
+        "글은 Notion에서 쓰고 API로 읽습니다. API가 느려 **30분 단위 재검증**으로 캐시하고, 중복 호출은 React cache()로 합쳤습니다.",
+        "GDGoC Konkuk 결과 공유회 **최우수 스터디(1위)**",
+      ],
+      stack: "Next.js(App Router) · TypeScript · Tailwind CSS · Notion API",
+    },
+    {
+      name: "당번",
+      meta: "역할 분담 자동화 웹 서비스 · KUIT 5기 · 프론트엔드 리드 · 2025.06 ~ 2026.02",
+      points: [
+        "첫 팀 프로젝트였고, 프론트엔드 3인 중 리드를 맡았습니다.",
+        "폴더 구조와 라우터를 먼저 정하고, **공통 버튼·입력 컴포넌트**를 만들어 사용법을 문서로 남겼습니다.",
+        "회원가입, 매니저/멤버·플레이스 유형 선택 화면을 구현했습니다.",
+        "KUIT 5기 데모데이 **최우수상(2위)**",
+      ],
+      stack: "React 19 · TypeScript · Vite · Tailwind CSS",
+    },
+  ],
+};
+
+/** 목차 — 표지의 CONTENTS 표와 /about 카드가 함께 쓴다 */
+export const contents = [
+  ...projects.map((p) => ({ id: p.id, no: p.no, name: p.name, covers: p.covers, period: p.period })),
+  {
+    id: sideProjects.id,
+    no: sideProjects.no,
+    name: sideProjects.name,
+    covers: sideProjects.covers,
+    period: sideProjects.period,
   },
 ];
