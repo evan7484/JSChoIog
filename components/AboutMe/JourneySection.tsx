@@ -3,9 +3,29 @@ import Icon from "@/components/icons";
 // 사실 기반 여정 — 새 이력이 생기면 맨 앞에 추가
 const journey = [
   {
-    when: "2026",
-    title: "AI·SW마에스트로 17기 합격",
-    desc: "연수 과정 시작 — 팀 프로젝트 준비 중",
+    when: "2026.11",
+    title: "expo-release-guard npm 공개",
+    desc: "통과한 빌드가 실행 즉시 꺼진 사고 뒤 만든, 빌드 산출물 검사 오픈소스 CLI",
+  },
+  {
+    when: "2026.04 – 2026.11",
+    title: "AI·SW마에스트로 17기 수료",
+    desc: "팀 tripleS — 루게더 프론트엔드(앱·웹) 개발·출시",
+  },
+  {
+    when: "2026.02 ~",
+    title: "SEED+ 합류",
+    desc: "React · TypeScript — 여섯 직무 팀의 프론트엔드 1인",
+  },
+  {
+    when: "2025.09 ~",
+    title: "GDGoC Konkuk",
+    desc: "멤버 → 코어 멤버",
+  },
+  {
+    when: "2025.03 – 2026.08",
+    title: "KUIT 웹 프론트엔드 파트",
+    desc: "5기 파트원 → 6·7기 파트 리드",
   },
   {
     when: "2025.06 – 2025.08",
