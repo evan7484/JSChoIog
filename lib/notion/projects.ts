@@ -15,7 +15,11 @@ export async function getProjects(): Promise<Project[]> {
       const props = page.properties;
 
       // 페이지의 블록 내용을 마크다운으로 변환 (모달에서 사용)
-      const content = await pageToMarkdown(page.id);
+      // 한 건의 본문 실패가 목록 전체를 지우지 않게 — 카드는 남기고 모달 본문만 비운다
+      const content = await pageToMarkdown(page.id).catch((error) => {
+        console.error(`Failed to fetch project content ${page.id}:`, error);
+        return "";
+      });
 
       return {
         id: page.id,

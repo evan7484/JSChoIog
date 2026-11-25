@@ -11,11 +11,18 @@ const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 // Notion 공개 API는 통합당 초당 평균 3요청이다. 빌드는 글 수만큼 페이지를
 // 동시에 만들고 글 하나가 블록 요청을 여러 번 보내므로, 조절하지 않으면
 // 수백 개가 한꺼번에 나가 429를 맞는다. 요청을 한 줄로 세워 간격을 둔다.
-const MIN_REQUEST_GAP_MS = Number(process.env.NOTION_MIN_REQUEST_GAP_MS ?? 350);
+//
+// 간격은 빌드에서만 둔다. 운영에서는 요청이 드문드문 오므로 줄을 세우면
+// 좋아요 한 번이 수백 ms씩 늦어지고, 몰릴 때는 대기열이 끝없이 길어진다.
+const IS_BUILD = process.env.NEXT_PHASE === "phase-production-build";
+const MIN_REQUEST_GAP_MS = Number(
+  process.env.NOTION_MIN_REQUEST_GAP_MS ?? (IS_BUILD ? 350 : 0)
+);
 
 let gate: Promise<void> = Promise.resolve();
 
 function takeTurn(): Promise<void> {
+  if (!(MIN_REQUEST_GAP_MS > 0)) return Promise.resolve();
   const mine = gate.then(() => sleep(MIN_REQUEST_GAP_MS));
   // 대기열이 끊기지 않도록 실패해도 다음 차례는 진행시킨다
   gate = mine.catch(() => {});
@@ -56,7 +63,8 @@ export class NotionHttpError extends Error {
   }
 }
 
-const MAX_ATTEMPTS = 8;
+// 빌드는 끝까지 버티는 편이 낫지만, 운영에서는 방문자가 응답을 기다리고 있다
+const MAX_ATTEMPTS = IS_BUILD ? 8 : 3;
 const MAX_BACKOFF_MS = 30_000;
 
 /** 응답 본문·헤더에 담긴 Notion의 권장 대기 시간(초) */
@@ -91,7 +99,9 @@ function retryDelayMs(error: unknown, attempt: number): number | null {
   const advised =
     e.retryAfterSeconds ??
     (typeof e.body === "string" ? parseRetryAfter(e.body) : undefined);
-  if (advised !== undefined) return Math.min(advised * 1000, MAX_BACKOFF_MS);
+  // 0초 권고는 "즉시 재시도"가 되어 한도를 다시 두드리므로 백오프로 넘긴다
+  if (advised !== undefined && advised > 0)
+    return Math.min(advised * 1000, MAX_BACKOFF_MS);
 
   // 지수 백오프 + 지터 — 빌드의 여러 워커가 같은 시각에 몰려 다시 429를 맞지 않게
   const base = Math.min(500 * 2 ** (attempt - 1), MAX_BACKOFF_MS);

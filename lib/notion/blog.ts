@@ -10,7 +10,12 @@ import type { BlogPost } from "./types";
 /** Notion이 "그런 페이지 없다"고 답한 경우 — 일시적 실패와 구분해야 한다 */
 function isMissingPage(error: unknown): boolean {
   const e = error as { code?: string; status?: number };
-  return e?.code === "object_not_found" || e?.status === 404;
+  return (
+    e?.code === "object_not_found" ||
+    e?.status === 404 ||
+    // ID 모양만 비슷한 잘못된 주소(하이픈 위치가 틀린 UUID 등) — 그런 글은 없다
+    e?.code === "validation_error"
+  );
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

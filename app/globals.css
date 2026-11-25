@@ -225,3 +225,28 @@ html {
     font-synthesis: none;
   }
 }
+
+/* 포트폴리오 페이지 토큰 — Figma "최준서_포트폴리오"의 PF/* 스타일 */
+.pf {
+  --pf-acc: #2f4bd1;
+  --pf-ink: #16181d;
+  --pf-body: #2b2f38;
+  --pf-sub: #5b616e;
+  --pf-mute: #9aa0ac;
+  --pf-line: #dfe2e8;
+  --pf-tint: #f3f5fb;
+  --pf-bar: #c3c9d6;
+  --pf-surface: #ffffff;
+}
+
+.dark .pf {
+  --pf-acc: #8fa2ff;
+  --pf-ink: #f3f4f6;
+  --pf-body: #d5d9e2;
+  --pf-sub: #a1a8b5;
+  --pf-mute: #717887;
+  --pf-line: #2a303c;
+  --pf-tint: #161b27;
+  --pf-bar: #4a5263;
+  --pf-surface: #0f131b;
+}

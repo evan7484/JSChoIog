@@ -1,70 +1,81 @@
-import Image from "next/image";
-import { caseStudies, profile } from "@/lib/portfolio-data";
+import { contents, profile } from "@/lib/portfolio-data";
+import { Label, SectionTitle, Stats } from "./Blocks";
 
+/** 표지 — 소개, 일하는 방식, 목차, 연락처 */
 export default function Hero() {
   return (
-    <section className="mx-auto max-w-5xl px-6 pb-16 pt-6 sm:pt-10">
-      <div className="flex flex-col gap-8 sm:flex-row sm:items-start">
-        <div className="relative size-24 shrink-0 overflow-hidden rounded-full shadow-lg ring-2 ring-orange-200 dark:ring-orange-900">
-          <Image src="/images/profile3.webp" alt="최준서 프로필" fill sizes="96px" className="object-cover" />
-        </div>
-        <div className="min-w-0">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50 sm:text-4xl">
-            {profile.name}
-            <span className="ml-3 text-lg font-medium text-gray-500 dark:text-gray-400 sm:text-xl">
-              {profile.title}
-            </span>
-          </h1>
-
-          <div className="mt-6 max-w-2xl space-y-3">
-            {profile.intro.map((line, i) => (
-              <p
-                key={i}
-                className={`leading-relaxed break-keep ${
-                  i === 0
-                    ? "text-lg text-gray-900 dark:text-gray-50"
-                    : "text-gray-700 dark:text-gray-300"
-                }`}
-              >
-                {line}
-              </p>
-            ))}
-          </div>
-
-          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
-            {profile.links.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                target={l.href.startsWith("http") ? "_blank" : undefined}
-                rel="noopener noreferrer"
-                className="font-medium text-orange-700 underline decoration-orange-300 underline-offset-4 hover:decoration-orange-600 dark:text-orange-400"
-              >
-                {l.label}
-              </a>
-            ))}
-          </div>
-        </div>
+    <section className="space-y-14">
+      <div className="flex items-end justify-between border-b-[1.5px] border-(--pf-ink) pb-2.5 text-xs">
+        <p className="font-bold tracking-[0.12em] text-(--pf-acc)">PORTFOLIO</p>
+        <p className="text-(--pf-mute)">2026</p>
       </div>
 
-      {/* 목차 — 이 페이지에서 읽을 두 사례 */}
-      <nav aria-label="사례" className="mt-14 grid gap-4 sm:grid-cols-2">
-        {caseStudies.map((cs) => (
-          <a
-            key={cs.id}
-            href={`#${cs.id}`}
-            className="group flex min-w-0 items-center gap-4 overflow-hidden rounded-2xl border border-gray-200 bg-white/70 p-4 transition-colors hover:border-gray-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 dark:border-gray-800 dark:bg-gray-900/60 dark:hover:border-gray-600"
-          >
-            <Image src={cs.icon} alt="" width={48} height={48} className="size-12 rounded-xl object-contain" />
-            <div className="min-w-0">
-              <p className="font-semibold text-gray-900 dark:text-gray-50">
-                {cs.name} <span className="font-normal text-gray-500">{cs.subtitle}</span>
-              </p>
-              <p className="mt-0.5 truncate text-sm text-gray-600 dark:text-gray-400">{cs.deepDive.headline}</p>
-            </div>
-          </a>
-        ))}
+      <header className="pt-6 sm:pt-12">
+        <Label>FRONTEND DEVELOPER</Label>
+        <h1 className="mt-3 text-5xl font-black leading-[1.15] tracking-tight text-(--pf-ink) sm:text-[64px]">
+          {profile.name}
+        </h1>
+        <p className="mt-5 max-w-2xl text-xl leading-[1.7] text-(--pf-ink) break-keep">{profile.lead}</p>
+        <p className="mt-4 max-w-3xl leading-[1.7] text-(--pf-sub) break-keep">{profile.intro}</p>
+      </header>
+
+      <div className="space-y-5">
+        <SectionTitle as="h2">일하는 방식</SectionTitle>
+        <Stats items={profile.highlights} />
+      </div>
+
+      <nav aria-label="목차" className="space-y-1">
+        <SectionTitle as="h2">CONTENTS</SectionTitle>
+        <div
+          aria-hidden
+          className="hidden gap-4 border-b border-(--pf-line) py-2.5 text-xs font-bold tracking-[0.12em] text-(--pf-mute) sm:flex"
+        >
+          <span className="w-8 shrink-0">No</span>
+          <span className="w-44 shrink-0">프로젝트</span>
+          <span className="flex-1">다루는 내용</span>
+          <span className="w-28 shrink-0">기간</span>
+        </div>
+        <ul>
+          {contents.map((c) => (
+            <li key={c.id} className="border-b border-(--pf-line)">
+              <a
+                href={`#${c.id}`}
+                className="group flex flex-wrap gap-x-4 gap-y-1 py-3 text-sm leading-relaxed focus:outline-none focus-visible:ring-2 focus-visible:ring-(--pf-acc) sm:flex-nowrap"
+              >
+                <span className="w-8 shrink-0 text-(--pf-sub)">{c.no}</span>
+                <span className="shrink-0 font-bold text-(--pf-ink) group-hover:text-(--pf-acc) sm:w-44">{c.name}</span>
+                <span className="w-full text-(--pf-body) break-keep sm:w-auto sm:flex-1">{c.covers}</span>
+                <span className="shrink-0 text-(--pf-sub) sm:w-28">{c.period}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
       </nav>
+
+      <div className="space-y-4">
+        <SectionTitle as="h2">CONTACT</SectionTitle>
+        <dl className="grid gap-x-10 gap-y-1.5 text-sm leading-relaxed sm:grid-cols-2">
+          {profile.links.map((l) => (
+            <div key={l.label} className="flex gap-3">
+              <dt className="w-16 shrink-0 font-bold text-(--pf-sub)">{l.label}</dt>
+              <dd className="min-w-0">
+                <a
+                  href={l.href}
+                  target={l.href.startsWith("http") ? "_blank" : undefined}
+                  rel="noopener noreferrer"
+                  className="text-(--pf-ink) underline decoration-(--pf-line) underline-offset-4 hover:decoration-(--pf-acc) break-all"
+                >
+                  {l.text}
+                </a>
+              </dd>
+            </div>
+          ))}
+          <div className="flex gap-3">
+            <dt className="w-16 shrink-0 font-bold text-(--pf-sub)">학력</dt>
+            <dd className="text-(--pf-ink) break-keep">{profile.education}</dd>
+          </div>
+        </dl>
+      </div>
     </section>
   );
 }
