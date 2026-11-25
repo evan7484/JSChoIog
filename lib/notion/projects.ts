@@ -1,4 +1,4 @@
-import { queryDatabase, n2m } from "./client";
+import { queryDatabase, pageToMarkdown } from "./client";
 import { getColorGradient } from "./colors";
 import type { Project } from "./types";
 
@@ -15,13 +15,11 @@ export async function getProjects(): Promise<Project[]> {
       const props = page.properties;
 
       // 페이지의 블록 내용을 마크다운으로 변환 (모달에서 사용)
-      let content = "";
-      try {
-        const mdblocks = await n2m.pageToMarkdown(page.id);
-        content = n2m.toMarkdownString(mdblocks).parent;
-      } catch (error) {
-        console.error(`Failed to fetch blocks for project ${page.id}:`, error);
-      }
+      // 한 건의 본문 실패가 목록 전체를 지우지 않게 — 카드는 남기고 모달 본문만 비운다
+      const content = await pageToMarkdown(page.id).catch((error) => {
+        console.error(`Failed to fetch project content ${page.id}:`, error);
+        return "";
+      });
 
       return {
         id: page.id,
