@@ -9,11 +9,11 @@ import { SITE_URL } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Portfolio",
   description:
-    "최준서 프론트엔드 포트폴리오 — SEED+(여섯 직무의 티켓 협업, 기획서 규칙 번호를 코드·테스트와 대응), 루게더(자유 배치 편집기 설계와 렌더 최적화, 웹 버전), expo-release-guard(빌드 산출물 검사 CLI)의 문제 해결 기록.",
+    "최준서 포트폴리오 — 루게더(로그아웃 문제를 서버까지 추적, 신고·차단, 자유 배치 편집기와 렌더 최적화, 웹 버전), SEED+(훅·테스트로 규칙 확인, 배포 캐시, 기능명세서 규칙 번호를 코드·테스트와 대응), Playwright E2E 테스트의 문제 해결 기록.",
   alternates: { canonical: "/portfolio" },
   openGraph: {
-    title: "최준서 — Frontend Developer Portfolio",
-    description: "SEED+ · 루게더 · expo-release-guard 문제 해결 기록",
+    title: "최준서 — Software Engineer Portfolio",
+    description: "루게더 · SEED+ · E2E 테스트 문제 해결 기록",
     images: ["/portfolio/rougether-editor-selected.jpg"],
   },
 };
