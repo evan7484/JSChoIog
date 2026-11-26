@@ -51,10 +51,10 @@ export function Caption({ children }: { children: React.ReactNode }) {
   return <p className="text-xs leading-relaxed text-(--pf-sub) break-keep">{children}</p>;
 }
 
-/** 굵은 숫자 + 설명 — 표지의 일하는 방식, 도구의 구성 */
+/** 굵은 숫자 + 설명 — 표지의 일하는 방식, 프로젝트 지표 */
 export function Stats({ items }: { items: Stat[] }) {
   return (
-    <dl className="grid gap-x-6 gap-y-8 sm:grid-cols-3">
+    <dl className={`grid gap-x-6 gap-y-8 ${items.length === 2 ? "sm:grid-cols-2" : "sm:grid-cols-3"}`}>
       {items.map((s) => (
         <div key={s.value} className="border-t-[1.5px] border-(--pf-ink) pt-3">
           {s.label && <Label>{s.label}</Label>}
@@ -131,6 +131,18 @@ export function BlockView({ block }: { block: Block }) {
               >
                 {s}
               </li>
+            ))}
+          </ol>
+        </div>
+      );
+
+    case "steps":
+      return (
+        <div className="space-y-2.5 rounded-lg bg-(--pf-tint) p-4">
+          <Label>{block.title}</Label>
+          <ol className="list-decimal space-y-1 pl-5 text-sm leading-relaxed text-(--pf-ink) marker:text-(--pf-sub) break-keep">
+            {block.items.map((it) => (
+              <li key={it}>{it}</li>
             ))}
           </ol>
         </div>

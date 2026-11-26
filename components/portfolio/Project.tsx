@@ -80,6 +80,12 @@ export default function Project({ data, first }: { data: ProjectData; first?: bo
           ))}
         </dl>
 
+        {data.metrics && (
+          <div className="pt-2">
+            <Stats items={data.metrics} />
+          </div>
+        )}
+
         {data.intro.map((b, i) => (
           <BlockView key={i} block={b} />
         ))}

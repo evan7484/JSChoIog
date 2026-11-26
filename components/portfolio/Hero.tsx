@@ -11,7 +11,7 @@ export default function Hero() {
       </div>
 
       <header className="pt-6 sm:pt-12">
-        <Label>FRONTEND DEVELOPER</Label>
+        <Label>{profile.title.toUpperCase()}</Label>
         <h1 className="mt-3 text-5xl font-black leading-[1.15] tracking-tight text-(--pf-ink) sm:text-[64px]">
           {profile.name}
         </h1>

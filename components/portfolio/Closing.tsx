@@ -2,7 +2,7 @@ import { profile, sideProjects } from "@/lib/portfolio-data";
 import { Rich, SectionTitle } from "./Blocks";
 import { Kicker } from "./Project";
 
-/** 마지막 쪽 — 작은 프로젝트, 여기까지 온 길, 배운 것, 활동·자격 */
+/** 마지막 쪽 — 작은 프로젝트, 여기까지 온 길, 배운 것 */
 export default function Closing() {
   return (
     <article id={sideProjects.id} className="scroll-mt-28 space-y-12">
@@ -42,23 +42,6 @@ export default function Closing() {
             >
               <dt className="shrink-0 font-bold text-(--pf-ink) sm:w-52">{p.name}</dt>
               <dd className="text-(--pf-body) break-keep">{p.body}</dd>
-            </div>
-          ))}
-        </dl>
-      </section>
-
-      <section className="space-y-1">
-        <SectionTitle>활동 · 자격</SectionTitle>
-        <dl>
-          {profile.activities.map((a) => (
-            <div
-              key={a.period}
-              className="flex flex-col gap-x-4 gap-y-0.5 border-b border-(--pf-line) py-3 text-sm leading-relaxed sm:flex-row"
-            >
-              <dt className="shrink-0 text-(--pf-sub) sm:w-52">{a.period}</dt>
-              <dd className="text-(--pf-body) break-keep">
-                <Rich text={a.body} />
-              </dd>
             </div>
           ))}
         </dl>
